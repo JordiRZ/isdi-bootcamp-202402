@@ -1,0 +1,29 @@
+$ship-height: 10vw
+$ship-size-ratio: 1 // (h/w)
+// Estamos calculando el ratio de la nave, queremos de la mitad de la pantalla traer la nave
+
+body
+    margin: 0
+
+#space
+    background-color: aliceblue
+    width: 100vw
+    height: 100vh
+
+#ship
+    height: $ship-height
+    position: absolute
+    top: calc( 100vh - $ship-height)
+
+.aliens
+    display: flex
+    flex-direction: row
+    justify-content: space-evenly
+    align-items: center
+    align-content: space-between
+    flex-wrap: wrap
+
+.alien
+    height: 60px
+    width: 60px
+    display: flex
