@@ -1,0 +1,115 @@
+.horse__head {
+  width: 0;
+  height: 0;
+  width: 0;
+  height: 0;
+  border-right: 50px solid transparent;
+  border-top: 50px solid transparent;
+  border-left: 50px solid rgb(147, 33, 4);
+  border-bottom: 50px solid rgb(147, 33, 4);
+  left: 174px;
+  right: "";
+  top: -14px;
+  transform: rotate(-39deg);
+  position: relative;
+}
+
+.horse__mouth {
+  background-color: rgb(84, 11, 11);
+  border-radius: 90%;
+  width: 20px;
+  height: 7px;
+  top: 70px;
+  transform: rotate(-20deg);
+  right: 820px;
+  position: absolute;
+}
+
+.horse__body {
+  background-color: rgb(147, 33, 4);
+  border-radius: 30%;
+  left: 200px;
+  width: 250px;
+  height: 100px;
+  top: -60px;
+  position: relative;
+}
+
+.leg__horse--right {
+  background-color: rgb(147, 33, 4);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 410px;
+  right: 80px;
+  top: -170px;
+}
+.leg__horse--right--right {
+  background-color: rgb(147, 33, 4);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 380px;
+  right: 60px;
+  top: -220px;
+}
+
+.leg__horse--left {
+  background-color: rgb(147, 33, 4);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 290px;
+  right: 80px;
+  top: -70px;
+}
+.leg__horse--left--left {
+  background-color: rgb(147, 33, 4);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 320px;
+  right: 80px;
+  top: -120px;
+}
+
+.horse__tail {
+  background-color: rgb(149, 34, 5);
+  width: 100px;
+  height: 30px;
+  transform: rotate(-40deg);
+  -moz-border-radius: 0 50%/0 100%;
+  -webkit-border-radius: 0 50%/0 100%;
+  border-radius: 0 50%/0 100%;
+  background: rgba(91, 81, 18, 0.2941176471);
+  border: 3px solid rgba(156, 18, 5, 0.7647058824);
+  position: relative;
+  left: 448px;
+  right: 60px;
+  top: -370px;
+}
+
+.horse__head--nose {
+  width: 0;
+  height: 0;
+  border-right: 0px solid transparent;
+  border-top: 30px solid transparent;
+  border-left: 60px solid rgb(147, 33, 4);
+  border-bottom: 10px solid rgb(147, 33, 4);
+  transform: rotate(142deg);
+  left: 121px;
+  right: 30px;
+  top: 50px;
+  position: absolute;
+}
+
+.horse__eye--right {
+  background-color: rgb(6, 4, 4);
+  width: 5px;
+  height: 10px;
+  position: relative;
+  right: -150px;
+  top: -400px;
+}
+
+/*# sourceMappingURL=style.css.map */

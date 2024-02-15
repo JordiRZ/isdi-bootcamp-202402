@@ -1,0 +1,68 @@
+@mixin size($width,$height)
+    width: $width
+    height: $height
+
+@mixin location($left,$right,$top)
+    left: $left
+    right: $right
+    top: $top
+
+.building
+    @include size(600px,900px )
+    background-color: rgb(182, 180, 180)
+    background-image: url("images/Paisaje.jpg")
+    background-size: cover
+    position: relative
+    left: 400px
+    border: 10px solid black
+    display: flex
+    flex-direction: column
+    justify-content: flex-end
+    align-items: center
+    flex-wrap: wrap
+    border-block-color: rgb(1,1 ,1)
+
+    &__floor
+        @include size(400px , 61px )
+        background-color: rgb(58, 59, 60)
+        display: flex
+        justify-content: space-around
+        flex-direction: row
+        align-items: center
+        border: 10px solid black
+        border-block-color: rgb(1,1 ,1)
+
+    &__floor__entrance
+        @include size(400px , 61px )
+        background-color: rgb(58, 59, 60)
+        display: flex
+        justify-content: space-around
+        flex-direction: row
+        align-items: flex-end
+        border: 10px solid black
+        border-block-color: rgb(1,1 ,1)
+
+    &__floor__window
+        @include size(50px , 50px )
+        background-color: rgb(255, 255, 255)
+        border: 10px solid black
+        border-block-color: rgb(1,1 ,1)
+
+    &__door
+        background-color: #060b82
+        @include size(50px , 50px )
+        align-self: flex-end
+        align-items: center
+        align-content: space-around
+        flex-direction: row-reverse
+        border: 10px solid black
+        border-block-color: rgb(1,1 ,1)
+        display: flex
+
+    &__door__knob
+        background-color: #000000
+        @include size(5px , 5px )
+        display: flex
+        justify-content: flex-end
+        border: 1px solid black
+        border-block-color: rgb(1,1 ,1)

@@ -1,0 +1,98 @@
+@mixin size($width,$height)
+    width: $width
+    height: $height
+
+@mixin location($left,$right,$top)
+    left: $left
+    right: $right
+    top: $top
+
+.car
+    background-color: red
+    @include size(500px,300px)
+    width: 500px
+    height: 300px
+    position: relative
+
+    &__bottom
+        background-color: red
+        @include location(20px,0px,150px)
+        @include size(450px,90px)
+        position: absolute
+        border-top-right-radius: 30%
+        border-top-left-radius: 10%
+        border-bottom-left-radius: 30%
+        border-bottom-right-radius: 10%
+
+    &__top
+        @include size(200px,0px)
+        @include location(80px,0,70px)
+        position: absolute
+        border-right: 60px solid transparent
+        border-left: 10px solid transparent
+        border-bottom: 100px solid green
+        border-top-left-radius: 30px
+
+    &__handle
+        background-color: red
+        height: 5px
+        width: 15px
+        position: absolute
+        top: 15px
+
+.handle--left
+    left: 130px
+
+.handle--right
+    left: 215px
+
+.car__wheel
+    background-color: black
+    height: 80px
+    width: 80px
+    position: absolute
+    border-radius: 100%
+    top: 200px
+
+.wheel--left
+    left: 90px
+
+.wheel--right
+    left: 300px
+
+.wheel__cover
+    background-color: darkgray
+    height: 50px
+    width: 50px
+    border-radius: 100%
+    position: absolute
+    top: 15px
+    left: 15px
+
+.window
+    height: 60px
+    width: 70px
+    position: absolute
+    top: 20px
+    border-radius: 10%
+
+    &--left
+        left: 10px
+        background-color: aquamarine
+
+    &--right
+        left: 95px
+        background-color: aquamarine
+
+.windshield
+    height: 60px
+    width: 50px
+    position: absolute
+    top: 20px
+    border-radius: 10%
+    left: 180px
+    width: 10px
+    height: 0px
+    border-right: 60px solid transparent
+    border-left: 5px solid aquamarine
+    border-bottom: 100px solid aquamarine

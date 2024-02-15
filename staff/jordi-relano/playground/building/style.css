@@ -1,0 +1,68 @@
+.building {
+  width: 600px;
+  height: 900px;
+  background-color: rgb(182, 180, 180);
+  background-image: url("images/Paisaje.jpg");
+  background-size: cover;
+  position: relative;
+  left: 400px;
+  border: 10px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  border-block-color: rgb(1, 1, 1);
+}
+.building__floor {
+  width: 400px;
+  height: 61px;
+  background-color: rgb(58, 59, 60);
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  border: 10px solid black;
+  border-block-color: rgb(1, 1, 1);
+}
+.building__floor__entrance {
+  width: 400px;
+  height: 61px;
+  background-color: rgb(58, 59, 60);
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: flex-end;
+  border: 10px solid black;
+  border-block-color: rgb(1, 1, 1);
+}
+.building__floor__window {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  border: 10px solid black;
+  border-block-color: rgb(1, 1, 1);
+}
+.building__door {
+  background-color: #060b82;
+  width: 50px;
+  height: 50px;
+  align-self: flex-end;
+  align-items: center;
+  align-content: space-around;
+  flex-direction: row-reverse;
+  border: 10px solid black;
+  border-block-color: rgb(1, 1, 1);
+  display: flex;
+}
+.building__door__knob {
+  background-color: #000000;
+  width: 5px;
+  height: 5px;
+  display: flex;
+  justify-content: flex-end;
+  border: 1px solid black;
+  border-block-color: rgb(1, 1, 1);
+}
+
+/*# sourceMappingURL=style.css.map */
