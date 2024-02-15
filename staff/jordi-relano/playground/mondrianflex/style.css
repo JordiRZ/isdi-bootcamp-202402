@@ -1,17 +1,67 @@
-/* Error: Undefined mixin.
- *    ,
- * 70 |             @include full--size(15%, 60%)
- *    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- *    '
- *   style.sass 70:13  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined mixin.\a    \2577 \a 70 \2502              @include full--size(15%, 60%)\d\a    \2502              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\a    \2575 \a   style.sass 70:13  root stylesheet";
+.painting {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  height: 70vw;
+  width: 65vw;
+  top: 5vw;
+  left: 10vw;
+  border: 2vw solid black;
+  display: flex;
 }
+.painting__block-left {
+  height: 30vw;
+  width: 140vw;
+  display: flex;
+  flex-direction: row-reverse;
+  background-color: rgb(0, 0, 0);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.painting__block-right {
+  background-color: rgb(255, 255, 255);
+  height: 70vw;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.block--left-yellow {
+  height: 40vw;
+  width: 28vw;
+  background-color: rgb(252, 218, 0);
+  border-right: 2vw solid black;
+  border-bottom: 2vw solid black;
+}
+
+.block--left-white {
+  height: 15vw;
+  width: 28vw;
+  background-color: rgb(255, 255, 255);
+  border-bottom: 2vw solid black;
+}
+
+.block--left-blue {
+  height: 11.1vw;
+  width: 18.6vw;
+  background-color: rgb(0, 17, 255);
+  border-right: 2vw solid black;
+}
+
+.block--right-red {
+  background-color: rgb(255, 0, 0);
+  height: 190vw;
+  width: 44.5vw;
+  border-left: 2vw solid black;
+  border-bottom: 2vw solid black;
+}
+
+.block--right--white-two {
+  height: 36vw;
+  width: 19vw;
+  background-color: rgb(255, 255, 255);
+  border-left: 2vw solid black;
+}
+
+/*# sourceMappingURL=style.css.map */

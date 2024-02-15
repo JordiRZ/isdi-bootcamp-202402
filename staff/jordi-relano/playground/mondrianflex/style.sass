@@ -7,66 +7,52 @@
     left: $left
 
 .painting
-    @include size(500px, 500px)
-    border: 10px solid black
+    position: absolute
+    background-color: rgb(255, 255, 255)
+    @include size(70vw, 65vw)
+    @include location(5vw, 10vw)
+    border: 2vw solid black
     display: flex
-    flex-direction: row
-    align-items: center
-    box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.75)
-    border-radius: 2px
-    padding: 10px
-    margin-top: 51px
 
-    &__block__big
-        width: 60%
+    &__block-left
+        @include size(30vw, 140vw )
         display: flex
-        align-items: flex-end
-        border: 5px solid black
+        flex-direction: row-reverse
+        background-color: rgb(0, 0, 0)
+        display: flex
+        flex-wrap: wrap
+        justify-content: flex-end
+
+    &__block-right
+        background-color: rgb(255, 255, 255)
+        @include size(70vw, 30vw )
+        display: flex
         flex-direction: column
-        background-color: rgb(255, 0, 0)
-
-    &__block__left
-        background-color: yellow
-        height: 350px
-        width: 350px
-        border: 5px solid black
-        display: flex
-        align-items: flex-start
-        flex-direction: column
-
-
-        &__yellow
-            height: 25%
-            background-color: rgb(252, 218, 0)
-            border: 2px solid black
-
-        &__white
-            height: 15%
-            background-color: rgb(255, 255, 255)
-            border-right: 5px solid black
-
-        &__blue
-            height: 15%
-            background-color: rgb(0, 17, 255)
-            border-right: 5px solid black
-
-    &__block__right
-        background-color: yellow
-        height: 100px
-        width: 350px
-        border: 5px solid black
-        display: flex
         align-items: flex-end
-        align-items: stretch
-        align-content: stretch
-        flex-direction: row
 
-        &__white
-            height: 80%
-            background-color: rgb(255, 255, 255)
-            border-bottom: 5px solid black
+.block--left-yellow
+    @include size(40vw , 28vw )
+    background-color: rgb(252, 218, 0)
+    border-right: 2vw solid black
+    border-bottom: 2vw solid black
 
-        &__white__right
-            @include full--size(15%, 60%)
-            background-color: rgb(255, 255, 255)
-            border-right: 5px solid black
+.block--left-white
+    @include size(15vw , 28vw )
+    background-color: rgb(255, 255, 255)
+    border-bottom: 2vw solid black
+
+.block--left-blue
+    @include size(11.1vw , 18.6vw )
+    background-color: rgb(0, 17, 255)
+    border-right: 2vw solid black
+
+.block--right-red
+    background-color: rgb(255, 0, 0)
+    @include size(190vw , 44.5vw )
+    border-left: 2vw solid black
+    border-bottom: 2vw solid black
+
+.block--right--white-two
+    @include size(36vw , 19vw )
+    background-color: rgb(255, 255, 255)
+    border-left: 2vw solid black
