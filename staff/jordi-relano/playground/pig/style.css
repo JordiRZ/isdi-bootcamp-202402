@@ -1,17 +1,99 @@
-/* Error: Expected newline.
- *   ,
- * 4 | .pig__head {
- *   |            ^
- *   '
- *   style.sass 4:12  root stylesheet */
+.pig-head {
+  background-color: rgb(245, 34, 139);
+  border-radius: 60%;
+  width: 220px;
+  height: 220px;
+  left: 40px;
+  position: relative;
+}
 
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Expected newline.\a   \2577 \a 4 \2502  .pig__head {\d\a   \2502             ^\a   \2575 \a   style.sass 4:12  root stylesheet";
+.nose-pig {
+  background-color: rgb(165, 42, 159);
+  width: 60px;
+  height: 40px;
+  border-radius: 50%;
+  left: 100px;
+  right: 80px;
+  top: 100px;
+  position: absolute;
+}
+
+.pig-eye-right {
+  background-color: rgb(6, 4, 4);
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: 60px;
+  left: 180px;
+  top: 60px;
+}
+
+.pig-eye-left {
+  background-color: rgb(6, 4, 4);
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 60px;
+}
+
+.mouth-pig {
+  background-color: rgb(199, 12, 12);
+  border-radius: 90%;
+  width: 60px;
+  height: 36px;
+  top: 160px;
+  right: 80px;
+  position: absolute;
+}
+
+.body-pig {
+  background-color: rgb(245, 34, 139);
+  border-radius: 50%;
+  left: 200px;
+  width: 300px;
+  height: 100px;
+  top: -60px;
+  position: relative;
+}
+
+.leg-pig-right {
+  background-color: rgb(245, 34, 139);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 410px;
+  right: 80px;
+  top: -170px;
+}
+
+.leg-pig-right-right {
+  background-color: rgb(245, 34, 139);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 380px;
+  right: 60px;
+  top: -220px;
+}
+
+.leg-pig-left {
+  background-color: rgb(245, 34, 139);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 290px;
+  right: 80px;
+  top: -70px;
+}
+
+.leg-pig-left-left {
+  background-color: rgb(245, 34, 139);
+  width: 20px;
+  height: 50px;
+  position: relative;
+  left: 320px;
+  right: 80px;
+  top: -120px;
 }
