@@ -8,7 +8,7 @@
  * @throws {TypeError} When object is not an object, or when index is not a number.
  */
 function insert(object, index, value) {
-    // TODO
+   
     if (!(object instanceof Object)) throw new TypeError(object + ' is not an Object')
 }
 

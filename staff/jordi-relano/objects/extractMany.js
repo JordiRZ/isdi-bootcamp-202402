@@ -7,22 +7,34 @@
  * @throws {TypeError} When object is not an object, or when index is not a number.
  */
 function extractMany(object, callback) {
-    var newObject = {}
+    if (object instanceof Object === false)
+        throw TypeError(object + ' is not an object')
 
-    if (!(object instanceof Object)) { 
-        throw new TypeError(object + ' is not an Object')
+    extracted = {
+        length: 0,
     }
-    debugger
-    for (let i = 0; i < object.length; i++) {
-        if(callback(object[i]) === true){
-            newObject = object[i]
-            delete object[i]
-            object.length -- 
 
+    for (var i = 0; i < object.length; i++) {
+        var element = object[i]
+        var matches = (callback(element))
+
+        if (matches) {
+            extracted[extracted.length] = element
+            extracted.length++
+
+            for (var j = i; j < object.length - 1; j++) {
+                object[j] = object[j + 1]
+            }
+
+            object.length--
+
+            delete object[object.length]
+
+            i--
         }
     }
-    return newObject
-}   
+    return extracted
+}
 
 console.log('CASE 1: extracts many users form users')
 
