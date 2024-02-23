@@ -16,33 +16,21 @@ function remove(object, index) {
     }
 
 
-    for (var i = 0; i < index; i++)
-        newObject[newObject.length] = object[i];
-    debugger
-    newObject.length++
-    debugger
-
-    for (let j = i - 1; j < object.length; j++) {
+    for (var i = 0; i < index; i++) 
+        if (index === object[i]){
+            newObject[newObject.length] = object[i];
+            newObject.length++
+    
+    for (let j = i; j < object.length; j++) {
         object[j] = object[j + 1]
     }
     object.length--
     delete object[object.length]
-    return newObject
-
 
 }
+    return newObject
 
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 console.log('CASE 1: remove blue from index 1')
