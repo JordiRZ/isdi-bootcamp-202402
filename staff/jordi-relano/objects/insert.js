@@ -8,8 +8,21 @@
  * @throws {TypeError} When object is not an object, or when index is not a number.
  */
 function insert(object, index, value) {
-   
+    // TODO
     if (!(object instanceof Object)) throw new TypeError(object + ' is not an Object')
+
+    // object -> { 0: 'red', 1: 'blue', 2: 'green', length: 3 }
+    // index -> 1
+    // value -> 'skyblue'
+
+    object[3] = object[2] // { 0: 'red', 1: 'blue', 2: 'green', 3: 'green', length: 3 }
+    object[2] = object[1] // { 0: 'red', 1: 'blue', 2: 'blue', 3: 'green', length: 3 }
+
+    object[1] = value // { 0: 'red', 1: 'skyblue', 2: 'blue', 3: 'green', length: 3 }
+
+    object.length++
+
+    return object.length
 }
 
 console.log('CASE 1: insert skyblue in index 1')
@@ -37,30 +50,30 @@ console.log(colors)
 }
 */
 
-console.log('CASE 2: insert skyblue, gold and plum in index 2')
+console.log('CASE 2: insert 300, at index 2')
 
-var colors = {
-    0: 'red',
-    1: 'blue',
-    2: 'green',
-    length: 3
+var nums = {
+    0: 100,
+    1: 200,
+    2: 400,
+    3: 500,
+    length: 4
 }
 
-var length = insert(colors, 2, 'skyblue', 'gold', 'plum')
+var length = insert(nums, 2, 300)
 
 console.log(length)
-// 6
+// 5
 
-console.log(colors)
+console.log(nums)
 /*
 {
-    0: 'red',
-    1: 'blue',
-    2: 'skyblue',
-    3: 'gold',
-    4: 'plum',
-    5: 'green',
-    length: 6
+    0: 100,
+    1: 200,
+    2: 300,
+    3: 400,
+    4: 500,
+    length: 5
 }
 */
 
