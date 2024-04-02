@@ -1,12 +1,10 @@
-
-
 import logic from '../logic'
 
 import { Component } from 'react'
 
 import Post from './Post'
 
-import {logger, showFeedback} from '../utils'
+import { logger, showFeedback } from '../utils'
 
 
 class PostList extends Component {
@@ -20,7 +18,7 @@ class PostList extends Component {
 
     loadPosts() {
         logger.debug('PosrList -> loadPosts')
-    
+
 
         try {
             const posts = logic.retrievePosts()
@@ -38,7 +36,7 @@ class PostList extends Component {
         // TRANSFERENCIA DE DATOS DE HIJOS A PADRES A TRAVÉS DE CALLBACKS, DE PADRE S A HIJOS A TRAVÉS DE PROPS (COMPORTAMIENTO REACT)
 
         // if (newProps.refreshStamp !== this.props.stamp)
-        newProps.stamp !== this.props.stamp && this.loadPosts() 
+        newProps.stamp !== this.props.stamp && this.loadPosts()
 
     }
 
@@ -51,16 +49,16 @@ class PostList extends Component {
     handlePostDeleted = () => this.loadPosts()
 
     handleEditClick = post => this.props.onEditPostClick(post)
-            
 
-        
-    
-// en el map, a cada post le metes el article key, y le asignas id
+
+
+
+    // en el map, a cada post le metes el article key, y le asignas id
     render() {
         logger.debug('PostList -> render')
         return <section>
-            {this.state.posts.map(post => <Post item={post} onEditClick={this.handleEditClick} onDeleted={this.handlePostDeleted} />)}
-                
+            {this.state.posts.map(post => <Post key={post.id} item={post} onEditClick={this.handleEditClick} onDeleted={this.handlePostDeleted} />)}
+
         </section>
     }
 

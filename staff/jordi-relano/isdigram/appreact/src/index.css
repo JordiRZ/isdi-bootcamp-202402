@@ -19,6 +19,15 @@ form {
 
 }
 
+.chat {
+    display: flex;
+    left: 50;
+    right: 0;
+
+
+
+}
+
 .round-button {
     border-radius: 5px;
     border: 1px solid black;
@@ -62,6 +71,7 @@ img {
     box-sizing: border-box;
     padding: 5vw;
 }
+
 
 .user-list__item {
     cursor: pointer;

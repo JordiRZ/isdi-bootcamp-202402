@@ -18,7 +18,7 @@ class Login extends Component {
         const username = form.username.value
         const password = form.password.value
 
-        logger.debug('login-> submit', username, password)
+        logger.debug('login-> handleSubmit', username, password)
 
         try {
             logic.loginUser(username, password)
@@ -42,7 +42,7 @@ class Login extends Component {
         return <main>
             <h1>Login</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
                 <label htmlFor="username">Username</label>
                 <input id="username" />
 

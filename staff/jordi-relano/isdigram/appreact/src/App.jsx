@@ -5,9 +5,12 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
 import Chat from './components/Chat'
+import { logger } from './utils'
+
 
 class App extends Component {
     constructor() {
+        logger.debug('App')
         super();
 
 
@@ -25,7 +28,12 @@ class App extends Component {
 
     handleUserLoggedOut = () => this.goToLogin();
 
+    handleOnChatClick = () => this.setState({ view: 'chat' });
+
+    handleOnHomeCLick = () => this.setState({ view: 'home' });
+
     render() {
+        logger.debug('App -> render')
         if (this.state.view === 'landing')
             return <Landing onLoginClick={this.handleLoginClick} onRegisterClick={this.handleRegisterClick} />
         else if (this.state.view === 'login')
@@ -34,9 +42,9 @@ class App extends Component {
         else if (this.state.view === 'register')
             return <Register onLoginClick={this.handleLoginClick} onUserRegistered={this.handleLoginClick} />
         else if (this.state.view === 'home')
-            return <Home onChatClick={() => this.setState({ view: 'chat' })} onLogoutClick={this.handleUserLoggedOut} /> // new Home().render(...)
+            return <Home onChatClick={this.handleOnChatClick} onUserLoggedOut={this.handleUserLoggedOut} /> // new Home().render(...)
         else if (this.state.view === 'chat')
-            return <Chat onChatClick={this.handleUserLoggedIn} /> // new 
+            return <Chat onHomeClick={this.handleOnHomeCLick} /> // new 
         else
             return <h1>🤡</h1>
 

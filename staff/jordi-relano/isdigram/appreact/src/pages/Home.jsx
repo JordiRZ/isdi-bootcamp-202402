@@ -23,7 +23,7 @@ class Home extends Component {
             showFeedback(error);
         }
 
-        this.state = { view: null, stamp: null, post: null };
+        this.state = { view: null, stamp: null, post: null, chat:null };
         //objeto de home, y metemos dos propiedades. Una para cuando queramos que se active (si metemos CreatePost se nos activará para mostrarlo, o si ponemos Chat igual), y otra stamp ( como marca) para avisar. Las inicializamos null para dejarlas apagadas de mientras hasta que tengamos que activarlas.
 
         //stamp: Esta propiedad se utiliza para forzar la actualización de la lista de publicaciones cuando cambia. Cada vez que se actualiza stamp con un nuevo valor (en este caso, usando Date.now()), se vuelve a renderizar el componente PostList, lo que provoca una actualización de las publicaciones mostradas.
@@ -59,7 +59,7 @@ class Home extends Component {
 
     handlePostEdited = () => this.setState({ view: null, stamp: Date.now(), post: null });
 
-    handleChatCLick = event => {
+    handleChatButtonCLick = event => {
         event.preventDefault();
 
         this.props.onChatClick();
@@ -74,11 +74,11 @@ class Home extends Component {
             <h1>Hello, {this.user.name}😊</h1>
 
             <nav>
-                <button onClick={this.handleChatCLick}>💬</button>
+                <button onClick={this.handleChatButtonCLick}>💬</button>
                 <button onClick={this.handleLogoutClick}>🚪</button>
             </nav>
 
-            <PostList refreshStamp={this.state.stamp} onEditPostClick={this.handleEditPostClick} />
+            <PostList stamp={this.state.stamp} onEditPostClick={this.handleEditPostClick} />
 
             {this.state.view === 'create-post' && <CreatePost onCancelClick={this.handleCreatePostCancelClick} onPostCreated={this.handlePostCreated} />}
 
@@ -86,7 +86,7 @@ class Home extends Component {
 
 
             <footer className="footer">
-                <button onClick={() => this.setState({ view: 'create-post' })}>➕</button>
+                <button onClick={this.handleCreatePostClick}>➕</button>
             </footer>
         </main >
     }

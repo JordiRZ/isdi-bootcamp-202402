@@ -27,7 +27,7 @@ class Post extends Component {
     render() {
         const { item: post } = this.props
 
-        return <article key={post.id}>
+        return <article >
             <h3>{post.author.username}</h3>
 
             <img src={post.image} />
