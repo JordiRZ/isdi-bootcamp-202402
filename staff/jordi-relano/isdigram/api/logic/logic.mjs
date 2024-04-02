@@ -157,15 +157,13 @@ function logoutUser(userId, callback) {
 
         user.status = 'offline'
 
-        db.users.updateOne(user2 => user2.id === user.id, user, error => {
+        db.users.updateOne(user2 => user2.id === userId, user, error => {
             if (error) {
                 callback(error)
 
                 return
             }
-            
 
-            delete this.user
 
             callback(null, user)
 

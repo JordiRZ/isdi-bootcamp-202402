@@ -282,65 +282,105 @@ describe('logic', () => {
         })
     })
 
-    // describe("logoutUser", () => {
-    //     it("does logout properly", (done) => {
-    //         db.users.deleteOne(
+    describe("logoutUser", () => {
+        it("does logout properly", (done) => {
+            db.users.deleteOne(
 
-    //             (user) => user.username === "peperoni",
-    //             (error) => {
-    //                 if (error) {
-    //                     done(error);
+                (user) => user.username === "peperoni",
+                (error) => {
+                    if (error) {
+                        done(error);
 
-    //                     return;
-    //                 }
+                        return;
+                    }
 
-    //                 db.users.insertOne(
-    //                     {
-    //                         name: "Pepe Roni",
-    //                         birthdate: "2000-01-01",
-    //                         email: "pepe@roni.com",
-    //                         username: "peperoni",
-    //                         password: "123qwe123",
-    //                     }, (error, insertedUserId) => {
-    //                         if (error) {
-    //                             done(error)
+                    db.users.insertOne(
+                        {
+                            name: "Pepe Roni",
+                            birthdate: "2000-01-01",
+                            email: "pepe@roni.com",
+                            username: "peperoni",
+                            password: "123qwe123",
+                            status: "online",
+                        }, (error, insertedUserId) => {
+                            if (error) {
+                                done(error)
 
-    //                             return
-    //                         }
+                                return
+                            }
 
-    //                         logic.logoutUser(insertedUserId,(error, UserId) => {
-    //                             if (error) {
-    //                                 done(error);
+                            logic.logoutUser(insertedUserId, (error, user) => {
+                                if (error) {
+                                    done(error);
 
-    //                                 return;
-    //                             }
+                                    return;
+                                }
 
-    //                             expect(userId).to.equal(insertedUserId);
+                                expect(user.id).to.equal(insertedUserId);
+                                expect(user.status).to.equal('offline')
 
-    //                             db.users.findOne(user => user.id === userId, (error, user) => {
-    //                                 if (error) {
-    //                                     done(error)
-
-    //                                     return
-    //                                 }
-
-    //                                 expect(user.status).to.equal('offline')
-
-    //                                 done()
-    //                             })
+                                done()
+                            })
 
 
 
 
-    //                         })
-    //                         // cuando insertas un usuario te devuelven normalmente el id del mismo,
-    //                         // si fuera un documento o lo que sea haría lo mismo (posts, users, etc)
-    //                         // digamos que te permite ver que usuario es y con que id (insertedId)
-    //                         // no sabemos cual es pero podemos comprobar que es un string
-    //                     })
-    //             })
-    //     })
+                        })
+                    //insertedUserId
+                    // cuando insertas un usuario te devuelven normalmente el id del mismo,
+                    // si fuera un documento o lo que sea haría lo mismo (posts, users, etc)
+                    // digamos que te permite ver que usuario es y con que id (insertedId)
+                    // no sabemos cual es pero podemos comprobar que es un string
+                })
+
+        })
+        it(" does not find an user", (done) => {
+            db.users.deleteOne(
+
+                (user) => user.username === "peperoni",
+                (error) => {
+                    if (error) {
+                        done(error);
+
+                        return;
+                    }
+
+                    db.users.insertOne(
+                        {
+                            name: "Pepe Roni",
+                            birthdate: "2000-01-01",
+                            email: "pepe@roni.com",
+                            username: "peperoni",
+                            password: "123qwe123",
+                            status: "online",
+                        }, (error, insertedUserId) => {
+                            if (error) {
+                                done(error)
+
+                                return
+                            }
+
+                            logic.logoutUser("wrong-id", (error, user) => {
+
+
+                                expect(error).to.be.instanceOf(Error)
+                                expect(error.message).to.equal('user not found')
+
+                                expect(user).to.be.undefined
+
+                                done()
+                            })
+
+
+
+
+                        })
+
+                })
+        })
+    })
 })
+
 
 
 
