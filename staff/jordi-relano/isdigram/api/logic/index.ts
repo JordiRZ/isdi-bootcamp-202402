@@ -1,4 +1,5 @@
-import db from '../data/index.mjs'
+//@ts-nocheck
+import db from '../data/index.ts'
 
 // constants
 

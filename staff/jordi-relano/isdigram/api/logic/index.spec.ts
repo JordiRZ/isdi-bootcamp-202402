@@ -1,5 +1,5 @@
-import db from '../data/index.mjs'
-import logic from './logic.mjs'
+import db from '../data/index.ts'
+import logic from './index.ts'
 
 import { expect } from 'chai'
 
