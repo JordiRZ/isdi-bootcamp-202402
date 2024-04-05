@@ -5,13 +5,13 @@ import logic from '../logic';
 import { Component } from 'react';
 import PostList from '../components/PostList';
 import CreatePost from '../components/CreatePost';
-import Chat from '../components/Chat';
+
 import EditPost from '../components/EditPost';
 
 
 class Home extends Component {
     constructor() {
-        logger.debug('Home');
+        logger.debug('Home constructor');
         super();
         try {
             const user = logic.retrieveUser();

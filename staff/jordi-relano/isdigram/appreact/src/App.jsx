@@ -6,11 +6,11 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import Chat from './components/Chat'
 import { logger } from './utils'
-
+import './index.sass'
 
 class App extends Component {
     constructor() {
-        logger.debug('App')
+        logger.debug('App -> constructor')
         super();
 
 

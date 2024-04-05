@@ -9,7 +9,7 @@ import { logger, showFeedback } from '../utils'
 
 class PostList extends Component {
     constructor() {
-        logger.debug('PostList')
+        logger.debug('PostList -> constructor')
         super()
 
         this.state = { posts: [] }
