@@ -18,16 +18,16 @@ function validateText(text, explain, checkEmptySpaceInside) {
         if (text.includes(' ')) throw new Error(`${explain} ${text} has empty spaces'`)
 }
 
-function validateDate(date, explain) {
+function validateDate(date, explain = 'password') {
     if (typeof date !== 'string') throw new TypeError(`${explain} ${date} is not a string`)
     if (!DATE_REGEX.test(date)) throw new Error(`${explain} ${date} does not have a valid format`)
 }
 
-function validateEmail(email, explain) {
+function validateEmail(email, explain = 'email') {
     if (!EMAIL_REGEX.test(email)) throw new Error(`${explain} ${email} is not an email`)
 }
 
-function validatePassword(password, explain) {
+function validatePassword(password, explain = 'password') {
     if (!PASSWORD_REGEX.test(password)) throw new Error(`${explain} ${password} is not acceptable`)
 }
 
@@ -104,7 +104,7 @@ function loginUser(username, password, callback) {
         }
         user.status = 'online'
 
-        db.users.updateOne(user2 => user2.id === user.id, user, error => {
+        db.users.updateOne(user2 => user2.id === user.id, (user, error) => {
             if (error) {
                 callback(error)
 
@@ -172,17 +172,6 @@ function logoutUser(userId, callback) {
     })
 }
 
-function getLoggedInUserId() {
-    return sessionStorage.userId
-}
-
-function isUserLoggedIn() {
-    return !!sessionStorage.userId
-}
-
-function cleanUpLoggedInUserId() {
-    delete sessionStorage.userId
-}
 
 function retrieveUsersWithStatus() {
     const users = db.users.getAll()
@@ -262,16 +251,56 @@ function createPost(image, text) {
     db.posts.insertOne(post)
 }
 
-function retrievePosts() {
-    const posts = db.posts.getAll()
+function retrievePosts(userId, callback) {
+    validateText(userId, 'userId', true)
+    validateCallback(callback)
 
-    posts.forEach(function (post) {
-        const user = db.users.findOne(user => user.id === post.author)
+    db.users.findOne(user => user.id === userId, (error, user) => {
+        if (error) {
+            callback(error)
 
-        post.author = { id: user.id, username: user.username }
+            return
+        }
+
+        if (!user) {
+            callback(new Error('user not found'))
+
+            return
+
+        }
+
+        db.posts.getAll((error, posts) => {
+            if (error) {
+                callback(error)
+
+                return
+            }
+
+            let count = 0
+
+            posts.forEach(post => {
+                db.users.findOne(user => user.id === post.author, (error, user) => {
+                    if (error) {
+                        callback(error)
+
+                        return
+                    }
+
+                    post.author = {
+                        id: user.id,
+                        username: user.username
+                    }
+
+                    count++
+
+                    if (count === posts.length)
+                        callback(null, posts.reverse())
+
+                    //aquí si el count llega al total de psots que hay se para, además le aplicamos reverse para que los lea al revés que es como van a aparecer 
+                })
+            })
+        })
     })
-
-    return posts.reverse()
 }
 
 function removePost(postId) {
@@ -306,9 +335,6 @@ const logic = {
     loginUser,
     retrieveUser,
     logoutUser,
-    getLoggedInUserId,
-    isUserLoggedIn,
-    cleanUpLoggedInUserId,
 
     retrieveUsersWithStatus,
     sendMessageToUser,

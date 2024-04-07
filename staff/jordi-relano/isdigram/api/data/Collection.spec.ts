@@ -258,380 +258,438 @@ describe('Collection', () => {
                 expect(errorThrown.message).to.equal('condition callback is not a function')
             })
         })
-    })
-    describe("insertOne", () => {
-        it("insert a document", done => {
-            const documents = [{ "brand": "porsche", "model": "911" }, { "brand": "fiat", "model": "500" }]
-            const documentsJSON = JSON.stringify(documents)
 
-            writeFile('./data/cars.json', documentsJSON, error => {
-                if (error) {
-                    done(error)
+        describe("insertOne", () => {
+            it("insert a document", done => {
+                const documents = [{ "brand": "porsche", "model": "911" }, { "brand": "fiat", "model": "500" }]
+                const documentsJSON = JSON.stringify(documents)
 
-                    return
-                }
-
-                const cars = new Collection("cars");
-
-                const document = { brand: 'peugeot', model: '504' }
-
-                cars.insertOne(document, (error, insertedId) => {
+                writeFile('./data/cars.json', documentsJSON, error => {
                     if (error) {
-                        console.error(error)
+                        done(error)
 
                         return
                     }
 
-                    expect(insertedId).to.be.a.string
+                    const cars = new Collection("cars");
 
-                    readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                    const document = { brand: 'peugeot', model: '504' }
+
+                    cars.insertOne(document, (error, insertedId) => {
                         if (error) {
                             console.error(error)
 
                             return
-                        };
+                        }
 
-                        // documents.push(document)
-                        // const documentsJsonToMatch = JSON.stringify(documents)
-                        // expect(documentsJSON).to.equal(documentsJsonToMatch)
+                        expect(insertedId).to.be.a.string
 
-                        // or (better)
+                        readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                            if (error) {
+                                console.error(error)
 
-                        const documents = JSON.parse(documentsJSON)
+                                return
+                            };
+
+                            // documents.push(document)
+                            // const documentsJsonToMatch = JSON.stringify(documents)
+                            // expect(documentsJSON).to.equal(documentsJsonToMatch)
+
+                            // or (better)
+
+                            const documents = JSON.parse(documentsJSON)
 
 
-                        expect(documents).to.have.lengthOf(3)
-                        expect(documents[2]).to.deep.equal(document);
+                            expect(documents).to.have.lengthOf(3)
+                            expect(documents[2]).to.deep.equal(document);
 
-                        done()
+                            done()
 
+                        })
                     })
                 })
             })
-        })
 
-        it('fails on no document', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.insertOne()
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('document is not an object')
-        })
-
-        it('fails on no callback', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.insertOne({})
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('callback is not a function')
-        })
-    })
-
-
-    describe('updateOne', () => {
-        it('updates an existing document', done => {
-            const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
-            const documentsJSON = JSON.stringify(documents)
-
-            writeFile('./data/cars.json', documentsJSON, error => {
-                if (error) {
-                    done(error)
-
-                    return
-                }
-
+            it('fails on no document', () => {
                 const cars = new Collection('cars')
 
-                const document = { id: '123', brand: 'porsche', model: 'panamera' }
+                let errorThrown
 
-                cars.updateOne(car => car.id === '123', document, (error, updated) => {
+                try {
+                    //@ts-ignore
+                    cars.insertOne()
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('document is not an object')
+            })
+
+            it('fails on no callback', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.insertOne({})
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('callback is not a function')
+            })
+        })
+
+
+        describe('updateOne', () => {
+            it('updates an existing document', done => {
+                const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
+                const documentsJSON = JSON.stringify(documents)
+
+                writeFile('./data/cars.json', documentsJSON, error => {
                     if (error) {
                         done(error)
 
                         return
                     }
 
-                    expect(updated).to.be.true
+                    const cars = new Collection('cars')
 
-                    readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                    const document = { id: '123', brand: 'porsche', model: 'panamera' }
+
+                    cars.updateOne(car => car.id === '123', document, (error, updated) => {
                         if (error) {
                             done(error)
 
                             return
                         }
 
-                        const documents = JSON.parse(documentsJSON)
-                        expect(documents).to.have.lengthOf(2)
-                        expect(documents[0]).to.deep.equal(document)
+                        expect(updated).to.be.true
 
-                        done()
+                        readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                            if (error) {
+                                done(error)
 
+                                return
+                            }
+
+                            const documents = JSON.parse(documentsJSON)
+                            expect(documents).to.have.lengthOf(2)
+                            expect(documents[0]).to.deep.equal(document)
+
+                            done()
+
+                        })
                     })
+
                 })
 
             })
+            it('does not update a non-existing document', done => {
+                const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
+                const documentsJSON = JSON.stringify(documents)
 
-        })
-        it('does not update a non-existing document', done => {
-            const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
-            const documentsJSON = JSON.stringify(documents)
-
-            writeFile('./data/cars.json', documentsJSON, error => {
-                if (error) {
-                    done(error)
-
-                    return
-                }
-
-                const cars = new Collection('cars')
-
-                const document = { id: '123', brand: 'porsche', model: 'panamera' }
-
-                cars.updateOne(car => car.id === '789', document, (error, updated) => {
+                writeFile('./data/cars.json', documentsJSON, error => {
                     if (error) {
                         done(error)
 
                         return
                     }
 
-                    expect(updated).to.be.false
+                    const cars = new Collection('cars')
 
-                    readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                    const document = { id: '123', brand: 'porsche', model: 'panamera' }
+
+                    cars.updateOne(car => car.id === '789', document, (error, updated) => {
                         if (error) {
                             done(error)
 
                             return
                         }
 
-                        const documents2 = JSON.parse(documentsJSON)
+                        expect(updated).to.be.false
+
+                        readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                            if (error) {
+                                done(error)
+
+                                return
+                            }
+
+                            const documents2 = JSON.parse(documentsJSON)
+                            expect(documents2).to.deep.equal(documents)
+
+                            done()
+
+                        })
+
+                    })
+                })
+            })
+            it('fails on no condition callback', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.updateOne()
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('condition callback is not a function')
+            })
+            it('fails on no document', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.updateOne(() => { })
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('document is not an object')
+            })
+            it('fails on no callback', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.updateOne(() => { }, {})
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('callback is not a function')
+            })
+
+
+
+        })
+        describe('deleteOne', () => {
+            it('deletes an existing document', done => {
+                const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
+                const documentsJSON = JSON.stringify(documents)
+
+                writeFile('./data/cars.json', documentsJSON, error => {
+                    if (error) {
+                        done(error)
+
+                        return
+                    }
+
+                    const cars = new Collection('cars')
+
+                    cars.deleteOne(car => car.id === '123', (error, deleted) => {
+                        if (error) {
+                            done(error)
+
+                            return
+                        }
+                        expect(deleted).to.be.true
+
+                        readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                            if (error) {
+                                done(error)
+
+                                return
+                            }
+
+                            const documents2 = JSON.parse(documentsJSON)
+                            expect(documents2).to.have.lengthOf(1)
+                            expect(documents2[0]).to.deep.equal(documents[1])
+
+                            done()
+                        })
+                    })
+                })
+
+
+            })
+            it('does not delete a non-existing document', done => {
+                const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
+                const documentsJSON = JSON.stringify(documents)
+
+
+                writeFile('./data/cars.json', documentsJSON, error => {
+                    if (error) {
+                        done(error)
+
+                        return
+                    }
+
+                    const cars = new Collection('cars')
+
+                    cars.deleteOne(car => car.id === '789', (error, deleted) => {
+                        if (error) {
+                            done(error)
+
+                            return
+                        }
+
+                        expect(deleted).to.be.false
+
+                        readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                            if (error) {
+                                done(error)
+
+                                return
+                            }
+
+                            const documents2 = JSON.parse(documentsJSON)
+                            expect(documents2).to.deep.equal(documents)
+
+                            done()
+                        })
+                    })
+                })
+            })
+
+            it('fails on no condition callback', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.deleteOne()
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('condition callback is not a function')
+            })
+
+            it('fails on no callback', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.deleteOne(() => { })
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('callback is not a function')
+            })
+        })
+
+        describe('getAll', () => {
+            it('gets all documents', done => {
+                const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
+                const documentsJSON = JSON.stringify(documents)
+
+                writeFile('./data/cars.json', documentsJSON, error => {
+                    if (error) {
+                        done(error)
+
+                        return
+                    }
+
+                    const cars = new Collection('cars')
+
+                    cars.getAll((error, documents2) => {
+                        if (error) {
+                            done(error)
+
+                            return
+                        }
+
                         expect(documents2).to.deep.equal(documents)
 
                         done()
-
                     })
-
                 })
             })
-        })
-        it('fails on no condition callback', () => {
-            const cars = new Collection('cars')
 
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.updateOne()
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('condition callback is not a function')
-        })
-        it('fails on no document', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.updateOne(() => { })
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('document is not an object')
-        })
-        it('fails on no callback', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.updateOne(() => { }, {})
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('callback is not a function')
-        })
-
-
-
-    })
-    describe('deleteOne', () => {
-        it('deletes an existing document', done => {
-            const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
-            const documentsJSON = JSON.stringify(documents)
-
-            writeFile('./data/cars.json', documentsJSON, error => {
-                if (error) {
-                    done(error)
-
-                    return
-                }
-
+            it('fails on no callback', () => {
                 const cars = new Collection('cars')
 
-                cars.deleteOne(car => car.id === '123', (error, deleted) => {
+                let errorThrown
+
+                try {
+                    //@ts-ignore
+                    cars.getAll()
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('callback is not a function')
+            })
+        })
+
+        describe('deleteAll', () => {
+            it('deletes all documents', done => {
+                const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
+                const documentsJSON = JSON.stringify(documents)
+
+                writeFile('./data/cars.json', documentsJSON, error => {
                     if (error) {
                         done(error)
 
                         return
                     }
-                    expect(deleted).to.be.true
 
-                    readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
+                    const cars = new Collection('cars')
+
+                    cars.deleteAll(error => {
                         if (error) {
                             done(error)
 
                             return
                         }
 
-                        const documents2 = JSON.parse(documentsJSON)
-                        expect(documents2).to.have.lengthOf(1)
-                        expect(documents2[0]).to.deep.equal(documents[1])
+                        readFile('./data/cars.json', 'utf8', (error, json) => {
+                            if (error) {
+                                done(error)
 
-                        done()
+                                return
+                            }
+
+                            expect(json).to.equal('[]')
+
+                            done()
+
+                        })
                     })
+
+
                 })
             })
 
-
-        })
-        it('does not delete a non-existing document', done => {
-            const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
-            const documentsJSON = JSON.stringify(documents)
-
-
-            writeFile('./data/cars.json', documentsJSON, error => {
-                if (error) {
-                    done(error)
-
-                    return
-                }
-
+            it('fails on no callback', () => {
                 const cars = new Collection('cars')
 
-                cars.deleteOne(car => car.id === '789', (error, deleted) => {
-                    if (error) {
-                        done(error)
+                let errorThrown
 
-                        return
-                    }
-
-                    expect(deleted).to.be.false
-
-                    readFile('./data/cars.json', 'utf8', (error, documentsJSON) => {
-                        if (error) {
-                            done(error)
-
-                            return
-                        }
-
-                        const documents2 = JSON.parse(documentsJSON)
-                        expect(documents2).to.deep.equal(documents)
-
-                        done()
-                    })
-                })
-            })
-        })
-
-        it('fails on no condition callback', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.deleteOne()
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('condition callback is not a function')
-        })
-
-        it('fails on no callback', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.deleteOne(() => { })
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('callback is not a function')
-        })
-    })
-
-    describe('getAll', () => {
-        it('gets all documents', done => {
-            const documents = [{ id: '123', brand: 'porsche', model: '911' }, { id: '345', brand: 'fiat', model: '500' }]
-            const documentsJSON = JSON.stringify(documents)
-
-            writeFile('./data/cars.json', documentsJSON, error => {
-                if (error) {
-                    done(error)
-
-                    return
+                try {
+                    //@ts-ignore
+                    cars.deleteAll()
+                } catch (error) {
+                    errorThrown = error
                 }
 
-                const cars = new Collection('cars')
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('callback is not a function')
 
-                cars.getAll((error, documents2) => {
-                    if (error) {
-                        done(error)
-
-                        return
-                    }
-
-                    expect(documents2).to.deep.equal(documents)
-
-                    done()
-                })
             })
-        })
-
-        it('fails on no callback', () => {
-            const cars = new Collection('cars')
-
-            let errorThrown
-
-            try {
-                //@ts-ignore
-                cars.getAll()
-            } catch (error) {
-                errorThrown = error
-            }
-
-            expect(errorThrown).to.be.instanceOf(TypeError)
-            expect(errorThrown.message).to.equal('callback is not a function')
         })
     })
 })
