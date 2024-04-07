@@ -17,11 +17,17 @@ function Register(props) {
         const password = form.password.value
 
         try {
-            logic.registerUser(name, birthdate, email, username, password)
+            logic.registerUser(name, birthdate, email, username, password, error => {
+                if (error) {
+                    showFeedback(error)
 
-            form.reset()
+                    return
+                }
 
-            props.onUserRegistered()
+                form.reset()
+
+                props.onUserRegistered()
+            })
         } catch (error) {
             showFeedback(error)
         }
@@ -58,7 +64,7 @@ function Register(props) {
             <button className="round-button" type="submit">Register</button>
         </form>
 
-        <a href="" onClick={handleLoginCLick}>Login</a>
+        <a href="" onClick={handleLoginClick}>Login</a>
     </main >
 }
 
