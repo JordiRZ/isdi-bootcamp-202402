@@ -2,10 +2,7 @@ import { logger, showFeedback } from '../utils'
 
 import logic from '../logic'
 
-
-
 function Post(props) {
-
 
     const handleDeleteClick = postId => {
         if (confirm('delete post?'))
@@ -22,10 +19,9 @@ function Post(props) {
 
     logger.debug('Post -> render')
 
-
     const { item: post } = props
 
-    return <article key={post.id}>
+    return <article>
         <h3>{post.author.username}</h3>
 
         <img src={post.image} />
@@ -35,11 +31,11 @@ function Post(props) {
         <time>{post.date}</time>
 
         {logic.getLoggedInUserId() === post.author.id && <>
-            <button onClick={() => handleDeleteClick(post.id)}>🗑️</button>
             <button onClick={() => handleEditClick(post)}>📝</button>
+            <button onClick={() => handleDeleteClick(post.id)}>🗑️</button>
+
         </>}
     </article>
 }
-
 
 export default Post

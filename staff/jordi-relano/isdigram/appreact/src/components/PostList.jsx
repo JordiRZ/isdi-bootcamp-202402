@@ -1,67 +1,61 @@
-import logic from '../logic'
+import { logger, showFeedback } from "../utils";
 
-import { Component } from 'react'
+import logic from "../logic";
 
-import Post from './Post'
+import { useState, useEffect } from "react";
+import Post from "./Post";
 
-import { logger, showFeedback } from '../utils'
+function PostList(props) {
+    const [posts, setPosts] = useState([])
 
-
-class PostList extends Component {
-    constructor() {
-        logger.debug('PostList -> constructor')
-        super()
-
-        this.state = { posts: [] }
-
-    }
-
-    loadPosts() {
-        logger.debug('PosrList -> loadPosts')
-
+    const loadPosts = () => {
+        logger.debug('PostList -> loadPosts')
 
         try {
-            const posts = logic.retrievePosts()
+            logic.retrievePosts((error, posts) => {
+                if (error) {
+                    showFeedback(error)
 
-            this.setState({ posts })
-        }
-        catch (error) {
+                    return
+                }
+
+                setPosts(posts)
+            })
+        } catch (error) {
             showFeedback(error)
         }
-
     }
 
-    componentWillReceiveProps(newProps) {
-        logger.debug('PostList -> componentWillReceiveProps', JSON.stringify(this.props), JSON.stringify(newProps))
-        // TRANSFERENCIA DE DATOS DE HIJOS A PADRES A TRAVÉS DE CALLBACKS, DE PADRE S A HIJOS A TRAVÉS DE PROPS (COMPORTAMIENTO REACT)
+    // componentWillReceiveProps(newProps) {
+    //   logger.debug(
+    //     "PostList -> componentWillReceiveProps",
+    //     JSON.stringify(props),
+    //     JSON.stringify(newProps)
+    //   );
 
-        // if (newProps.refreshStamp !== this.props.stamp)
-        newProps.stamp !== this.props.stamp && this.loadPosts()
+    //   //if (newProps.stamp !== props.stamp) loadPosts()
+    //   newProps.stamp !== props.stamp && loadPosts();
+    // }
 
-    }
+    // componentDidMount() {
+    //   logger.debug("PostList -> componentDidMount");
 
-    componentDidMount() {
-        logger.debug('PostList -> componentDidMount')
+    //   loadPosts();
+    // }
 
-        this.loadPosts()
-    }
+    useEffect(() => {
+        loadPosts()
+    }, [props.stamp])
 
-    handlePostDeleted = () => this.loadPosts()
+    const handlePostDeleted = () => loadPosts();
 
-    handleEditClick = post => this.props.onEditPostClick(post)
+    const handleEditClick = post => props.onEditPostClick(post);
 
+    logger.debug('PostList -> render')
 
-
-
-    // en el map, a cada post le metes el article key, y le asignas id
-    render() {
-        logger.debug('PostList -> render')
-        return <section>
-            {this.state.posts.map(post => <Post key={post.id} item={post} onEditClick={this.handleEditClick} onDeleted={this.handlePostDeleted} />)}
-
-        </section>
-    }
-
+    return <section>
+        {posts.map(post => <Post key={post.id} item={post} onEditClick={handleEditClick} onDeleted={handlePostDeleted} />)}
+    </section>
 }
 
-export default PostList
+export default PostList;

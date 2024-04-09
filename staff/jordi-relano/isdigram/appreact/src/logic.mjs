@@ -70,7 +70,7 @@ function registerUser(name, birthdate, email, username, password, callback) {
         } else callback(null)
     }
 
-    xhr.open('POST', 'http://localhost:8081/users')
+    xhr.open('POST', 'http://localhost:8080/users')
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
@@ -114,7 +114,7 @@ function loginUser(username, password, callback) {
         }
     }
 
-    xhr.open('POST', 'http://localhost:8081/users/auth')
+    xhr.open('POST', 'http://localhost:8080/users/auth')
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
@@ -154,7 +154,7 @@ function retrieveUser(callback) {
         }
     }
 
-    xhr.open('GET', `http://localhost:8081/users/${sessionStorage.userId}`)
+    xhr.open('GET', `http://localhost:8080/users/${sessionStorage.userId}`)
 
     xhr.send()
 }

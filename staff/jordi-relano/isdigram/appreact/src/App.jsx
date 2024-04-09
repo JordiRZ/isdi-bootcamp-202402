@@ -1,57 +1,72 @@
-import { Component } from 'react'
+import { logger } from './utils'
+
 import logic from './logic'
+
+import { useState } from 'react'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
-import Chat from './components/Chat'
-import { logger } from './utils'
-import './index.sass'
+//import Chat from './pages/Chat'
 
-class App extends Component {
-    constructor() {
-        logger.debug('App -> constructor')
-        super();
+function App() {
+    //ALTERNATIVA
+    // const viewState = useState(logic.isUserLoggedIn() ? 'home' : 'landing')
+    // const view = viewState[0]
+    // const setView = viewState[1]
 
+    const [view, setView] = useState(logic.isUserLoggedIn() ? 'home' : 'landing')
 
-        this.state = { view: logic.isUserLoggedIn() ? 'home' : 'landing' }
-        //asignamos un objeto de estado a app, le indicamos con la propiedad view si el usuario está registrado o no. Es decir, si lo está nos metes en home, sino dale a landing de vuelta
-    }
+    const goToLogin = () => setView('login')
 
-    goToLogin = () => this.setState({ view: 'login' });
+    const handleLoginClick = () => goToLogin()
 
-    handleLoginClick = () => this.goToLogin();
+    const handleRegisterClick = () => setView('register')
 
-    handleRegisterClick = () => this.setState({ view: 'register' });
+    const handleUserLoggedIn = () => setView('home')
 
-    handleUserLoggedIn = () => this.setState({ view: 'home' });
+    const handleUserLoggedOut = () => goToLogin()
 
-    handleUserLoggedOut = () => this.goToLogin();
+    //handleChatClick = () => goToChat()
 
-    handleOnChatClick = () => this.setState({ view: 'chat' });
+    //goToChat = () => setState({ view: 'chat' })
 
-    handleOnHomeCLick = () => this.setState({ view: 'home' });
+    //handleHomeClick = () => goToHome()
 
-    render() {
-        logger.debug('App -> render')
-        if (this.state.view === 'landing')
-            return <Landing onLoginClick={this.handleLoginClick} onRegisterClick={this.handleRegisterClick} />
-        else if (this.state.view === 'login')
-            return <Login onRegisterClick={this.handleRegisterClick} onUserLoggedIn={this.handleUserLoggedIn} />
-        //
-        else if (this.state.view === 'register')
-            return <Register onLoginClick={this.handleLoginClick} onUserRegistered={this.handleLoginClick} />
-        else if (this.state.view === 'home')
-            return <Home onChatClick={this.handleOnChatClick} onUserLoggedOut={this.handleUserLoggedOut} /> // new Home().render(...)
-        else if (this.state.view === 'chat')
-            return <Chat onHomeClick={this.handleOnHomeCLick} /> // new 
-        else
-            return <h1>🤡</h1>
+    //goToHome = () => setState({ view: 'home' })
+
+    logger.debug('App -> render')
 
 
+    //VERSION ANTIGUA
+    // if (view === 'landing')
+    //   return <Landing onLoginClick={handleLoginClick} onRegisterClick={handleRegisterClick} />
+    // else if (view === 'login')
+    //   return <Login onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />
+    // else if (view === 'register')
+    //   return <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />
+    // else if (view === 'home')
+    //   return <Home onUserLoggedOut={handleUserLoggedOut} /> // new Home().render(...)
+    // else
+    //   return <h1>🤨</h1>
 
-    }
+    return <>
+        {view === 'landing' && <Landing
+            onLoginClick={handleLoginClick}
+            onRegisterClick={handleRegisterClick} />}
+        {view === 'login' && <Login
+            onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />}
+        {view === 'register' && <Register
+            onLoginClick={handleLoginClick}
+            onUserRegistered={handleLoginClick} />}
+        {view === 'home' && <Home
+            //onChatClick={handleChatClick}
+            onUserLoggedOut={handleUserLoggedOut}
+        />}
+        {view === 'chat' && <Chat
+            onHomeClick={handleHomeClick}
+            onUserLoggedOut={handleUserLoggedOut}
+        />}
+    </>
 }
-
 export default App
-
