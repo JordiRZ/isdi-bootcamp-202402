@@ -466,10 +466,71 @@ describe('logic', () => {
                 })
             })
         })
+
     })
+    describe('createPost', () => {
+        it('creates post with image and text from existing user', done => {
+            db.users.deleteAll(error => {
+                if (error) {
+                    done(error)
 
-    // TODO test all methods
+                    return
+                }
 
+                db.posts.deleteAll(error => {
+                    if (error) {
+                        done(error)
+
+                        return
+                    }
+
+                    db.users.insertOne({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }, (error, insertedUserId) => {
+                        if (error) {
+                            done(error)
+
+                            return
+                        }
+
+                        const image = 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY29wazU1a2ZrYXA2ZG53aWZkZmplbTZ6ZnB5NnM2MndwczQ4NWpweiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/DxOfroA2hjbauRuVon/giphy.gif'
+
+                        const text = 'am here, am here'
+
+                        logic.createPost(insertedUserId, image, text, error => {
+                            if (error) {
+                                done(error)
+
+                                return
+                            }
+
+                            db.posts.getAll((error, posts) => {
+                                if (error) {
+                                    done(error)
+
+                                    return
+                                }
+
+                                expect(posts).to.have.lengthOf(1)
+
+                                const [post] = posts
+
+
+                                expect(post.author).to.equal(insertedUserId)
+                                expect(post.image).to.equal(image)
+                                expect(post.text).to.equal(text)
+                                expect(post.date).to.be.a('string')
+
+                                done()
+
+                            })
+                        })
+                    })
+                })
+
+                // TODO test all methods
+
+            })
+        })
+    })
 })
 
 

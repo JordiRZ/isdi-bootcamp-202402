@@ -215,7 +215,7 @@ function logoutUser(userId, callback) {
 // }
 
 function cleanUpLoggedInUserId() {
-delete sessionStorage.userId;
+  delete sessionStorage.userId;
 }
 
 function retrieveUsersWithStatus() {
@@ -287,25 +287,38 @@ function retrieveMessagesWithUser(userId) {
   return [];
 }
 
-function createPost(image, text) {
+function createPost(userId, image, text, callback) {
   validateUrl(image, "image");
+  validateText(userId, "userId", true);
 
   if (text) validateText(text, "text");
+  validateCallback(callback);
+
 
   const post = {
-    author: sessionStorage.userId,
+    author: userId,
     image: image,
     text: text,
     date: new Date().toLocaleDateString("en-CA"),
   };
 
-  db.posts.insertOne(post);
+  db.posts.insertOne(post, error => {
+    if (error) {
+      callback(error)
+
+      return
+    }
+
+    callback(null)
+  })
+
+
 }
 
 function retrievePosts(userId, callback) {
   validateText(userId, "userId", true);
   validateCallback(callback);
- 
+
   db.users.findOne(
     (user) => user.id === userId,
     (error, user) => {
@@ -314,7 +327,7 @@ function retrievePosts(userId, callback) {
 
         return;
       }
-     
+
       if (!user) {
         callback(new Error("user not found"));
 
@@ -335,7 +348,7 @@ function retrievePosts(userId, callback) {
           db.users.findOne(
             (user) => user.id === post.author,
             (error, user) => {
-             
+
               if (error) {
                 callback(error);
 
@@ -348,8 +361,8 @@ function retrievePosts(userId, callback) {
                 errorDetected = true
 
                 return
-            }
-             
+              }
+
 
               post.author = {
                 id: user.id,

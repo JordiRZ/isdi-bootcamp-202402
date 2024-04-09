@@ -133,4 +133,25 @@ api.patch("/users/:userId", jsonBodyParser, (req, res) => {
     }
 });
 
+api.post('/posts', jsonBodyParser, (req, res) => {
+    try {
+        const { authorization: userId } = req.headers
+
+        const { image, text } = req.body
+
+        logic.createPost(userId, image, text, error => {
+            if (error) {
+                res.status(400).json({ error: error.constructor.name, message: error.message })
+
+                return
+            }
+
+            res.status(201).send()
+        })
+
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
+
 api.listen(8080, () => console.log("API listening on port 8080"));
