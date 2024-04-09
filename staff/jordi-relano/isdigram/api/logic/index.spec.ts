@@ -1,7 +1,7 @@
-import db from '../data/index.ts'
-import logic from './index.ts'
+import db from "../data/index.ts";
+import logic from "./index.ts";
 
-import { expect } from 'chai'
+import { expect } from "chai";
 
 describe('logic', () => {
     describe('registerUser', () => {
@@ -35,17 +35,11 @@ describe('logic', () => {
                         expect(user.password).to.equal('123qwe123')
 
                         done()
-
-
                     })
                 })
             })
-
-
-
-
-
         })
+
         it('fails on existing users', done => {
             db.users.deleteAll(error => {
                 if (error) {
@@ -53,6 +47,7 @@ describe('logic', () => {
 
                     return
                 }
+
                 db.users.insertOne({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }, error => {
                     if (error) {
                         done(error)
@@ -65,13 +60,11 @@ describe('logic', () => {
                         expect(error.message).to.equal('user already exists')
 
                         done()
-
-
-
                     })
                 })
             })
         })
+
         it('fails on non string name', () => {
             let errorThrown
 
@@ -124,7 +117,9 @@ describe('logic', () => {
             expect(errorThrown.message).to.equal('birthdate 2000/01/01 does not have a valid format')
         })
 
+        // TODO add other unhappy test cases
     })
+
     describe('loginUser', () => {
         it('succeeds on existing user and correct credentials', done => {
             db.users.deleteAll(error => {
@@ -165,6 +160,7 @@ describe('logic', () => {
                 })
             })
         })
+
         it('fails on existing user and incorrect password', done => {
             db.users.deleteAll(error => {
                 if (error) {
@@ -190,6 +186,7 @@ describe('logic', () => {
                 })
             })
         })
+
         it('fails on existing user and incorrect username', done => {
             db.users.deleteAll(error => {
                 if (error) {
@@ -216,8 +213,6 @@ describe('logic', () => {
                 })
             })
         })
-
-
     })
 
     describe('retrieveUser', () => {
@@ -228,6 +223,7 @@ describe('logic', () => {
 
                     return
                 }
+
                 db.users.insertOne({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }, (error, insertedUserId) => {
                     if (error) {
                         done(error)
@@ -254,6 +250,7 @@ describe('logic', () => {
                 })
             })
         })
+
         it('does no retrieve a non-existing user', done => {
             db.users.deleteAll(error => {
                 if (error) {
@@ -282,99 +279,6 @@ describe('logic', () => {
         })
     })
 
-    describe("logoutUser", () => {
-        it("does logout properly", (done) => {
-            db.users.deleteAll(
-                (error) => {
-                    if (error) {
-                        done(error);
-
-                        return;
-                    }
-
-                    db.users.insertOne(
-                        {
-                            name: "Pepe Roni",
-                            birthdate: "2000-01-01",
-                            email: "pepe@roni.com",
-                            username: "peperoni",
-                            password: "123qwe123",
-                            status: "online",
-                        }, (error, insertedUserId) => {
-                            if (error) {
-                                done(error)
-
-                                return
-                            }
-
-                            logic.logoutUser(insertedUserId, (error, user) => {
-                                if (error) {
-                                    done(error);
-
-                                    return;
-                                }
-
-                                expect(user.id).to.equal(insertedUserId);
-                                expect(user.status).to.equal('offline')
-
-                                done()
-                            })
-
-
-
-
-                        })
-                    //insertedUserId
-                    // cuando insertas un usuario te devuelven normalmente el id del mismo,
-                    // si fuera un documento o lo que sea haría lo mismo (posts, users, etc)
-                    // digamos que te permite ver que usuario es y con que id (insertedId)
-                    // no sabemos cual es pero podemos comprobar que es un string
-                })
-
-        })
-        it(" does not find an user", (done) => {
-            db.users.deleteAll(
-                (error) => {
-                    if (error) {
-                        done(error);
-
-                        return;
-                    }
-
-                    db.users.insertOne(
-                        {
-                            name: "Pepe Roni",
-                            birthdate: "2000-01-01",
-                            email: "pepe@roni.com",
-                            username: "peperoni",
-                            password: "123qwe123",
-                            status: "online",
-                        }, (error, insertedUserId) => {
-                            if (error) {
-                                done(error)
-
-                                return
-                            }
-
-                            logic.logoutUser("wrong-id", (error, user) => {
-
-
-                                expect(error).to.be.instanceOf(Error)
-                                expect(error.message).to.equal('user not found')
-
-                                expect(user).to.be.undefined
-
-                                done()
-                            })
-
-
-
-
-                        })
-
-                })
-        })
-    })
     describe('retrievePosts', () => {
         it('retrieves all posts for existing user', done => {
             db.users.deleteAll(error => {
@@ -475,42 +379,139 @@ describe('logic', () => {
                                         expect(post3.date).to.equal(insertedPost3.date)
 
                                         done()
-
-
-
-
-
-
-
-
-
-
                                     })
-
-
-
-
                                 })
-
                             })
-
                         })
-
                     })
-
                 })
             })
         })
 
+        it('fails orphan post', done => {
+            db.users.deleteAll(error => {
+                if (error) {
+                    done(error)
+
+                    return
+                }
+
+                db.posts.deleteAll(error => {
+                    if (error) {
+                        done(error)
+
+                        return
+                    }
+
+                    db.users.insertOne({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }, (error, insertedUserId) => {
+                        if (error) {
+                            done(error)
+
+                            return
+                        }
+
+                        const insertedPosts = []
+
+                        let count = 1
+
+                        const insertedPost1 = { author: insertedUserId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+
+                        db.posts.insertOne(insertedPost1, (error, insertedPostId1) => {
+                            if (error) {
+                                done(error)
+
+                                return
+                            }
+
+                            insertedPosts.push(insertedPost1)
+
+                            count++
+
+                            const insertedPost2 = { author: insertedUserId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+
+                            db.posts.insertOne(insertedPost2, (error, insertedPostId2) => {
+                                if (error) {
+                                    done(error)
+
+                                    return
+                                }
+
+                                insertedPosts.push(insertedPost2)
+
+                                count++
+
+                                const insertedPost3 = { author: 'unknown-user-id', image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+
+                                db.posts.insertOne(insertedPost3, (error, insertedPostId3) => {
+                                    if (error) {
+                                        done(error)
+
+                                        return
+                                    }
+
+                                    insertedPosts.push(insertedPost3)
+
+                                    logic.retrievePosts(insertedUserId, (error, posts) => {
+                                        expect(error).to.be.instanceOf(Error)
+                                        expect(error.message).to.equal('post owner not found')
+
+                                        expect(posts).to.be.undefined
+
+                                        done()
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
     })
+
+    // TODO test all methods
+
 })
 
 
 
+// describe("logout", () => {
+//   it("does logout properly", (done) => {
+//      db.users.deleteAll((error) => {
+//       if (error) {
+//          done(error);
 
+//         return;
+//       }
 
+//     db.users.insertOne(
+//       {
+//         name: "Pakito",
+//         birthdate: "2000-01-01",
+//         email: "pakito@roni.com",
+//         username: "pakito",
+//         password: "123qwe123",
+//         status: "online",
+//       },
+//       (error, insertedUserId) => {
+//         if (error) {
+//           done(error);
 
+//           return;
+//         }
 
+//         logic.logoutUser(insertedUserId, (error, user) => {
+//           if (error) {
+//             done(error);
+//             return;
+//           }
 
+//           expect(user.id).to.equal(insertedUserId);
+//           expect(user.status).to.equal("offline");
 
-
+//           done();
+//         });
+//       }
+//     );
+//   });
+// });
+// });

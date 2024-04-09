@@ -1,100 +1,136 @@
-import express from 'express'
-import logic from './logic/index.ts'
+//FUNCIONES HECHAS CON EXPRESS JS
+
+import express from "express";
+import logic from "./logic/index.ts";
 
 const api = express();
 
 const jsonBodyParser = express.json();
 
 api.use((req, res, next) => {
-    res.setHeader('Acces-Control-Allow-Origin', 'http://localhost:5173');
-    res.setHeader('Acces-Control-Allow-Methods', 'http://localhost:5173');
-    res.setHeader('Acces-Control-Allow-Headers', 'http://localhost:5173');
-    // esto le da permisos al navegador para poder acceder a la API 
+    res.setHeader("Access-Control-Allow-Origin", "*"); //Permite el acceso cruzado a recursos de un dominio diferente en el navegador del cliente.
+    res.setHeader("Access-Control-Allow-Methods", "*"); //indica qué métodos HTTP son permitidos desde el origen solicitante. Este encabezado especifica una lista separada por comas de los métodos HTTP permitidos.
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    //permite a un servidor especificar qué encabezados HTTP personalizados pueden ser enviados en una solicitud desde un origen cruzado.
 
     next();
-})
+});
 
-api.post('/users', jsonBodyParser, (req, res) => {
+//REGISTER USER CON EXPRESS JS
+
+api.post("/users", jsonBodyParser, (req, res) => {
     try {
-        const { name, birthdate, email, username, password } = req.body
+        const { name, birthdate, email, username, password } = req.body;
 
-        logic.registerUser(name, birthdate, email, username, password, error => {
+        logic.registerUser(name, birthdate, email, username, password, (error) => {
             if (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                res
+                    .status(400)
+                    .json({ error: error.constructor.name, message: error.message });
 
-                return
+                return;
             }
 
-            res.status(201).send()
-        })
-
+            res.status(201).send();
+        });
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        res
+            .status(400)
+            .json({ error: error.constructor.name, message: error.message });
     }
-})
+});
 
-api.post('/users/auth', jsonBodyParser, (req, res) => {
+//LOGIN USER CON EXPRESS JS
+api.post("/users/auth", jsonBodyParser, (req, res) => {
     try {
-        const { username, password } = req.body
+        const { username, password } = req.body;
 
         logic.loginUser(username, password, (error, userId) => {
             if (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                res
+                    .status(400)
+                    .json({ error: error.constructor.name, message: error.message });
 
-                return
+                return;
             }
 
-            res.json(userId)
-
-        })
+            res.json(userId);
+        });
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        res
+            .status(400)
+            .json({ error: error.constructor.name, message: error.message });
     }
-})
+});
 
-api.get('/users/:userId', (req, res) => {
+//RETRIEVE USER CON EXPRESS JS
+api.get("/users/:userId", (req, res) => {
     try {
-        const { userId } = req.params
+        const { userId } = req.params;
 
         logic.retrieveUser(userId, (error, user) => {
             if (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                res
+                    .status(400)
+                    .json({ error: error.constructor.name, message: error.message });
 
-                return
+                return;
             }
 
-            res.json(user)
-        }
-        )
-
-
+            res.json(user);
+        });
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
-
+        res
+            .status(400)
+            .json({ error: error.constructor.name, message: error.message });
     }
-}
+});
 
-)
-
-
-api.get('/posts', (req, res) => {
+//RETRIEVE POSTS CON EXRESS
+api.get("/posts", (req, res) => {
     try {
-        const { authorization: userId } = req.headers
+        const { authorization: userId } = req.headers;
 
         logic.retrievePosts(userId, (error, posts) => {
             if (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                res
+                    .status(400)
+                    .json({ error: error.constructor.name, message: error.message });
 
-                return
+                return;
             }
 
-            res.json(posts)
-        })
-
+            res.json(posts);
+        });
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        res
+            .status(400)
+            .json({ error: error.constructor.name, message: error.message });
     }
-})
+});
 
+// LOGOUT USER CON EXPRESS JS
+api.patch("/users/:userId", jsonBodyParser, (req, res) => {
+    try {
+        logic.logoutUser(req.params.userId, (error, user) => {
+            if (error) {
+                res
+                    .status(500)
+                    .json({ error: error.constructor.name, message: error.message });
+                //error.constructor.name sirve para que nos refleje que tipo de error saldria
 
-api.listen(8081, () => console.log('API listening on port 8081'))
+                return;
+            }
+
+            if (user) {
+                res.status(202).json(user);
+            } else {
+                res.status(404).json(null);
+            }
+        });
+    } catch (error) {
+        res.status(500).json(null);
+    }
+});
+
+api.listen(8080, () => console.log("API listening on port 8080"));

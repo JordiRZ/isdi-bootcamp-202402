@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'fs'
 
 class Collection {
     name: string
+
     constructor(name) {
         this.name = name
     }
@@ -34,7 +35,9 @@ class Collection {
         if (typeof callback !== 'function') throw new TypeError('callback is not a function')
 
         documents.forEach(document => {
-            if (!(document instanceof Object)) throw new TypeError('a document in documents is not an object')
+            // if (!(document instanceof Object)) throw new TypeError('a document in documents is not an object')
+
+            if (typeof document !== 'object') throw new TypeError('a document in documents is not an object')
         })
 
         const documentsJSON = JSON.stringify(documents)
@@ -49,6 +52,7 @@ class Collection {
             callback(null)
         })
     }
+
     // CRUD
 
     findOne(condition, callback) {
@@ -82,23 +86,18 @@ class Collection {
             }
 
             document.id = this._generateId()
+
             documents.push(document)
 
-            this._saveDocuments(documents, (error) => {
+            this._saveDocuments(documents, error => {
                 if (error) {
                     callback(error)
 
                     return
                 }
 
-
-
-
                 callback(null, document.id)
-
             })
-
-
         })
     }
 
@@ -116,7 +115,7 @@ class Collection {
 
             const index = documents.findIndex(condition)
 
-            if (index > -1) {
+            if (index > - 1) {
                 documents.splice(index, 1, document)
 
                 this._saveDocuments(documents, error => {
@@ -128,13 +127,12 @@ class Collection {
 
                     callback(null, true)
                 })
+
                 return
             }
 
             callback(null, false)
-
         })
-
     }
 
     deleteOne(condition, callback) {
@@ -147,7 +145,6 @@ class Collection {
 
                 return
             }
-
 
             const index = documents.findIndex(condition)
 
@@ -163,10 +160,13 @@ class Collection {
 
                     callback(null, true)
                 })
+
                 return
             }
+
             callback(null, false)
         })
+
     }
 
     getAll(callback) {
@@ -194,7 +194,6 @@ class Collection {
             }
 
             callback(null)
-
         })
     }
 }
