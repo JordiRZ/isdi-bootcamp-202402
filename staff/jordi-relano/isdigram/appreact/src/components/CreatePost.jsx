@@ -18,7 +18,18 @@ function CreatePost(props) {
         const text = form.text.value
 
         try {
-            logic.createPost(image, text)
+            logic.createPost(image, text, error => {
+                if (error) {
+                    showFeedback(error)
+
+                    return
+                }
+
+                form.reset()
+
+                props.onPostCreated()
+            })
+
 
             form.reset()
 
