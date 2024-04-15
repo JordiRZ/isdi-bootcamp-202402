@@ -38,7 +38,7 @@ describe('retrievePosts', () => {
 
                                 let count = 1
 
-                                const insertedPost1 = { author: result.insertedId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+                                const insertedPost1 = { author: result.insertedId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date }
 
                                 posts.insertOne(insertedPost1)
                                     .then(() => {
@@ -46,7 +46,7 @@ describe('retrievePosts', () => {
 
                                         count++
 
-                                        const insertedPost2 = { author: result.insertedId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+                                        const insertedPost2 = { author: result.insertedId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date }
 
                                         posts.insertOne(insertedPost2)
                                             .then(() => {
@@ -54,12 +54,13 @@ describe('retrievePosts', () => {
 
                                                 count++
 
-                                                const insertedPost3 = { author: result.insertedId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+                                                const insertedPost3 = { author: result.insertedId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date }
 
                                                 posts.insertOne(insertedPost3)
                                                     .then(() => {
                                                         insertedPosts.push(insertedPost3)
 
+                                                        debugger
                                                         logic.retrievePosts(result.insertedId.toString(), (error, posts) => {
                                                             if (error) {
                                                                 done(error)
@@ -67,33 +68,37 @@ describe('retrievePosts', () => {
                                                                 return
                                                             }
 
-                                                            expect(posts).to.have.lengthOf(3)
+                                                            try {
+                                                                expect(posts).to.have.lengthOf(3)
 
-                                                            const post1 = posts[2]
+                                                                const post1 = posts[2]
 
-                                                            expect(post1.author.username).to.equal('peperoni')
-                                                            expect(post1.author.id).to.equal(result.insertedId.toString())
-                                                            expect(post1.image).to.equal(insertedPost1.image)
-                                                            expect(post1.text).to.equal(insertedPost1.text)
-                                                            expect(post1.date).to.equal(insertedPost1.date)
+                                                                expect(post1.author.username).to.equal('peperoni')
+                                                                expect(post1.author.id).to.equal(result.insertedId.toString())
+                                                                expect(post1.image).to.equal(insertedPost1.image)
+                                                                expect(post1.text).to.equal(insertedPost1.text)
+                                                                expect(post1.date).to.be.instanceOf(Date)
 
-                                                            const post2 = posts[1]
+                                                                const post2 = posts[1]
 
-                                                            expect(post2.author.username).to.equal('peperoni')
-                                                            expect(post2.author.id).to.equal(result.insertedId.toString())
-                                                            expect(post2.image).to.equal(insertedPost2.image)
-                                                            expect(post2.text).to.equal(insertedPost2.text)
-                                                            expect(post2.date).to.equal(insertedPost2.date)
+                                                                expect(post2.author.username).to.equal('peperoni')
+                                                                expect(post2.author.id).to.equal(result.insertedId.toString())
+                                                                expect(post2.image).to.equal(insertedPost2.image)
+                                                                expect(post2.text).to.equal(insertedPost2.text)
+                                                                expect(post2.date).to.be.instanceOf(Date)
 
-                                                            const post3 = posts[0]
+                                                                const post3 = posts[0]
 
-                                                            expect(post3.author.username).to.equal('peperoni')
-                                                            expect(post3.author.id).to.equal(result.insertedId.toString())
-                                                            expect(post3.image).to.equal(insertedPost3.image)
-                                                            expect(post3.text).to.equal(insertedPost3.text)
-                                                            expect(post3.date).to.equal(insertedPost3.date)
+                                                                expect(post3.author.username).to.equal('peperoni')
+                                                                expect(post3.author.id).to.equal(result.insertedId.toString())
+                                                                expect(post3.image).to.equal(insertedPost3.image)
+                                                                expect(post3.text).to.equal(insertedPost3.text)
+                                                                expect(post3.date).to.be.instanceOf(Date)
 
-                                                            done()
+                                                                done()
+                                                            } catch (error) {
+                                                                done(error)
+                                                            }
                                                         })
                                                     })
                                                     .catch(done)
@@ -135,7 +140,7 @@ describe('retrievePosts', () => {
 
     //                     let count = 1
 
-    //                     const insertedPost1 = { author: insertedUserId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+    //                     const insertedPost1 = { author: insertedUserId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date }
 
     //                     db.posts.insertOne(insertedPost1, (error, insertedPostId1) => {
     //                         if (error) {
@@ -148,7 +153,7 @@ describe('retrievePosts', () => {
 
     //                         count++
 
-    //                         const insertedPost2 = { author: insertedUserId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+    //                         const insertedPost2 = { author: insertedUserId, image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date }
 
     //                         db.posts.insertOne(insertedPost2, (error, insertedPostId2) => {
     //                             if (error) {
@@ -161,7 +166,7 @@ describe('retrievePosts', () => {
 
     //                             count++
 
-    //                             const insertedPost3 = { author: 'unknown-user-id', image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date().toLocaleDateString('en-CA') }
+    //                             const insertedPost3 = { author: 'unknown-user-id', image: `http://images.com/${count}`, text: `hello post ${count}`, date: new Date }
 
     //                             db.posts.insertOne(insertedPost3, (error, insertedPostId3) => {
     //                                 if (error) {

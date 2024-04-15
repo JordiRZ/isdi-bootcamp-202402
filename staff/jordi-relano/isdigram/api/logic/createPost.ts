@@ -1,40 +1,28 @@
-//PARA IGNORAR TODO EN TYPESCRIPT, HACER
-// @ts-nocheck
-
+import { validate, errors } from 'com'
 import { ObjectId } from 'mongodb'
-import { validate } from 'com'
 
-import { errors } from 'com'
-
-const { DuplicityError, SystemError, CredentialsError, NotFoundError } = errors
-
+const { SystemError, NotFoundError } = errors
 
 function createPost(userId, image, text, callback) {
-    validateUrl(image, "image");
-    validateText(userId, "userId", true);
+    validate.text(userId, 'userId', true)
+    validate.url(image, 'image')
+    if (text)
+        validate.text(text, 'text',true)
+    validate.callback(callback)
 
-    if (text) validateText(text, "text");
-    validateCallback(callback);
+    this.users.findOne({ _id: new ObjectId(userId) })
+        .then(user => {
+            if (!user) {
+                callback(new NotFoundError('user not found'))
 
+                return
+            }
 
-    const post = {
-        author: userId,
-        image: image,
-        text: text,
-        date: new Date().toLocaleDateString("en-CA"),
-    };
-
-    db.posts.insertOne(post, error => {
-        if (error) {
-            callback(error)
-
-            return
-        }
-
-        callback(null)
-    })
-
-
+            this.posts.insertOne({ author: user._id, image, text, date: new Date })
+                .then(() => callback(null))
+                .catch(error => callback(new SystemError(error.message)))
+        })
+        .catch(error => callback(new SystemError(error.message)))
 }
 
 export default createPost
