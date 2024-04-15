@@ -23,9 +23,9 @@ const logic = {
     isUserLoggedIn,
     cleanUpLoggedInUserId,
 
-    retrieveUsersWithStatus,
-    sendMessageToUser,
-    retrieveMessagesWithUser,
+    // retrieveUsersWithStatus,
+    // sendMessageToUser,
+    // retrieveMessagesWithUser,
 
     createPost,
     retrievePosts,

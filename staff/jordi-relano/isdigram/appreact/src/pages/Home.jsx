@@ -75,7 +75,7 @@ function Home(props) {
         try {
             logic.logoutUser()
         } catch (error) {
-            logic.cleanUpLoggedInUser()
+            logic.cleanUpLoggedInUserId()
         } finally {
             props.onUserLoggedOut()
         }
@@ -96,24 +96,27 @@ function Home(props) {
 
     logger.debug('Home -> render')
 
-    return <main className="main">
-        {user && <h1>Hello, {user.name}!</h1>}
+    return <>
+        <header className="px-[5vw] fixed top-0 bg-white w-full">
+            {user && <h1>Hello, {user.name}!</h1>}
 
-        <nav>
-            <button>💬</button>
-            <button onClick={handleLogoutClick}>🚪</button>
-        </nav>
+            <nav>
+                <button onClick={handleLogoutClick}>🚪</button>
+            </nav>
+        </header>
 
-        <PostList stamp={stamp} onEditPostClick={handleEditPostClick} />
+        <main className="my-[50px] px-[5vw]">
+            <PostList stamp={stamp} onEditPostClick={handleEditPostClick} />
 
-        {view === 'create-post' && <CreatePost onCancelClick={handleCreatePostCancelClick} onPostCreated={handlePostCreated} />}
+            {view === 'create-post' && <CreatePost onCancelClick={handleCreatePostCancelClick} onPostCreated={handlePostCreated} />}
 
-        {view === 'edit-post' && <EditPost post={post} onCancelClick={handleEditPostCancelClick} onPostEdited={handlePostEdited} />}
+            {view === 'edit-post' && <EditPost post={post} onCancelClick={handleEditPostCancelClick} onPostEdited={handlePostEdited} />}
+        </main>
 
-        <footer className="footer">
+        <footer className="fixed bottom-0 w-full h-[50px] flex justify-center items-center p-[10px] box-border bg-white">
             <button onClick={handleCreatePostClick}>➕</button>
         </footer>
-    </main>
+    </>
 }
 
 export default Home

@@ -10,21 +10,20 @@ function registerUser(name, birthdate, email, username, password, callback) {
 
     var xhr = new XMLHttpRequest
 
-    xhr.onload = function () {
+    xhr.onload = () => {
         const { status, responseText: json } = xhr
 
-        if (status >= 201) {
-            const { error, message } = JSON.parse(json)
-
-            const constructor = window[error]
-
-            callback(new constructor(message))
+        if (status == 201) {
+            callback(null)
 
             return
         }
 
-        callback(null)
+        const { error, message } = JSON.parse(json)
 
+        const constructor = errors[error]
+
+        callback(new constructor(message))
     }
 
     xhr.open('POST', 'http://localhost:8080/users')

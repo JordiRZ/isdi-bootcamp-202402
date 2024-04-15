@@ -3,7 +3,6 @@ import { logger, showFeedback } from '../utils'
 import logic from '../logic'
 
 function Post(props) {
-
     const handleDeleteClick = postId => {
         if (confirm('delete post?'))
             try {
@@ -17,6 +16,7 @@ function Post(props) {
 
     const handleEditClick = post => props.onEditClick(post)
 
+
     logger.debug('Post -> render')
 
     const { item: post } = props
@@ -28,12 +28,11 @@ function Post(props) {
 
         <p>{post.text}</p>
 
-        <time>{post.date}</time>
+        <time>{new Date(post.date).toLocaleString('en-CA')}</time>
 
         {logic.getLoggedInUserId() === post.author.id && <>
-            <button onClick={() => handleEditClick(post)}>📝</button>
             <button onClick={() => handleDeleteClick(post.id)}>🗑️</button>
-
+            <button onClick={() => handleEditClick(post)}>📝</button>
         </>}
     </article>
 }

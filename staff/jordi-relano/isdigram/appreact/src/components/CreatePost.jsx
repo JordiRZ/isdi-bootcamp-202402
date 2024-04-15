@@ -1,12 +1,11 @@
 import { logger, showFeedback } from '../utils'
 
-import logic from '../logic'
-
-import SubmitButton from './library/SubmitButton'
-
 import CancelButton from './library/CancelButton'
 
-import './CreatePost.sass'
+import logic from '../logic'
+import SubmitButton from './library/SubmitButton'
+
+// import './CreatePost.sass'
 
 function CreatePost(props) {
     const handleSubmit = event => {
@@ -29,11 +28,6 @@ function CreatePost(props) {
 
                 props.onPostCreated()
             })
-
-
-            form.reset()
-
-            props.onPostCreated()
         } catch (error) {
             showFeedback(error)
         }
@@ -43,8 +37,8 @@ function CreatePost(props) {
 
     logger.debug('CreatePost -> render')
 
-    return <section className="create-post">
-        <form onSubmit={handleSubmit}>
+    return <section className="mb-[50px] fixed bottom-0 left-0 bg-white w-full box-border p-[5vw]">
+        <form onSubmit={handleSubmit} className="flex flex-col ">
             <label>Image</label>
             <input id="image" type="text" />
 
@@ -57,6 +51,5 @@ function CreatePost(props) {
         <CancelButton onClick={handleCancelClick} />
     </section>
 }
-
 
 export default CreatePost
