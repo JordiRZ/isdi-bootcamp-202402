@@ -12,15 +12,11 @@ function PostList(props) {
         logger.debug('PostList -> loadPosts')
 
         try {
-            logic.retrievePosts((error, posts) => {
-                if (error) {
-                    showFeedback(error)
+            logic.retrievePosts()
+                .then(setPosts)
 
-                    return
-                }
-
-                setPosts(posts)
-            })
+                .catch(showFeedback)
+            
         } catch (error) {
             showFeedback(error)
         }

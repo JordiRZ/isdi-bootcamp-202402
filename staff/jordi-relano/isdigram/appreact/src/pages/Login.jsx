@@ -17,44 +17,46 @@ function Login(props) {
         logger.debug('login-> handleSubmit', username, password)
 
         try {
-            logic.loginUser(username, password, error => {
-                if (error) {
-                    showFeedback(error)
+            logic.loginUser(username, password)
 
-                    return
-                }
+                .then(() => {
+                    form.reset()
 
-                form.reset()
+                    props.onUserLoggedIn()
 
-                props.onUserLoggedIn()
-            })
-        } catch (error) {
+
+                })
+                .catch(showFeedback)
+
+        }catch (error) {
             showFeedback(error)
-        }
+        } 
     }
+        
 
-    const handleRegisterClick = event => {
-        event.preventDefault();
 
-        props.onRegisterClick();
-    }
+const handleRegisterClick = event => {
+    event.preventDefault();
 
-    logger.debug('login -> render');
-    return <main>
-        <h1>Login</h1>
+    props.onRegisterClick();
+}
 
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username</label>
-            <input id="username" />
+logger.debug('login -> render');
+return <main>
+    <h1>Login</h1>
 
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
+    <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username</label>
+        <input id="username" />
 
-            <button className="round-button" type="submit">Login</button>
-        </form>
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" />
 
-        <a href="" onClick={handleRegisterClick}>Register</a>
-    </main>
+        <button className="round-button" type="submit">Login</button>
+    </form>
+
+    <a href="" onClick={handleRegisterClick}>Register</a>
+</main>
 };
 
 
