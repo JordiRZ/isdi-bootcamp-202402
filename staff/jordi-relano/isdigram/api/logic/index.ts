@@ -1,5 +1,5 @@
 import registerUser from './registerUser.ts'
-import loginUser from './loginUser.ts'
+import authenticateUser from './authenticateUser.ts'
 import retrieveUser from './retrieveUser.ts'
 import logoutUser from './logoutUser.ts'
 
@@ -12,11 +12,8 @@ import modifyPost from './modifyPost.ts'
 
 
 const logic = {
-  users: null,
-  posts: null,
-
   registerUser,
-  loginUser,
+  authenticateUser,
   retrieveUser,
   logoutUser,
 
