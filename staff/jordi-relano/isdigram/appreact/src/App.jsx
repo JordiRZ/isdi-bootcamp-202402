@@ -1,46 +1,64 @@
 import { logger } from './utils'
 
 import logic from './logic'
-
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-//traemos routes y route para printear las páginas, además de Navigate y el hook useNavigate
-//import Chat from './pages/Chat'
+import Feedback from './components/Feedback'
+import { useState } from 'react'
+import { Context } from './context'
+import Confirm from './components/Confirm'
 
 function App() {
+    const [feedback, setFeedback] = useState(null)
+    const [confirm, setConfirm] = useState(null)
+
     const navigate = useNavigate()
-    // instancaimos navigate para usarlo correctamente
 
     const goToLogin = () => navigate('/login')
-    // cambiamos la propiedad setview y metemos un hook para cambiar el estado de visión de las páginas
 
     const handleLoginClick = () => goToLogin()
 
     const handleRegisterClick = () => navigate('/register')
 
     const handleUserLoggedIn = () => navigate('/')
-    // la página raíz es home
 
     const handleUserLoggedOut = () => goToLogin()
 
-    //handleChatClick = () => goToChat()
+    const handleFeedbackAcceptClick = () => setFeedback(null)
 
-    //goToChat = () => setState({ view: 'chat' })
+    const handleFeedback = (message, level = 'warn') => setFeedback({ message, level })
 
-    //handleHomeClick = () => goToHome()
+    const handleConfirm = (message, callback) => setConfirm({ message, callback })
 
-    //goToHome = () => setState({ view: 'home' })
+    const handleConfirmCancelClick = () => {
+        confirm.callback(false)
+
+        setConfirm(null)
+    }
+
+    const handleConfirmAcceptClick = () => {
+        confirm.callback(true)
+
+        setConfirm(null)
+    }
 
     logger.debug('App -> render')
 
     return <>
-        <Routes>
-            <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />} />
-            <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />} />
-            <Route path="/*" element={logic.isUserLoggedIn() ? <Home onUserLoggedOut={handleUserLoggedOut} /> : <Navigate to="/login" />} />
-        </Routes>
+        <Context.Provider value={{ showFeedback: handleFeedback, showConfirm: handleConfirm }}>
+            <Routes>
+                <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />} />
+                <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />} />
+                <Route path="/*" element={logic.isUserLoggedIn() ? <Home onUserLoggedOut={handleUserLoggedOut} /> : <Navigate to="/login" />} />
+            </Routes>
+        </Context.Provider>
+
+        {feedback && <Feedback message={feedback.message} level={feedback.level} onAcceptClick={handleFeedbackAcceptClick} />}
+
+        {confirm && <Confirm message="hola confirm" onCancelClick={handleConfirmCancelClick} onAcceptClick={handleConfirmAcceptClick} />}
     </>
 }
+
 export default App

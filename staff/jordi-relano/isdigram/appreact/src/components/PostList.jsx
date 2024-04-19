@@ -1,12 +1,16 @@
-import { logger, showFeedback } from "../utils";
+import { logger } from '../utils'
 
-import logic from "../logic";
+import logic from '../logic'
 
-import { useState, useEffect } from "react";
-import Post from "./Post";
+import { useState, useEffect } from 'react'
+import Post from './Post'
 
-function PostList(props) {
+import { useContext } from '../context'
+
+function PostList({ stamp, onEditPostClick }) {
     const [posts, setPosts] = useState([])
+
+    const { showFeedback } = useContext()
 
     const loadPosts = () => {
         logger.debug('PostList -> loadPosts')
@@ -14,38 +18,19 @@ function PostList(props) {
         try {
             logic.retrievePosts()
                 .then(setPosts)
-
-                .catch(showFeedback)
-            
+                .catch(error => showFeedback(error.message, 'error'))
         } catch (error) {
-            showFeedback(error)
+            showFeedback(error.message)
         }
     }
 
-    // componentWillReceiveProps(newProps) {
-    //   logger.debug(
-    //     "PostList -> componentWillReceiveProps",
-    //     JSON.stringify(props),
-    //     JSON.stringify(newProps)
-    //   );
-
-    //   //if (newProps.stamp !== props.stamp) loadPosts()
-    //   newProps.stamp !== props.stamp && loadPosts();
-    // }
-
-    // componentDidMount() {
-    //   logger.debug("PostList -> componentDidMount");
-
-    //   loadPosts();
-    // }
-
     useEffect(() => {
         loadPosts()
-    }, [props.stamp])
+    }, [stamp])
 
-    const handlePostDeleted = () => loadPosts();
+    const handlePostDeleted = () => loadPosts()
 
-    const handleEditClick = post => props.onEditPostClick(post);
+    const handleEditClick = post => onEditPostClick(post)
 
     logger.debug('PostList -> render')
 
@@ -54,4 +39,4 @@ function PostList(props) {
     </section>
 }
 
-export default PostList;
+export default PostList

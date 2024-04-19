@@ -1,10 +1,11 @@
-import { showFeedback, logger } from '../utils';
+import { logger } from '../utils'
 
-import logic from '../logic';
+import logic from '../logic'
 
+import { useContext } from '../context'
 
-function Login(props) {
-
+function Login({ onUserLoggedIn, onRegisterClick }) {
+    const { showFeedback } = useContext()
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -14,50 +15,44 @@ function Login(props) {
         const username = form.username.value
         const password = form.password.value
 
-        logger.debug('login-> handleSubmit', username, password)
+        logger.debug('Login -> handleSubmit', username, password)
 
         try {
             logic.loginUser(username, password)
-
                 .then(() => {
                     form.reset()
 
-                    props.onUserLoggedIn()
-
-
+                    onUserLoggedIn()
                 })
-                .catch(showFeedback)
-
-        }catch (error) {
-            showFeedback(error)
-        } 
+                .catch(error => showFeedback(error.message, 'error'))
+        } catch (error) {
+            showFeedback(error.message)
+        }
     }
-        
 
+    const handleRegisterClick = event => {
+        event.preventDefault()
 
-const handleRegisterClick = event => {
-    event.preventDefault();
+        onRegisterClick()
+    }
 
-    props.onRegisterClick();
+    logger.debug('Login -> render')
+
+    return <main>
+        <h1>Login</h1>
+
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="username">Username</label>
+            <input id="username" />
+
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" />
+
+            <button className="round-button" type="submit">Login</button>
+        </form>
+
+        <a href="" onClick={handleRegisterClick}>Register</a>
+    </main>
 }
 
-logger.debug('login -> render');
-return <main>
-    <h1>Login</h1>
-
-    <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input id="username" />
-
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" />
-
-        <button className="round-button" type="submit">Login</button>
-    </form>
-
-    <a href="" onClick={handleRegisterClick}>Register</a>
-</main>
-};
-
-
-export default Login;
+export default Login

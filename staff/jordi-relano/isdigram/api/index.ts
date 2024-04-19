@@ -114,12 +114,10 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
         api.get('/users/:targetUserId', (req, res) => {
             try {
                 const { authorization } = req.headers
-                // la autho que sacas de los headers es el (bearer <token>)
 
                 const token = authorization.slice(7)
-                // aquí declaras token y le metes slice para tejar <token>
 
-                const { sub: userId } = jwt.verify(token, 'batamanta')
+                const { sub: userId } = jwt.verify(token, 'i killed kenny')
 
                 const { targetUserId } = req.params
 
@@ -135,7 +133,6 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
 
                             res.status(404).json({ error: error.constructor.name, message: error.message })
                         }
-
                     })
             } catch (error) {
                 if (error instanceof TypeError || error instanceof ContentError) {
@@ -156,38 +153,33 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
 
                 const token = authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'batamanta')
-                // el sub es el subject del token, donde se halla el id
+                const { sub: userId } = jwt.verify(token, 'i killed kenny')
+
                 logic.retrievePosts(userId as string)
                     .then(posts => res.json(posts))
                     .catch(error => {
                         if (error instanceof SystemError) {
                             logger.error(error.message)
+
                             res.status(500).json({ error: error.constructor.name, message: error.message })
                         } else if (error instanceof NotFoundError) {
                             logger.warn(error.message)
+
                             res.status(404).json({ error: error.constructor.name, message: error.message })
                         }
-
                     })
-
-
             } catch (error) {
                 if (error instanceof TypeError || error instanceof ContentError) {
                     logger.warn(error.message)
-                    res.status(406).json({ error: error.constructor.name, message: error.message })
 
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
                 } else {
                     logger.warn(error.message)
+
                     res.status(500).json({ error: error.constructor.name, message: error.message })
-
                 }
-
             }
         })
-
-
-
 
         api.post('/posts', jsonBodyParser, (req, res) => {
             try {
@@ -195,7 +187,7 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
 
                 const token = authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'batamanta')
+                const { sub: userId } = jwt.verify(token, 'i killed kenny')
 
                 const { image, text } = req.body
 
@@ -230,4 +222,3 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
         api.listen(8080, () => logger.info('API listening on port 8080'))
     })
     .catch(error => logger.error(error))
-

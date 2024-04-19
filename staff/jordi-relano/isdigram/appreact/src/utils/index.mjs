@@ -1,18 +1,8 @@
-import Logger from './Logger.mjs';
+import Logger from './Logger'
 
-const logger = new Logger();
-
-function showFeedback(error) {
-    logger.error(error);
-
-    alert(error.message);
-};
+const logger = new Logger
 
 export {
-    showFeedback,
-    Logger,
-    logger
-};
-
-
-
+    logger,
+    Logger
+}
