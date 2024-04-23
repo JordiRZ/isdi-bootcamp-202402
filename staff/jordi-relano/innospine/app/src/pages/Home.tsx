@@ -32,6 +32,28 @@ function Home({ onUserLoggedOut }) {
 
     const clearView = () => setView(null)
 
+    const handleSubmit = event => {
+        event.preventDefault()
+
+        const form = event.target
+
+        const date = form.date.value
+        const name = form.name.value
+        const products = form.products.value
+
+        try {
+            logic.createSurgery(name, email, password)
+                .then(() => {
+                    form.reset()
+
+                    onUserRegistered()
+                })
+                .catch(error => showFeedback(error, 'error'))
+        } catch (error) {
+            showFeedback(error)
+        }
+    }
+
     
 
     
@@ -57,11 +79,31 @@ function Home({ onUserLoggedOut }) {
             {user && <h1>Hello, {user.name}!</h1>}
 
             <nav>
-                <button onClick={handleLogoutClick}>🚪</button>
+                <button onClick={handleLogoutClick}>Exit</button>
             </nav>
         </header>
 
         <main className="my-[50px] px-[5vw]">
+        <form onSubmit={handleSubmit} className='bg-sky-400 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+                <div className='mb-4'>
+                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="name">Name</label>
+                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="text" id="name" />
+                </div>
+
+                <div className='mb-4'>
+                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="email">E-mail</label>
+                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" id="email" />
+                </div>
+
+                <div className='mb-4'>
+                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="password">Password</label>
+                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
+                </div>
+
+                <div className='flex items-center justify-center'>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Register</button>
+                </div>
+            </form>
             <Routes>
                 <Route path="/"/>
                 <Route path="/profile/:email" element={<Profile />} />

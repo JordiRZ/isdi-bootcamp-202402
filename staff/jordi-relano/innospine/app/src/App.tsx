@@ -33,6 +33,8 @@ function App() {
 
   const handleFeedbackAcceptClick = () => setFeedback(null)
 
+  const handleProductsClick = () => navigate('/products')
+
   const handleFeedback = (error, level = 'warn') => {
     if (error instanceof UnauthorizedError) {
       logic.logoutUser()

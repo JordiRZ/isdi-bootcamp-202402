@@ -4,11 +4,11 @@ import { UserType, User } from '../data/index.ts'
 
 const { DuplicityError, SystemError } = errors
 
-function registerUser(name: string, email: string, password: string, specialization: string): Promise<void> {
+function registerUser(name: string, email: string, password: string): Promise<void> {
     validate.text(name, 'name')
     validate.email(email)
     validate.password(password)
-    validate.text(specialization, 'specialization')
+    
 
     return User.findOne({ email  })
         .catch(error => { throw new SystemError(error.message) })
@@ -19,7 +19,6 @@ function registerUser(name: string, email: string, password: string, specializat
             user = {
                 name: name.trim(),
                 email: email,
-                specialization: specialization,
                 password: password,
                 
             }

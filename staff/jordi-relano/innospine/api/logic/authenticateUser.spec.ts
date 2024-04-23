@@ -10,14 +10,14 @@ import { ContentError } from 'com/errors.ts'
 
 dotenv.config()
 
-const { CredentialsError, NotFoundError } = errors
+const { CredentialsError } = errors
 
 describe('authenticateUser', () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))
 
     it('succeeds on existing user and correct credentials', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z', specialization: 'trauma' }))
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z'}))
             .then(user =>
                 logic.authenticateUser('equipo@clavel.com', '1Z')
                     .then(userId => {
@@ -29,7 +29,7 @@ describe('authenticateUser', () => {
 
     it('fails on existing email and incorrect password', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z', specialization: 'trauma' }))
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' }))
             .then(() => logic.authenticateUser('equipo@clavel.com', '1ZZ'))
             .catch(error => {
                 expect(error).to.be.instanceOf(CredentialsError)

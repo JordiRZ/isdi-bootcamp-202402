@@ -43,9 +43,9 @@ mongoose.connect(MONGODB_URL)
 
         api.post('/users', jsonBodyParser, (req, res) => {
             try {
-                const { name, email, username, password, specialization } = req.body
+                const { name, email, password } = req.body
 
-                logic.registerUser(name, email, password, specialization )
+                logic.registerUser(name, email, password )
                     .then(() => res.status(201).send())
                     .catch(error => {
                         if (error instanceof SystemError) {

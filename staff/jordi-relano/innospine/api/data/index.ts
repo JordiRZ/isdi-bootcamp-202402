@@ -8,7 +8,6 @@ type UserType = {
     name: string
     email: string
     password: string
-    specialization: string
 }
 
 const user = new Schema({
@@ -24,44 +23,28 @@ const user = new Schema({
     password: {
         type: String,
         required: true
-    },
-    specialization: {
-        type: String,
-        required: true
-    }
-
-})
-
-type HospitalType = {
-    name: string
-    address: string
-}
-
-const hospital = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
     }
 })
 
-type ImplantType = {
+type ProductType = {
     name: string
-    typology: string
+    type: string
+    surgeryType: string
     image: string
     description: string
     price: number
 }
 
-const implant = new Schema({
+const product = new Schema({
     name: {
         type: String,
         required: true
     },
-    typology: {
+    type: {
+        type: String,
+        required: true
+    },
+    surgeryType: {
         type: String,
         required: true
     },
@@ -78,79 +61,21 @@ const implant = new Schema({
         type: Number,
         required: true
     }
-})
-
-
-type InstrumentType = {
-    name: string
-    typology: string
-    image: string
-    description: string
-    lendPrice: number
-}
-
-const instrument = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    typology: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: Number,
-        required: true
-    }
-})
-
-type SupplierType = {
-    name: string
-    email: string
-    typology: number
-}
-
-const supplier = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    typology: {
-        type: String,
-        required: true
-    },
 })
 
 type SurgeryType = {
-    userId: ObjectId
+    author: ObjectId
     date: Date
-    surgeryId: number
-    surgeryName: string
-    implantRequested: ObjectId[]
-    equipmentRequested: ObjectId[]
-    surgeryTypology: string
-    hospital: ObjectId
-    status: string
+    name: string
+    product: [ObjectId]
+    type: string
+    hospital: string
+    note: string
+
 }
 
-
-
-const surgerySchema = new Schema({
-    userId: {
+const surgery = new Schema({
+    author: {
         type: ObjectId,
         ref: 'User',
         required: true
@@ -159,59 +84,38 @@ const surgerySchema = new Schema({
         type: Date,
         required: true
     },
-    surgeryId: {
-        type: Number,
-        required: true
-    },
-    surgeryName: {
+    name: {
         type: String,
         required: true
     },
-    implantRequested: [
+    product: [
         {
             type: ObjectId,
-            ref: 'Implant'
+            ref: 'author'
         }
     ],
-    instrumentRequested: [
-        {
-            type: ObjectId,
-            ref: 'Instrument'
-        }],
-    surgeryTypology: {
+    type: {
         type: String,
         required: true
     },
     hospital: {
-        type: ObjectId,
-        ref: 'Hospital',
-        required: true
-    },
-    status: {
         type: String,
         required: true
+    }, note: {
+        type: String,
     }
 });
 
 const User = model<UserType>('User', user)
-const Hospital = model<HospitalType>('Hospital', hospital)
-const Implant = model<ImplantType>('Implant', implant)
-const Instrument = model<InstrumentType>('Instrument', instrument)
-const Supplier = model<SupplierType>('Supplier', supplier)
-const Surgery = model<SurgeryType>('Surgery', surgerySchema)
+const Product = model<ProductType>('Product', product)
+const Surgery = model<SurgeryType>('Surgery', surgery)
 
 
 export {
     UserType,
     User,
-    HospitalType,
-    Hospital,
-    ImplantType,
-    Implant,
-    InstrumentType,
-    Instrument,
-    SupplierType,
-    Supplier,
+    ProductType,
+    Product,
     Surgery,
     SurgeryType
 }

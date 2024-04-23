@@ -15,7 +15,7 @@ describe('registerUser', () => {
 
     it('succeeds a new user', () =>
         User.deleteMany()
-            .then(() => logic.registerUser('equipo clavel', 'equipo@clavel.com', '1Z', 'trauma'))
+            .then(() => logic.registerUser('equipo clavel', 'equipo@clavel.com', '1Z'))
             .then(() => User.findOne({ email: 'equipo@clavel.com' }))
             .then(user => {
                 console.log('User:', user)
@@ -23,15 +23,14 @@ describe('registerUser', () => {
                 expect(user.name).to.equal('equipo clavel')
                 expect(user.email).to.equal('equipo@clavel.com')
                 expect(user.password).to.equal('1Z')
-                expect(user.specialization).to.equal('trauma')
             })
     )
 
     it('fails on existing users', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z', specialization: 'trauma' }))
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z'}))
             .then(() =>
-                logic.registerUser('equipo clavel', 'equipo@clavel.com', '1Z', 'trauma')
+                logic.registerUser('equipo clavel', 'equipo@clavel.com', '1Z')
                     .catch(error => {
                         expect(error).to.be.instanceOf(DuplicityError)
                         expect(error.message).to.equal('user already exists')
@@ -44,7 +43,7 @@ describe('registerUser', () => {
 
         try {
             // @ts-ignore
-            logic.registerUser(123, 'equipo@clavel.com',  '1Z', 'trauma')
+            logic.registerUser(123, 'equipo@clavel.com',  '1Z')
         } catch (error) {
             errorThrown = error
         }
@@ -57,7 +56,7 @@ describe('registerUser', () => {
         let errorThrown
 
         try {
-            logic.registerUser('', 'equipo@clavel.com',  '1Z', 'trauma')
+            logic.registerUser('', 'equipo@clavel.com',  '1Z')
         } catch (error) {
             errorThrown = error
         }

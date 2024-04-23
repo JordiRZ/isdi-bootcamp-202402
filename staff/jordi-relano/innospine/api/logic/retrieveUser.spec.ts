@@ -17,9 +17,9 @@ describe('retrieveUser', () => {
 
     it('retrieves existing user', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z', specialization: 'trauma' }))
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z'}))
             .then(user =>
-                User.create({ name: 'equipo pepas', email: 'equipo@pepas.com', password: '1Z', specialization: 'neuro' })
+                User.create({ name: 'equipo pepas', email: 'equipo@pepas.com', password: '1Z' })
                     .then(user2 => logic.retrieveUser(user.id, user2.id))
                     .then(user => {
                         expect(user.name).to.equal('equipo pepas')
@@ -30,9 +30,9 @@ describe('retrieveUser', () => {
 
     it('does no retrieve by non-existing user', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z', specialization: 'trauma' }))
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' }))
             .then(user =>
-                User.create({ name: 'equipo pepas', email: 'equipo@pepas.com', password: '1Z', specialization: 'neuro' })
+                User.create({ name: 'equipo pepas', email: 'equipo@pepas.com', password: '1Z'})
                     .then(user2 => logic.retrieveUser(new ObjectId().toString(), user2.id))
                     .catch(error => {
                         expect(error).to.be.instanceOf(NotFoundError)
@@ -43,9 +43,9 @@ describe('retrieveUser', () => {
 
     it('does no retrieve a non-existing target user', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z', specialization: 'trauma' }))
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z'}))
             .then(user =>
-                User.create({ name: 'equipo pepas', email: 'equipo@pepas.com', password: '1Z', specialization: 'neuro' })
+                User.create({ name: 'equipo pepas', email: 'equipo@pepas.com', password: '1Z'})
                     .then(user2 => logic.retrieveUser(user.id, new ObjectId().toString()))
                     .catch(error => {
                         expect(error).to.be.instanceOf(NotFoundError)
