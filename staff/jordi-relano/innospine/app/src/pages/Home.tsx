@@ -40,9 +40,13 @@ function Home({ onUserLoggedOut }) {
         const date = form.date.value
         const name = form.name.value
         const products = form.products.value
+        const type = from.type.value
+        const hospital = from.hospital.value 
+        const note = from.note.value 
+
 
         try {
-            logic.createSurgery(name, email, password)
+            logic.createSurgery(surgeryDate)
                 .then(() => {
                     form.reset()
 

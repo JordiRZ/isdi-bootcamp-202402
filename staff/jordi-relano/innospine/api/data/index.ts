@@ -65,7 +65,7 @@ const product = new Schema({
 
 type SurgeryType = {
     author: ObjectId
-    date: Date
+    surgeryDate: Date
     name: string
     product: [ObjectId]
     type: string
@@ -80,7 +80,7 @@ const surgery = new Schema({
         ref: 'User',
         required: true
     },
-    date: {
+    surgeryDate: {
         type: Date,
         required: true
     },
