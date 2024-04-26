@@ -9,13 +9,13 @@ import { ObjectId } from 'mongoose'
 
 
 
-function createSurgery(userId: string, surgeryDate: string, name: string, productId: [ObjectId], type: string, hospital: string, note: string): Promise<void> {
+function createSurgery(userId: string, surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
 
     validate.text(name, 'name')
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
     validate.text(userId, 'userId', true)
-    validate.text(productId, 'productId', true)
+    // validate.text(productId, 'productId', true)
     if (note)
         validate.text(note, 'note')
     validate.text(surgeryDate, 'surgeryDate')
@@ -27,21 +27,21 @@ function createSurgery(userId: string, surgeryDate: string, name: string, produc
             if (!user)
                 throw new NotFoundError('user not found')
 
-            return Product.find()
-                .catch(error => { throw new SystemError(error.message) })
-                .then(products => {
-                    const userProductIds = products.map(product => product._id)
+            // return Product.find()
+            //     .catch(error => { throw new SystemError(error.message) })
+            //     .then(products => {
+            //         const userProductIds = products.map(product => product._id)
                     const fechaFormateada = new Date(surgeryDate)
 
 
-                    return Surgery.create({ author: user._id, surgeryDate: fechaFormateada, name, products: userProductIds, type, hospital, note })
+                    return Surgery.create({ author: user._id, surgeryDate: fechaFormateada, name,  type, hospital, note })
                         .catch(error => { throw new SystemError(error.message) })
                 })
                 .then(surgery => { })
 
-        })
+        }
 
-}
+
 
 export default createSurgery
 

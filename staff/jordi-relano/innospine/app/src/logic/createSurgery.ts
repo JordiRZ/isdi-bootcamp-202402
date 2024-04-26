@@ -2,7 +2,7 @@
 
 import { validate, errors } from 'com'
 
-function createSurgery(userId: string, surgeryDate: Date, name: string, productId: string, type: string, hospital: string, note: string) {
+function createSurgery(userId: string, surgeryDate: Date, name: string, products: string, type: string, hospital: string, note: string) {
     validate.text(name, 'name')
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
@@ -12,7 +12,7 @@ function createSurgery(userId: string, surgeryDate: Date, name: string, productI
         validate.text(note, 'note')
     validate.date(surgeryDate, 'date')
 
-    const surgery = { surgeryDate, name, productId, type, hospital, note }
+    const surgery = { surgeryDate, name, products, type, hospital, note }
 
     const json = JSON.stringify(surgery)
 

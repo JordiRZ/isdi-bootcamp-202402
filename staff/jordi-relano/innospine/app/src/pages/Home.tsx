@@ -6,6 +6,9 @@ import logic from '../logic'
 
 import { useState, useEffect } from 'react'
 
+import CreateSurgery from '../components/CreateSurgery'
+import Surgery from '../components/Surgery'
+
 
 import { Routes, Route } from 'react-router-dom'
 import Profile from '../components/Profile'
@@ -15,8 +18,8 @@ import { useContext } from '../context'
 function Home({ onUserLoggedOut }) {
     const [user, setUser] = useState(null)
     const [view, setView] = useState(null)
-    // const [stamp, setStamp] = useState(null)
-    // const [post, setPost] = useState(null)
+    const [stamp, setStamp] = useState(null)
+    const [surgery, setSurgery] = useState(null)
 
     const { showFeedback } = useContext()
 
@@ -32,37 +35,14 @@ function Home({ onUserLoggedOut }) {
 
     const clearView = () => setView(null)
 
-    const handleSubmit = event => {
-        event.preventDefault()
-
-        const form = event.target
-
-        const date = form.date.value
-        const name = form.name.value
-        const products = form.products.value
-        const type = from.type.value
-        const hospital = from.hospital.value 
-        const note = from.note.value 
-
-
-        try {
-            logic.createSurgery(surgeryDate)
-                .then(() => {
-                    form.reset()
-
-                    onUserRegistered()
-                })
-                .catch(error => showFeedback(error, 'error'))
-        } catch (error) {
-            showFeedback(error)
-        }
+    const handleSurgeryCreated = () => {
+        clearView()
+        setStamp(Date.now())
     }
 
-    
+    const handleCreateSurgeryCancelClick = () => clearView()
 
-    
-
-   
+    const handleCreateSurgeryClick = () => setView('create-surgery')
 
     const handleLogoutClick = () => {
         try {
@@ -74,49 +54,48 @@ function Home({ onUserLoggedOut }) {
         }
     }
 
+    // const handleEditSurgeryClick = surgery => {
+    //     setView('edit-surgery')
+    //     setSurgery(surgery)
+    // }
+
+    // const handleSurgeryEdited = () => {
+    //     clearView()
+    //     setStamp(Date.now())
+    //     setSurgery(null)
+    // }
+
+    const handleEditSurgeryCancelClick = () => clearView()
 
 
     logger.debug('Home -> render')
 
     return <>
         <header className="px-[5vw] fixed top-0 bg-white w-full">
-            {user && <h1>Hello, {user.name}!</h1>}
+            {user && <h1 className=' text-4xl text-blue-700  font-sans font-extrabold '>INNOSPINE</h1>}
 
-            <nav>
-                <button onClick={handleLogoutClick}>Exit</button>
+            <nav classname="position: fixed; top: 0; right: 0; display: flex; flex-direction: column; align-items: flex-end;">
+                <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border bg-white" onClick={handleCreateSurgeryClick}>➕</button>
+
+                <button className="w-full h-[10px] flex justify-end items-center p-[20px] box-border bg-white" onClick={handleLogoutClick}>Exit</button>
             </nav>
         </header>
 
         <main className="my-[50px] px-[5vw]">
-        <form onSubmit={handleSubmit} className='bg-sky-400 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
-                <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="name">Name</label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="text" id="name" />
-                </div>
 
-                <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="email">E-mail</label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" id="email" />
-                </div>
-
-                <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="password">Password</label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
-                </div>
-
-                <div className='flex items-center justify-center'>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Register</button>
-                </div>
-            </form>
             <Routes>
-                <Route path="/"/>
+                <Route path="/" />
+
+                {/* <Route path="/" element={<SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick}/>} /> */}
                 <Route path="/profile/:email" element={<Profile />} />
             </Routes>
 
+            {view === 'create-surgery' && <CreateSurgery onCancelClick={handleCreateSurgeryCancelClick} onSurgeryCreated={handleSurgeryCreated} />}
+
         </main>
 
-        <footer className="fixed bottom-0 w-full h-[50px] flex justify-center items-center p-[10px] box-border bg-white">
-            <button>➕</button>
+        <footer >
+
         </footer>
     </>
 }

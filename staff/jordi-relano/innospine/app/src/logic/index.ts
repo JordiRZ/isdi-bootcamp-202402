@@ -5,6 +5,7 @@ import isUserLoggedIn from './isUserLoggedIn'
 import cleanUpLoggedInUserId from './cleanUpLoggedInUserId'
 import logoutUser from './logoutUser'
 import createSurgery from './createSurgery'
+import getLoggedInUserId from './getLoggedInUserId'
 
 
 const logic = {
@@ -14,10 +15,11 @@ const logic = {
     isUserLoggedIn,
     cleanUpLoggedInUserId,
     logoutUser,
-    createSurgery
+    createSurgery,
+    getLoggedInUserId
 
 
-   
+
 }
 
 export default logic
