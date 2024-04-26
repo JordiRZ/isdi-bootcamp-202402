@@ -2,11 +2,11 @@
 
 import { validate, errors } from 'com'
 
-function createSurgery(userId: string, surgeryDate: Date, name: string, products: string, type: string, hospital: string, note: string) {
+function createSurgery( surgeryDate: Date, products: [objectId], name: string, type: string, hospital: string, note: string) {
     validate.text(name, 'name')
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
-    validate.text(userId, 'userId', true)
+   
     validate.text(productId, 'productId', true)
     if (note)
         validate.text(note, 'note')

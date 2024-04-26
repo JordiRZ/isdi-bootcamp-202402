@@ -6,6 +6,7 @@ import cleanUpLoggedInUserId from './cleanUpLoggedInUserId'
 import logoutUser from './logoutUser'
 import createSurgery from './createSurgery'
 import getLoggedInUserId from './getLoggedInUserId'
+import retrieveProducts from './retrieveProducts'
 
 
 const logic = {
@@ -16,7 +17,8 @@ const logic = {
     cleanUpLoggedInUserId,
     logoutUser,
     createSurgery,
-    getLoggedInUserId
+    getLoggedInUserId,
+    retrieveProducts
 
 
 

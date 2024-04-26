@@ -1,37 +1,35 @@
-import { ObjectId } from 'mongoose'
+//@ts-nocheck
 
 import { validate, errors } from 'com'
-
-import { User, Products, Surgery } from '../data/index.ts'
+import { Product, User, Surgery } from '../data/index.ts'
+import { ObjectId, Schema } from 'mongoose'
+const { Types: { ObjectId } } = Schema
 
 const { SystemError, NotFoundError } = errors
 
-function retrieveSurgeries(userId): Promise<[{ id: string, author: { id: string, email: string }, surgeryDate: string, name: string, date: Date }] | { id: string; author: { id: string; username: string; }; image: string; text: string; date: Date; }[]> {
+function retrieveSurgeries(userId): Promise<[{ id: string, author: ObjectId, surgeryDate: Date,name: string, products: [ObjectId], type: string, hospital: string, note: string }] | { id: string; author: ObjectId; surgeryDate: Date; name: string; products: [ObjectId]; type: string; hospital: string; note: string; }[]> {
     validate.text(userId, 'userId', true)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
-            if (!user)
-                throw new NotFoundError('user not found')
+            if (!user) throw new NotFoundError('user not found')
 
-            return Surgery.find().populate<{ author: { _id: ObjectId, username: string } }>('author', 'username').lean()
-                .catch(error => { throw new SystemError(error.message) })
-                .then(posts =>
-                    posts.map<{ id: string, author: { id: string, username: string }, image: string, text: string, date: Date }>(({ _id, author, image, text, date }) => ({
-                        id: _id.toString(),
-                        author: {
-                            id: author._id.toString(),
-                            username: author.username
-                        },
-                        image,
-                        text,
-                        date
-                    })).reverse()
-                )
+            return Product.find().lean()
+        })
+        .then(surgeries => {
+            if (!surgeries) throw new NotFoundError('surgeries not found')
+
+            return surgeries
+
 
         })
 
+
+
 }
 
-export default retrievePosts
+
+
+
+export default retrieveSurgeries

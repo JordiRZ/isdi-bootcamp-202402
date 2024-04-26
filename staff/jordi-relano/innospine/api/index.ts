@@ -157,9 +157,9 @@ mongoose.connect(MONGODB_URL)
 
                 const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-                const { surgeryDate, name, type, hospital, note } = req.body
+                const { surgeryDate, products, name, type, hospital, note } = req.body
 
-                logic.createSurgery(userId as string, surgeryDate, name, type, hospital, note)
+                logic.createSurgery(userId as string, products, surgeryDate, name, type, hospital, note)
                     .then(() => res.status(201).send())
                     .catch(error => {
                         if (error instanceof SystemError) {

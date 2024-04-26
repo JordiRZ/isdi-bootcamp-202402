@@ -18,7 +18,6 @@ describe('registerUser', () => {
             .then(() => logic.registerUser('equipo clavel', 'equipo@clavel.com', '1Z'))
             .then(() => User.findOne({ email: 'equipo@clavel.com' }))
             .then(user => {
-                console.log('User:', user)
                 expect(!!user).to.be.true
                 expect(user.name).to.equal('equipo clavel')
                 expect(user.email).to.equal('equipo@clavel.com')

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import { Surgery, User, Products } from '../data/index.ts'
+import { Surgery, User, Product } from '../data/index.ts'
 
 import logic from './index.ts'
 import { expect } from 'chai'
@@ -19,18 +19,18 @@ describe('createSurgery', () => {
     it('succeeds when doctors create a surgery with every field filled ', () =>
         User.deleteMany()
             .then(() =>
-                Products.deleteMany()
+                Product.deleteMany()
                     .then(() =>
                         Surgery.deleteMany()
                             .then(() =>
                                 User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' })
                                     .then((user) =>
-                                        Products.create({ name: 'lumbar cage', type: 'implant', surgeryType: 'lumbar posterior', image: 'Image URL 1', description: 'Description', price: 200 })
+                                        Product.create({ name: 'lumbar cage', type: 'implant', surgeryType: 'lumbar posterior', image: 'Image URL 1', description: 'Description', price: 200 })
                                             .then((product) => {
                                                 // const currentDate = new Date();
                                                 // const formattedDate = currentDate.toISOString().slice(0, 10)
                                                 // formattedDate.toString()
-                                                logic.createSurgery(user.id, '24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')
+                                                logic.createSurgery(user.id, product.id,'24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')
                                                     .then(() =>
                                                         Surgery.findOne({})
                                                             .then(surgery => {

@@ -10,32 +10,34 @@ import SubmitButton from './library/SubmitButton'
 import { useState, useEffect } from 'react'
 
 import { useContext } from '../context'
-import retrieveUser from '../logic/retrieveUser'
+
 
 function CreateSurgery(props) {
     const { showFeedback } = useContext()
     const [products, setProducts] = useState([])
-    
+    const [selectedProducts, setSelectedProducts] = useState([])
 
 
-    useEffect(userId => {
-        logic.retrieveProducts(userId)
+
+
+    useEffect(() => {
+        logic.retrieveProducts()
             .then(products => setProducts(products))
             .catch(error => console.error(error))
     }, [])
 
     const handleSubmit = event => {
         event.preventDefault()
-        const userId = logic.retrieveUser(userId)
+
 
         const form = event.target
 
         const surgeryDate = form.surgeryDate.value
         const name = form.name.value
         const products = form.products.value
-        const type = from.type.value
-        const hospital = from.hospital.value
-        const note = from.note.value
+        const type = form.type.value
+        const hospital = form.hospital.value
+        const note = form.note.value
 
 
 
@@ -53,9 +55,11 @@ function CreateSurgery(props) {
     }
 
     const handleProductChange = event => {
-        const userId = event.target.value
+        const productId = event.target.value
 
         setSelectedProducts(prevProducts => [...prevProducts, productId])
+        console.log(selectedProducts)
+
     }
 
     const handleCancelClick = () => props.onCancelClick()
@@ -65,7 +69,7 @@ function CreateSurgery(props) {
     return <section className="bg-blue-400 py-8 px-4">
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
             <label className="text-lg font-semibold" htmlFor="surgeryDate">SurgeryDate</label>
-            <input className="border border-blue-400 rounded px-3 py-2" type="date" id="surgeryDate" />
+            <input className="border border-blue-400 rounded px-3 py-2" type="datetime-local" id="surgeryDate" min={Date.now()} />
 
             <label className="text-lg font-semibold" htmlFor="name">Name</label>
             <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="name" />
@@ -76,9 +80,9 @@ function CreateSurgery(props) {
                     <option key={product._id} value={product._id}>{product.name} - ${product.price}</option>
                 ))}
             </select>
-
-            <label className="text-lg font-semibold" htmlFor="productId">Products</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="productId" />
+            <div>
+                { }
+            </div>
 
             <label className="text-lg font-semibold" htmlFor="type">Type</label>
             <input className="border  border-blue-400 rounded px-3 py-2" type='text' id="type" />

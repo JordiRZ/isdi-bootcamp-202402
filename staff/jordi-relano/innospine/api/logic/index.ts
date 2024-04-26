@@ -3,6 +3,7 @@ import authenticateUser from './authenticateUser.ts'
 import retrieveUser from './retrieveUser.ts'
 import createSurgery from './createSurgery.ts'
 import retrieveProducts from './retrieveProducts.ts'
+import retrieveSurgeries from './retrieveSurgeries.ts'
 
 
 
@@ -11,7 +12,8 @@ const logic = {
     authenticateUser,
     retrieveUser,
     createSurgery,
-    retrieveProducts
+    retrieveProducts,
+    retrieveSurgeries
 }
 
 export default logic
