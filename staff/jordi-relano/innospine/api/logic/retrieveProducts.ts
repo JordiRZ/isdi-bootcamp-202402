@@ -13,7 +13,7 @@ function retrieveProducts(userId: string) {
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
-            return Product.find().select('-_id name description price').lean()
+            return Product.find().select('name description price').lean()
         })
         .then(products => {
             if (!products) throw new NotFoundError('products not found')

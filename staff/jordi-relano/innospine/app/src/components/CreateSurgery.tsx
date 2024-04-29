@@ -12,11 +12,10 @@ import { useState, useEffect } from 'react'
 import { useContext } from '../context'
 
 
-function CreateSurgery(props) {
+function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
     const { showFeedback } = useContext()
     const [products, setProducts] = useState([])
     const [selectedProducts, setSelectedProducts] = useState([])
-
 
 
 
@@ -34,7 +33,7 @@ function CreateSurgery(props) {
 
         const surgeryDate = form.surgeryDate.value
         const name = form.name.value
-        const products = form.products.value
+        const products = form.products.value = selectedProducts.map(product => product._id)
         const type = form.type.value
         const hospital = form.hospital.value
         const note = form.note.value
@@ -42,11 +41,11 @@ function CreateSurgery(props) {
 
 
         try {
-            logic.createSurgery(userId, surgeryDate, name, products, type, hospital, note)
+            logic.createSurgery(surgeryDate, name, products, type, hospital, note)
                 .then(() => {
                     form.reset()
 
-                    props.onSurgeryCreated()
+                    onSurgeryCreated()
                 })
                 .catch(error => showFeedback(error, 'error'))
         } catch (error) {
@@ -55,14 +54,14 @@ function CreateSurgery(props) {
     }
 
     const handleProductChange = event => {
-        const productId = event.target.value
+        const selectedProductId = event.target.value
 
-        setSelectedProducts(prevProducts => [...prevProducts, productId])
-        console.log(selectedProducts)
+        const selectedProduct = products.find(product => product._id === selectedProductId)
+        setSelectedProducts(prevProducts => [...prevProducts, selectedProduct])
 
     }
 
-    const handleCancelClick = () => props.onCancelClick()
+    const handleCancelClick = () => onCancelClick()
 
     logger.debug('CreateSurgery -> render')
 
@@ -74,10 +73,10 @@ function CreateSurgery(props) {
             <label className="text-lg font-semibold" htmlFor="name">Name</label>
             <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="name" />
 
-            <label htmlFor="products">Productos:</label>
+            <label htmlFor="products">Products:</label>
             <select id="products" onChange={handleProductChange}>
                 {products.map(product => (
-                    <option key={product._id} value={product._id}>{product.name} - ${product.price}</option>
+                    <option key={product._id} value={product._id}>{product.name}-${product.price}{product.description}</option>
                 ))}
             </select>
             <div>

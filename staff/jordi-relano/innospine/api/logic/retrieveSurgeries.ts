@@ -7,20 +7,44 @@ const { Types: { ObjectId } } = Schema
 
 const { SystemError, NotFoundError } = errors
 
-function retrieveSurgeries(userId): Promise<[{ id: string, author: ObjectId, surgeryDate: Date,name: string, products: [ObjectId], type: string, hospital: string, note: string }] | { id: string; author: ObjectId; surgeryDate: Date; name: string; products: [ObjectId]; type: string; hospital: string; note: string; }[]> {
+function retrieveSurgeries(userId): Promise<[{ id: string, author: ObjectId, surgeryDate: Date, name: string, products: [ObjectId], type: string, hospital: string, note: string }] | { id: string; author: ObjectId; surgeryDate: Date; name: string; products: [ObjectId]; type: string; hospital: string; note: string; }[]> {
     validate.text(userId, 'userId', true)
+
+
+
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
+
             if (!user) throw new NotFoundError('user not found')
 
-            return Product.find().lean()
-        })
-        .then(surgeries => {
-            if (!surgeries) throw new NotFoundError('surgeries not found')
+            return Surgery.find().populate('products', 'name').lean()
+                .catch(error => { throw new SystemError(error.message) })
 
-            return surgeries
+                .then(surgeries => {
+
+
+                    return surgeries.map(({ _id, author, surgeryDate, name, products, type, hospital, note }) => ({
+                        id: _id.toString(),
+                        author: author._id.toString(),
+                        surgeryDate: surgeryDate.toLocaleString('gb-GB'),
+                        name,
+                        products:
+                            products.map(product => product.name)
+                        ,
+                        type,
+                        hospital,
+                        note
+                    })).reverse()
+                }
+
+
+
+
+
+                )
+
 
 
         })

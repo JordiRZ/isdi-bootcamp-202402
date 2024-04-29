@@ -40,33 +40,35 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
 
     logger.debug('Login -> render')
 
-    return <div className='flex justify-center items-center h-screen bg-[#414cbb]'>
-        <main className='container mx-auto mt-8'>
-            <div className='w-full max-w-md mx-auto'>
-                <h1 className='text-3xl font-extrabold text-center mb-4'>Login</h1>
+    return (
+        <div className='flex justify-center items-center h-screen bg-[#13c4e3]'>
+  <main className='container mx-auto'>
+    <div className='w-full max-w-md mx-auto'>
+      <h1 className='text-3xl font-extrabold text-center mb-4'>INNOSPINE</h1>
 
-                <form onSubmit={handleSubmit} className='bg-sky-400 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
-                    <div className='mb-4'>
-                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="email">Email</label>
-                        <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" id="email" />
-                    </div>
+      <form onSubmit={handleSubmit} className='bg-sky-400 shadow-md rounded px-8 pt-6 pb-8 mb-4 border-solid border-4 border-blue-500'>
+        <div className='mb-4'>
+          <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="email">Email</label>
+          <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" id="email" />
+        </div>
 
-                    <div className='mb-6'>
-                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="password">Password</label>
-                        <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
-                    </div>
+        <div className='mb-6'>
+          <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="password">Password</label>
+          <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
+        </div>
 
-                    <div className='flex items-center justify-center'>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Login</button>
-                    </div>
-                </form>
+        <div className='flex items-center justify-center'>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Login</button>
+        </div>
+      </form>
 
-                <div className="text-center">
-                    <a className='font-bold' href="#" onClick={handleRegisterClick}>Register</a>
-                </div>
-            </div>
-        </main>
+      <div className="text-center">
+  <a className='inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' href="#" onClick={handleRegisterClick}>Go to Register</a>
+      </div>
     </div>
+  </main>
+</div>
+      );
 }
 
 export default Login

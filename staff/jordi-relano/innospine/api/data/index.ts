@@ -91,6 +91,7 @@ const surgery = new Schema({
     products: [
         {
             type: ObjectId,
+            ref: 'Product'
         }
     ],
     type: {

@@ -2,17 +2,19 @@
 
 import { validate, errors } from 'com'
 
-function createSurgery( surgeryDate: Date, products: [objectId], name: string, type: string, hospital: string, note: string) {
+function createSurgery(surgeryDate: Date, name: string, products: string[], type: string, hospital: string, note: string) {
     validate.text(name, 'name')
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
-   
-    validate.text(productId, 'productId', true)
+
+    // validate.text(productId, 'productId')
     if (note)
         validate.text(note, 'note')
-    validate.date(surgeryDate, 'date')
+    // validate.date(surgeryDate, 'date')
 
     const surgery = { surgeryDate, name, products, type, hospital, note }
+
+    console.log('Sending surgery data to backend:', surgery)
 
     const json = JSON.stringify(surgery)
 

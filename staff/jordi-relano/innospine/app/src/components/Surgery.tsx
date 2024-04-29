@@ -27,29 +27,31 @@ function Surgery({ item: surgery, onEditClick, onDeleted }) {
 
     logger.debug('Surgery -> render')
 
-    return <article>
-        {/* <h3><Link to={`/${surgery.author.username}`}>{surgery.author.username}</Link></h3> */}
+    return <article className="p-4 border rounded-lg shadow-md bg-white mb-4">
+        <h2 className="text-lg font-semibold mb-2">{surgery.name}</h2>
 
-        <p>{surgery.name}</p>
+        <div className="grid grid-cols-2 gap-4 mb-2">
+            <p><span className="font-semibold">Date:</span> {surgery.surgeryDate}</p>
+            <p><span className="font-semibold">Product:</span> {surgery.products}</p>
+        </div>
 
-        {/* <img src={surgery.image} /> */}
+        <div className="grid grid-cols-2 gap-4 mb-2">
+            <p><span className="font-semibold">Type:</span> {surgery.type}</p>
+            <p><span className="font-semibold">Hospital:</span> {surgery.hospital}</p>
+        </div>
 
-        <p>{surgery.surgeryDate}</p>
+        <div className="grid grid-cols-2 gap-4 mb-2">
+            <p><span className="font-semibold">Note:</span> {surgery.note}</p>
+            </div>
 
-        <p>{surgery.productId}</p>
 
-        <p>{surgery.type}</p>
 
-        <p>{surgery.hospital}</p>
-
-        <p>{surgery.note}</p>
-
-        {/* <time>{new Date(surgery.date).toLocaleString('en-CA')}</time> */}
-
-        {logic.getLoggedInUserId() === surgery.author.id && <>
-            <button onClick={() => handleDeleteClick(surgery.id)}>🗑️</button>
-            <button onClick={() => handleEditClick(surgery)}>📝</button>
-        </>}
+        {logic.getLoggedInUserId() === surgery.author.id && (
+            <div className="flex justify-end mt-2">
+                <button className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)}>📝 Editar</button>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>🗑️ Eliminar</button>
+            </div>
+        )}
     </article>
 }
 

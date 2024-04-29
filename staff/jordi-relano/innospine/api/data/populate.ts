@@ -21,8 +21,8 @@ mongoose.connect('mongodb://localhost:27017/innospine')
     .then(([users, products]) => {
         return Surgery.create([
             {
-                userId: users[0]._id,
-                date: new Date(),
+                author: users[0]._id,
+                surgeryDate: new Date(),
                 name: 'Lumbar Posterior Artrodesis',
                 products: [products[3]._id],
                 type: 'Lumbar posterior',

@@ -7,7 +7,12 @@ import logic from '../logic'
 import { useState, useEffect } from 'react'
 
 import CreateSurgery from '../components/CreateSurgery'
+import SurgeryList from '../components/SurgeryList'
 import Surgery from '../components/Surgery'
+import EditSurgery from '../components/EditSurgery'
+
+import Header from '../components/Header'
+
 
 
 import { Routes, Route } from 'react-router-dom'
@@ -20,8 +25,11 @@ function Home({ onUserLoggedOut }) {
     const [view, setView] = useState(null)
     const [stamp, setStamp] = useState(null)
     const [surgery, setSurgery] = useState(null)
+    const [surgeryShow, setSurgeryShow] = useState(false)
 
     const { showFeedback } = useContext()
+
+    const onLogout = () => onUserLoggedOut()
 
     useEffect(() => {
         try {
@@ -35,68 +43,67 @@ function Home({ onUserLoggedOut }) {
 
     const clearView = () => setView(null)
 
+
+
+
+
+
+
+
+
+    const handleEditSurgeryClick = surgery => {
+        setView('edit-surgery')
+        setSurgery(surgery)
+    }
+
+    const handleSurgeryEdited = () => {
+        clearView()
+        setStamp(Date.now())
+        setSurgery(null)
+    }
+
+    const handleEditSurgeryCancelClick = () => clearView()
+
+    const handleCreateSurgeryCancelClick = () => clearView()
+
     const handleSurgeryCreated = () => {
         clearView()
         setStamp(Date.now())
     }
 
-    const handleCreateSurgeryCancelClick = () => clearView()
-
-    const handleCreateSurgeryClick = () => setView('create-surgery')
-
-    const handleLogoutClick = () => {
-        try {
-            logic.logoutUser()
-        } catch (error) {
-            logic.cleanUpLoggedInUserId()
-        } finally {
-            onUserLoggedOut()
-        }
+    const toogleSurgeryForm = () => {
+        setSurgeryShow(!surgeryShow)
     }
 
-    // const handleEditSurgeryClick = surgery => {
-    //     setView('edit-surgery')
-    //     setSurgery(surgery)
-    // }
 
-    // const handleSurgeryEdited = () => {
-    //     clearView()
-    //     setStamp(Date.now())
-    //     setSurgery(null)
-    // }
 
-    const handleEditSurgeryCancelClick = () => clearView()
 
 
     logger.debug('Home -> render')
 
     return <>
-        <header className="px-[5vw] fixed top-0 bg-white w-full">
-            {user && <h1 className=' text-4xl text-blue-700  font-sans font-extrabold '>INNOSPINE</h1>}
+        <div className="bg-[#13c4e3] flex flex-col h-screen">
+            <div className="">
+                {user && <h1 className="text-2xl text-center font-sans font-extrabold text-blue-700 mt-4">INNOSPINE</h1>}
+                <Header showCreateSurgery={toogleSurgeryForm} onUserLoggedOut={onLogout} />
+            </div>
+            <main className="flex flex-col items-center my-[50px] px-[5vw] bg-gray-100 rounded-sm">
+                <div className="">
 
-            <nav classname="position: fixed; top: 0; right: 0; display: flex; flex-direction: column; align-items: flex-end;">
-                <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border bg-white" onClick={handleCreateSurgeryClick}>➕</button>
+                    {surgeryShow && <CreateSurgery onCancelClick={handleCreateSurgeryCancelClick} onSurgeryCreated={handleSurgeryCreated} />}
 
-                <button className="w-full h-[10px] flex justify-end items-center p-[20px] box-border bg-white" onClick={handleLogoutClick}>Exit</button>
-            </nav>
-        </header>
+                    <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} />
 
-        <main className="my-[50px] px-[5vw]">
+                    {view === 'edit-surgery' && <EditSurgery surgery={surgery} onCancelClick={handleEditSurgeryCancelClick} onSurgeryEdited={handleSurgeryEdited} />}
 
-            <Routes>
-                <Route path="/" />
+                </div>
 
-                {/* <Route path="/" element={<SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick}/>} /> */}
-                <Route path="/profile/:email" element={<Profile />} />
-            </Routes>
 
-            {view === 'create-surgery' && <CreateSurgery onCancelClick={handleCreateSurgeryCancelClick} onSurgeryCreated={handleSurgeryCreated} />}
+                <footer >
 
-        </main>
-
-        <footer >
-
-        </footer>
+                </footer>
+            </main>
+        </div>
     </>
 }
 
