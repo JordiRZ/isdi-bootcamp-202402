@@ -42,7 +42,7 @@ describe('retrieveProducts', () => {
                                                         expect(products).to.have.lengthOf(4)
 
                                                         const product1b = products.find(product => product.name === product1.name)
-                                                        console.log(product1b)
+
 
                                                         expect(product1b.name).to.deep.equal('lumbar cage')
                                                         expect(product1b.price).to.equal(product1.price)

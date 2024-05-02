@@ -9,7 +9,8 @@
     "inspect": "npx tsx --inspect-brk index.ts",
     "test": "npx mocha --timeout 3000",
     "test-inspect": "npx mocha --inspect-brk",
-    "populate": "tsx data/populate.ts"
+    "populate": "tsx data/populate.ts",
+    "server": "nodemon index.ts localhost 8080"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "chai": "^5.1.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2"
   },
   "dependencies": {

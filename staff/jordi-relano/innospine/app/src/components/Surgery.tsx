@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 import logic from '../logic'
 
+
 import { useContext } from '../context'
 
 function Surgery({ item: surgery, onEditClick, onDeleted }) {
@@ -42,16 +43,14 @@ function Surgery({ item: surgery, onEditClick, onDeleted }) {
 
         <div className="grid grid-cols-2 gap-4 mb-2">
             <p><span className="font-semibold">Note:</span> {surgery.note}</p>
-            </div>
+        </div>
 
 
+        <div className="flex justify-end mt-2">
+            <button className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)}>📝 Editar</button>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>🗑️ Eliminar</button>
+        </div>
 
-        {logic.getLoggedInUserId() === surgery.author.id && (
-            <div className="flex justify-end mt-2">
-                <button className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)}>📝 Editar</button>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>🗑️ Eliminar</button>
-            </div>
-        )}
     </article>
 }
 

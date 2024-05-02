@@ -15,12 +15,13 @@ import Header from '../components/Header'
 
 
 
+
 import { Routes, Route } from 'react-router-dom'
 import Profile from '../components/Profile'
 
 import { useContext } from '../context'
 
-function Home({ onUserLoggedOut }) {
+function Home({ onUserLoggedOut, onCancelClick }) {
     const [user, setUser] = useState(null)
     const [view, setView] = useState(null)
     const [stamp, setStamp] = useState(null)
@@ -30,6 +31,8 @@ function Home({ onUserLoggedOut }) {
     const { showFeedback } = useContext()
 
     const onLogout = () => onUserLoggedOut()
+
+    //const onCancelSurgeryClick = () => clearView()
 
     useEffect(() => {
         try {
@@ -42,14 +45,6 @@ function Home({ onUserLoggedOut }) {
     }, [])
 
     const clearView = () => setView(null)
-
-
-
-
-
-
-
-
 
     const handleEditSurgeryClick = surgery => {
         setView('edit-surgery')
@@ -64,8 +59,6 @@ function Home({ onUserLoggedOut }) {
 
     const handleEditSurgeryCancelClick = () => clearView()
 
-    const handleCreateSurgeryCancelClick = () => clearView()
-
     const handleSurgeryCreated = () => {
         clearView()
         setStamp(Date.now())
@@ -75,22 +68,24 @@ function Home({ onUserLoggedOut }) {
         setSurgeryShow(!surgeryShow)
     }
 
-
-
-
+    const onCancelSurgeryClick = () => {
+        setSurgeryShow(false)
+    }
 
     logger.debug('Home -> render')
 
     return <>
+    
         <div className="bg-[#13c4e3] flex flex-col h-screen">
             <div className="">
-                {user && <h1 className="text-2xl text-center font-sans font-extrabold text-blue-700 mt-4">INNOSPINE</h1>}
+                
                 <Header showCreateSurgery={toogleSurgeryForm} onUserLoggedOut={onLogout} />
             </div>
             <main className="flex flex-col items-center my-[50px] px-[5vw] bg-gray-100 rounded-sm">
                 <div className="">
+                 
 
-                    {surgeryShow && <CreateSurgery onCancelClick={handleCreateSurgeryCancelClick} onSurgeryCreated={handleSurgeryCreated} />}
+                    {surgeryShow && <CreateSurgery onCancelClick={onCancelSurgeryClick} onSurgeryCreated={handleSurgeryCreated} />}
 
                     <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} />
 

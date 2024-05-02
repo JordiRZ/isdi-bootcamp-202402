@@ -2,15 +2,17 @@ import { validate, errors } from 'com'
 
 import { UserType, User } from '../data/index.ts'
 
-const { DuplicityError, SystemError } = errors
+const { DuplicityError, SystemError, CredentialsError } = errors
 
-function registerUser(name: string, email: string, password: string): Promise<void> {
+function registerUser(name: string, email: string, password: string,confirmedPassword: string): Promise<void> {
     validate.text(name, 'name')
     validate.email(email)
     validate.password(password)
+
+    if (password !== confirmedPassword) throw new CredentialsError('passwords do not match')
     
 
-    return User.findOne({ email  })
+    return User.findOne({ $or: [{ email }, { name }] })
         .catch(error => { throw new SystemError(error.message) })
         .then((user: UserType) => {
             if (user)

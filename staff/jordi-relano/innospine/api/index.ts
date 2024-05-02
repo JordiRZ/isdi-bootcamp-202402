@@ -43,9 +43,9 @@ mongoose.connect(MONGODB_URL)
 
         api.post('/users', jsonBodyParser, (req, res) => {
             try {
-                const { name, email, password } = req.body
+                const { name, email, password, confirmedPassword } = req.body
 
-                logic.registerUser(name, email, password)
+                logic.registerUser(name, email, password, confirmedPassword)
                     .then(() => res.status(201).send())
                     .catch(error => {
                         if (error instanceof SystemError) {
@@ -271,10 +271,79 @@ mongoose.connect(MONGODB_URL)
             }
         })
 
+        api.delete('/surgeries/:id', (req, res) => {
+            try {
+                const { authorization } = req.headers
 
+                const token = authorization.slice(7)
 
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
+                const surgeryId = req.params.id
 
+                logic.removeSurgery(surgeryId as string, userId as string)
+                    .then(products => res.json(products))
+                    .catch(error => {
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
+
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError) {
+                            logger.warn(error.message)
+
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                        }
+                    })
+
+            } catch (error) {
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+                } else if (error instanceof TokenExpiredError) {
+                    logger.warn(error.message)
+
+                    res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+                } else {
+                    logger.warn(error.message)
+
+                    res.status(500).json({ error: SystemError.name, message: error.message })
+                }
+            }
+        })
+        api.put('/surgeries/:id', jsonBodyParser, (req, res) => {
+            try {
+                const { authorization } = req.headers
+                const token = authorization.slice(7)
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        
+                const surgeryId = req.params.id
+                const { doctorProducts, surgeryDate, name, type, hospital, note } = req.body
+        
+                logic.updateSurgery(surgeryId, userId as string, doctorProducts, surgeryDate, name, type, hospital, note)
+                    .then(() => res.status(200).send())
+                    .catch(error => {
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError || error instanceof UnauthorizedError) {
+                            logger.warn(error.message)
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                        }
+                    })
+            } catch (error) {
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+                } else if (error instanceof TokenExpiredError) {
+                    logger.warn(error.message)
+                    res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+                } else {
+                    logger.warn(error.message)
+                    res.status(500).json({ error: SystemError.name, message: error.message })
+                }
+            }
+        })
 
         api.listen(PORT, () => logger.info(`API listening on port ${PORT}`))
     })

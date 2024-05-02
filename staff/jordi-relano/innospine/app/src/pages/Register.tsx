@@ -17,9 +17,10 @@ function Register({ onUserRegistered, onLoginClick }) {
         const name = form.name.value
         const email = form.email.value
         const password = form.password.value
+        const confirmedPassword = form.confirm.value
 
         try {
-            logic.registerUser(name, email, password)
+            logic.registerUser(name, email, password, confirmedPassword)
                 .then(() => {
                     form.reset()
 
@@ -58,6 +59,11 @@ function Register({ onUserRegistered, onLoginClick }) {
                     <div className='mb-4'>
                         <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="password">PASSWORD</label>
                         <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
+                    </div>
+
+                    <div className='mb-4'>
+                        <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="confirm">CONFIRM PASSWORD</label>
+                        <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="confirm" />
                     </div>
 
                     <div className='flex items-center justify-center'>

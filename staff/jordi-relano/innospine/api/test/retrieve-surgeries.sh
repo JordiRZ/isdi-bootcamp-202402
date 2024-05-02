@@ -1,1 +1,1 @@
-curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjI3NjBhYWIyZWJhOWViY2QwNTRhNTgiLCJpYXQiOjE3MTM4NTY2ODgsImV4cCI6MTcxMzg1Njk4OH0.P-2aVtmV_tIal-aVFx_B2cDdZIwGyVap5W-BK5X-TdU" http://localhost:8080/surgeries/662760aab2eba9ebcd054a58 -v
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjMwYjJlNDhhNTkzMzZlZDliZGRhNDMiLCJpYXQiOjE3MTQ0Njc2NjUsImV4cCI6MTcxNDc2NzY2NX0.w-Tgj8M1gQLpjRvrzeQM4F9Lbci_O2rF9Dd5L2XWWnI" http://localhost:8080/surgeries -v

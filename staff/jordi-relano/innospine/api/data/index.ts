@@ -64,6 +64,7 @@ const product = new Schema({
 })
 
 type SurgeryType = {
+    _id: ObjectId
     author: ObjectId
     surgeryDate: Date
     name: string
@@ -71,7 +72,6 @@ type SurgeryType = {
     type: string
     hospital: string
     note: string
-
 }
 
 const surgery = new Schema({
@@ -104,7 +104,7 @@ const surgery = new Schema({
     }, note: {
         type: String,
     }
-});
+})
 
 const User = model<UserType>('User', user)
 const Product = model<ProductType>('Product', product)
@@ -119,6 +119,7 @@ export {
     Surgery,
     SurgeryType
 }
+
 
 
 

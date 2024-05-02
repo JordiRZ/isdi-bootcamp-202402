@@ -8,6 +8,7 @@ import createSurgery from './createSurgery'
 import getLoggedInUserId from './getLoggedInUserId'
 import retrieveProducts from './retrieveProducts'
 import retrieveSurgeries from './retrieveSurgeries'
+import removeSurgery from './removeSurgery'
 
 
 const logic = {
@@ -20,7 +21,8 @@ const logic = {
     createSurgery,
     getLoggedInUserId,
     retrieveProducts,
-    retrieveSurgeries
+    retrieveSurgeries,
+    removeSurgery
 
 
 

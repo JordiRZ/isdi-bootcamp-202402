@@ -5,6 +5,7 @@ import createSurgery from './createSurgery.ts'
 import retrieveProducts from './retrieveProducts.ts'
 import retrieveSurgeries from './retrieveSurgeries.ts'
 import removeSurgery from './removeSurgery.ts'
+import updateSurgery from './updateSurgery.ts'
 
 
 
@@ -15,7 +16,8 @@ const logic = {
     createSurgery,
     retrieveProducts,
     retrieveSurgeries,
-    removeSurgery
+    removeSurgery,
+    updateSurgery
 }
 
 export default logic

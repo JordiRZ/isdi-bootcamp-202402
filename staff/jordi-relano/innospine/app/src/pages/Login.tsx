@@ -48,12 +48,12 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
 
       <form onSubmit={handleSubmit} className='bg-sky-400 shadow-md rounded px-8 pt-6 pb-8 mb-4 border-solid border-4 border-blue-500'>
         <div className='mb-4'>
-          <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="email">Email</label>
+          <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="email">EMAIL</label>
           <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" id="email" />
         </div>
 
         <div className='mb-6'>
-          <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="password">Password</label>
+          <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="password">EMAIL</label>
           <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
         </div>
 
