@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import { validate, errors } from 'com';
+import { validate, errors } from 'com'
 
 function retrieveSurgeries() {
     validate.token(sessionStorage.token)
@@ -18,13 +18,13 @@ function retrieveSurgeries() {
 
             return res.json()
                 .then(body => {
-                    const { error, message } = body;
+                    const { error, message } = body
 
-                    const constructor = errors[error];
+                    const constructor = errors[error]
 
-                    throw new constructor(message);
-                });
-        });
+                    throw new constructor(message)
+                })
+        })
 }
 
 export default retrieveSurgeries;

@@ -9,6 +9,7 @@ import getLoggedInUserId from './getLoggedInUserId'
 import retrieveProducts from './retrieveProducts'
 import retrieveSurgeries from './retrieveSurgeries'
 import removeSurgery from './removeSurgery'
+import updateSurgery from './updateSurgery'
 
 
 const logic = {
@@ -22,7 +23,8 @@ const logic = {
     getLoggedInUserId,
     retrieveProducts,
     retrieveSurgeries,
-    removeSurgery
+    removeSurgery,
+    updateSurgery
 
 
 

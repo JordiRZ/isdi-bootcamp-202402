@@ -6,6 +6,8 @@ import logic from '../logic'
 
 import { useState, useEffect } from 'react'
 
+import Logo from '../../../doc/images/Innospine.png'
+
 function Navbar({ onUserLoggedOut, showCreateSurgery }) {
   const [isOpen, setIsOpen] = useState(false)
   const [view, setView] = useState(null)
@@ -15,7 +17,7 @@ function Navbar({ onUserLoggedOut, showCreateSurgery }) {
 
   const handleToggleMenu = () => {
     setMenuOpen(!isOpen)
-}
+  }
 
   useEffect(() => {
     logic.retrieveUser()
@@ -36,14 +38,19 @@ function Navbar({ onUserLoggedOut, showCreateSurgery }) {
 
 
   return (
-    <header className="bg-gray-900 sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3">
-      <div className="flex items-center justify-between px-4 py-3 sm:p-0">
-        <div>
-        {user && <h1 className="text-2xl text-center font-sans font-extrabold text-blue-700 mt-4">INNOSPINE : {user.name}</h1>}
-        </div>
+    <header className="bg-sky-200 sm:flex sm:justify-between sm:items-center sm:px-5 sm:py-3">
+      <div className="sm:flex sm:items-center sm:justify-between sm:p-0">
+        <img
+          className="w-[100px] m-auto"
+          src={Logo}
+          alt="logo"
+        />
+
+        {user && <h1 className="text-2xl font-sans font-bold ml-60 mt-4">INNOSPINE: {user.name.toUpperCase()}</h1>}
+
         <div className="sm:hidden">
           <button onClick={() => setIsOpen(!isOpen)} type="button" className="block text-gray-500 hover:text-white focus:text-white focus:outline-none">
-          {/* <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+            {/* <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
               {isOpen ? (
                 <path fillRule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z" />
               ) : (

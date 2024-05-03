@@ -9,7 +9,7 @@ import logic from '../logic'
 
 import { useContext } from '../context'
 
-function Surgery({ item: surgery, onEditClick, onDeleted }) {
+function Surgery({ item: surgery, onEditClick, onDeleted, surgeryShow }) {
     const { showFeedback, showConfirm } = useContext()
 
     const handleDeleteClick = surgeryId =>
@@ -47,8 +47,8 @@ function Surgery({ item: surgery, onEditClick, onDeleted }) {
 
 
         <div className="flex justify-end mt-2">
-            <button className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)}>📝 Editar</button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>🗑️ Eliminar</button>
+            <button className="bg-[#bad8fd] mr-2  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)} >Edit</button>
+            <button className="bg-[#ffffff] hover:bg-red-700 text-red-600 font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>Delete</button>
         </div>
 
     </article>

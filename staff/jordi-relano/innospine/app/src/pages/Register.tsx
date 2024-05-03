@@ -6,6 +6,8 @@ import logic from '../logic'
 
 import { useContext } from '../context'
 
+import Logo from '../../../doc/images/Innospine.png' 
+
 function Register({ onUserRegistered, onLoginClick }) {
     const { showFeedback } = useContext()
 
@@ -40,40 +42,51 @@ function Register({ onUserRegistered, onLoginClick }) {
 
     logger.debug('Register -> render')
 
-    return <div className='flex justify-center items-center h-screen bg-[#13c4e3]'>
+    return <div className='flex justify-center items-center h-screen bg-[#D1EFFA]'>
         <main className=' container mx-auto mt-8'>
-            <div className='w-full max-w-md mx-auto'>
-                <h1 className='text-3xl font-extrabold text-center mb-4'>INNOSPINE</h1>
+            <div className='w-full max-w-md mx-auto px-4'>
+                <h1 className='text-3xl font-bold text-center mb-4'>INNOSPINE</h1>
+                <div className="drop-shadow-2x">
+                <img
+                    className="w-[120px] m-auto"
+                    src={Logo}
+                    alt="logo"
+                />
 
-                <form onSubmit={handleSubmit} className='bg-sky-400 shadow-md rounded px-8 pt-6 pb-8 mb-4 border-solid border-4 border-blue-500'>
+            </div>
+
+                <form onSubmit={handleSubmit} className='bg-white shadow-md rounded px-10 pt-6  mb-4'>
                     <div className='mb-4'>
-                        <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="name">NAME</label>
+                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="name">Name</label>
                         <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="text" id="name" />
                     </div>
 
                     <div className='mb-4'>
-                        <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="email">E-MAIL</label>
+                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="email">E-mail</label>
                         <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" id="email" />
                     </div>
 
                     <div className='mb-4'>
-                        <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="password">PASSWORD</label>
+                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="password">Password</label>
                         <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="password" />
                     </div>
 
                     <div className='mb-4'>
-                        <label className='text-center block text-gray-700 text-sm font-bold mb-2' htmlFor="confirm">CONFIRM PASSWORD</label>
+                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor="confirm">Confirm password</label>
                         <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" id="confirm" />
                     </div>
 
-                    <div className='flex items-center justify-center'>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Register</button>
+                    <div className='flex flex-col items-center justify-center pt-4'>
+                        <button className=" bg-sky-400 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Register</button>
+                        <a className='inline-block text-blue-500 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' href="#" onClick={handleLoginClick}>Go to Login</a>
                     </div>
+
+
+
+
                 </form>
 
-                <div className="mt-6 text-center">
-                    <a className='inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' href="#" onClick={handleLoginClick}>Go to Login</a>
-                </div>
+
             </div>
         </main>
     </div>

@@ -11,10 +11,6 @@ import mongoose from 'mongoose'
 
 import { ObjectId } from 'mongoose'
 
-
-
-
-
 function createSurgery(userId: string, doctorProducts: string[], surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
 
     validate.text(name, 'name')
@@ -26,7 +22,6 @@ function createSurgery(userId: string, doctorProducts: string[], surgeryDate: st
     if (note)
         validate.text(note, 'note')
     validate.text(surgeryDate, 'surgeryDate')
-
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })

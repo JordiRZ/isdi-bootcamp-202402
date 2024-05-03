@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 
 const { SystemError, NotFoundError } = errors
 
-function updateSurgery(surgeryId: string, userId: string, doctorProducts: string[], surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
+function updateSurgery(surgeryId: string, userId: string, products: string[], surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
 
     validate.text(surgeryId, 'surgeryId')
     validate.text(userId, 'userId', true)
@@ -18,31 +18,26 @@ function updateSurgery(surgeryId: string, userId: string, doctorProducts: string
     if (note)
         validate.text(note, 'note')
 
-    const productIds = doctorProducts.map(productId => new mongoose.Types.ObjectId(productId))
+    const productIds = products.map(productId => new mongoose.Types.ObjectId(productId))
 
     return Product.find({ _id: { $in: productIds } })
         .then(selectedProducts => {
             if (selectedProducts.length !== doctorProducts.length) {
-                throw new NotFoundError('One or more products not found')
+                throw new NotFoundError('products not found')
             }
 
-            const fechaFormateada = new Date(surgeryDate)
-
             return Surgery.updateOne({ _id: surgeryId, author: userId }, {
-                
-                
                 $set: {
-                    
                     name,
                     type,
                     hospital,
                     note,
-                    surgeryDate: fechaFormateada,
+                    surgeryDate: new Date(surgeryDate),
                     products: selectedProducts
                 }
             })
-            
-            
+
+
         })
         .catch(error => { throw new SystemError(error.message) })
 }
