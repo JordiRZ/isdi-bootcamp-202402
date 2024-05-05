@@ -16,7 +16,7 @@ function removeSurgery(surgeryId) {
     return fetch(`${import.meta.env.VITE_API_URL}/surgeries/${surgeryId}`, {
         method: 'DELETE',
         headers: {
-            Authorization: `Bearer ${sessionStorage.token}`
+            'Authorization': `Bearer ${sessionStorage.token}`
         }
     })
         .then(res => {

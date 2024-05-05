@@ -26,6 +26,7 @@ function retrieveSurgeries(userId): Promise<SurgeryType[]> {
                         surgeryDate: surgeryDate.toLocaleString('es-ES').slice(0, -3),
                         name,
                         products:
+
                             products.map(product => product.name)
                         ,
                         type,

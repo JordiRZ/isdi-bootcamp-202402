@@ -2,26 +2,25 @@
 
 import { validate, errors } from 'com'
 
-function createSurgery(surgeryDate: Date, name: string, products: string[], type: string, hospital: string, note: string) {
+function createSurgery(surgeryDate: string,  name: string, products: string[], type: string, hospital: string, note: string) {
     validate.text(name, 'name')
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
 
-    // validate.text(productId, 'productId')
+    
     if (note)
         validate.text(note, 'note')
-    // validate.date(surgeryDate, 'date')
+    validate.text(surgeryDate, 'surgeryDate')
+    validate.token(sessionStorage.token)
 
     const surgery = { surgeryDate, name, products, type, hospital, note }
-
-    console.log('Sending surgery data to backend:', surgery)
 
     const json = JSON.stringify(surgery)
 
     return fetch(`${import.meta.env.VITE_API_URL}/surgeries`, {
         method: 'POST',
         headers: {
-            Authorization: `Bearer ${sessionStorage.token}`,
+            'Authorization': `Bearer ${sessionStorage.token}`,
             'Content-Type': 'application/json'
         },
         body: json

@@ -79,26 +79,24 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
     logger.debug('EditSurgery -> render')
 
     return (
-        <section className="edit-surgery">
-            <div className="p-4 border rounded-lg shadow-md bg-white mb-4">
-                <h2 className="text-lg font-semibold mb-2">{surgery.name}</h2>
-
-                <div className="grid grid-cols-2 gap-4 mb-2">
+        <section className="flex justify-center items-center flex-col">
+            <div className="grid grid-cols-2 gap-4 border rounded-lg shadow-md bg-white mb-4 p-5 ">
+                <div className="col-span-1 pr-4">
+                    <h2 className="text-lg font-semibold mb-2">{surgery.name}</h2>
                     <p><span className="font-semibold">Date:</span> {surgery.surgeryDate}</p>
                     <p><span className="font-semibold">Product:</span> {surgery.products}</p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-2">
-                    <p><span className="font-semibold">Type:</span> {surgery.type}</p>
                     <p><span className="font-semibold">Hospital:</span> {surgery.hospital}</p>
+                    <p><span className="font-semibold">Type:</span> {surgery.type}</p>
+                    <p><span className="font-semibold">Creation date:</span> {surgery.creationDate}</p>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-2">
-                    <p><span className="font-semibold">Note:</span> {surgery.note}</p>
+                <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
+                    <div className="mb-2">
+                        <span className="font-semibold">Note:</span> {surgery.note}
+                    </div>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="w-[300px] flex flex-col  space-y-2 mb-8">
                 <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
                 <input
                     className="border border-blue-400 rounded px-3 py-2"
@@ -111,7 +109,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
 
                 <label className="text-lg font-semibold" htmlFor="name">Surgery Name</label>
                 <input
-                    className="border  border-blue-400 rounded px-3 py-2"
+                    className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="name"
                     value={formData.name}
@@ -119,7 +117,11 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                 />
 
                 <label className="text-lg font-semibold" htmlFor="products">Products</label>
-                <select id="products" onChange={handleProductChange}>
+                <select
+                    className="border border-blue-400 rounded px-3 py-2"
+                    id="products"
+                    onChange={handleProductChange}
+                >
                     {products.map(product => (
                         <option key={product._id} value={product._id}>{product.name}-€{product.price} {product.description}</option>
                     ))}
@@ -127,7 +129,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
 
                 <label className="text-lg font-semibold" htmlFor="type">Type</label>
                 <input
-                    className="border  border-blue-400 rounded px-3 py-2"
+                    className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="type"
                     value={formData.type}
@@ -136,7 +138,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
 
                 <label className="text-lg font-semibold" htmlFor="hospital">Hospital</label>
                 <input
-                    className="border  border-blue-400 rounded px-3 py-2"
+                    className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="hospital"
                     value={formData.hospital}
@@ -152,10 +154,11 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                     onChange={handleInputChange}
                 />
 
-                <SubmitButton>Save</SubmitButton>
+                <SubmitButton className="bg-blue-100 text-white font-semibold py-2 rounded hover:bg-blue-200 transition duration-300">Save</SubmitButton>
+                <CancelButton onClick={handleCancelClick} />
             </form>
 
-            <CancelButton onClick={handleCancelClick} />
+
         </section>
     )
 }

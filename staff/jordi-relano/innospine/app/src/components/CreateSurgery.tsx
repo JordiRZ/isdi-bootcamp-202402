@@ -35,6 +35,7 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
         const type = form.type.value
         const hospital = form.hospital.value
         const note = form.note.value
+        
 
         try {
             logic.createSurgery(surgeryDate, name, products, type, hospital, note)

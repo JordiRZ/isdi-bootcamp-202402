@@ -30,7 +30,7 @@ describe('createSurgery', () => {
                                                 // const currentDate = new Date();
                                                 // const formattedDate = currentDate.toISOString().slice(0, 10)
                                                 // formattedDate.toString()
-                                                logic.createSurgery(user.id, product.id, new Date().toLocaleDateString(), '24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')
+                                                logic.createSurgery(user.id, product.id, '24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')
                                                     .then(() =>
                                                         Surgery.findOne({})
                                                             .then(surgery => {

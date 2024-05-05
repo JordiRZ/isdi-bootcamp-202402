@@ -49,6 +49,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
     const handleSurgeryCreated = () => {
         clearView()
         setStamp(Date.now())
+        setSurgeryShow(false)
     }
 
     const toogleSurgeryForm = () => {
@@ -63,12 +64,15 @@ function Home({ onUserLoggedOut, onCancelClick }) {
     const handleEditSurgeryClick = surgery => {
         setView('edit-surgery')
         setSurgery(surgery)
-        setSurgeryShow(false)
+        
     }
 
     const handleSurgeryEdited = () => {
         clearView()
         setStamp(Date.now())
+        setSurgeryShow(false)
+        setView(null)
+    
         
     }
 
@@ -79,7 +83,9 @@ function Home({ onUserLoggedOut, onCancelClick }) {
     return <>
 
         <div className="bg-[#D1EFFA] flex flex-col h-screen">
+        {user && <h1>INNOSPINE: {user.name}</h1>}
             <div className="">
+            
 
                 <Navbar showCreateSurgery={toogleSurgeryForm} onUserLoggedOut={onLogout} />
             </div>
@@ -89,7 +95,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
 
                     {surgeryShow && <CreateSurgery onCancelClick={onCancelSurgeryClick} onSurgeryCreated={handleSurgeryCreated} />}
 
-                    {!surgeryShow && view !== 'edit-surgery' ? <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} /> : surgeryShow}
+                    {!surgeryShow && view !== 'edit-surgery' ? <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} /> : !surgeryShow}
 
                     {view === 'edit-surgery' ? <EditSurgery surgery={surgery} onCancelClick={handleEditSurgeryCancelClick} onSurgeryEdited={handleSurgeryEdited} /> : !surgeryShow}
 
@@ -97,6 +103,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
 
 
                 <footer >
+                
 
                 </footer>
             </main>

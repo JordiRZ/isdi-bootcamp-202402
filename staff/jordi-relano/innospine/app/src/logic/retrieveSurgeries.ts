@@ -8,7 +8,7 @@ function retrieveSurgeries() {
 
     return fetch(`${import.meta.env.VITE_API_URL}/surgeries`, {
         headers: {
-            Authorization: `Bearer ${sessionStorage.token}`
+            'Authorization': `Bearer ${sessionStorage.token}`
         }
     })
         .then(res => {

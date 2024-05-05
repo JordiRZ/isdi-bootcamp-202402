@@ -21,6 +21,7 @@ function updateSurgery(surgeryId: string, userId: string, products: string[], su
     const productIds = products.map(productId => new mongoose.Types.ObjectId(productId))
 
     return Product.find({ _id: { $in: productIds } })
+        .catch(error => { throw new SystemError(error.message) })
         .then(selectedProducts => {
             if (selectedProducts.length !== products.length) {
                 throw new NotFoundError('products not found')
@@ -36,10 +37,14 @@ function updateSurgery(surgeryId: string, userId: string, products: string[], su
                     products: selectedProducts
                 }
             })
+                .catch(error => { throw new SystemError(error.message) })
+
+
 
 
         })
-        .catch(error => { throw new SystemError(error.message) })
+        .then(() => { })
+
 }
 
 export default updateSurgery
