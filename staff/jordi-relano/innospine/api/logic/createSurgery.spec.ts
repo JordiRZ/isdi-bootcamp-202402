@@ -30,11 +30,12 @@ describe('createSurgery', () => {
                                                 // const currentDate = new Date();
                                                 // const formattedDate = currentDate.toISOString().slice(0, 10)
                                                 // formattedDate.toString()
-                                                logic.createSurgery(user.id, product.id,'24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')
+                                                logic.createSurgery(user.id, product.id, new Date().toLocaleDateString(), '24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')
                                                     .then(() =>
                                                         Surgery.findOne({})
                                                             .then(surgery => {
                                                                 expect(surgery.author.toString()).to.equal(user.id)
+                                                                expect(surgery.creationDate).to.be.instanceOf(Date)
                                                                 expect(surgery.surgeryDate).to.be.instanceOf(Date)
                                                                 expect(surgery.surgeryDate).to.equal('24/05/12')
                                                                 expect(surgery.name).to.equal('Lumbar Posterior Artrodesis')

@@ -61,8 +61,8 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
 
     logger.debug('CreateSurgery -> render')
 
-    return <section className="bg-[#D1EFFA] flex justify-center  w-screen h-screen">
-        <form onSubmit={handleSubmit} className="max-w-[400px] flex flex-col space-y-2">
+    return <section className="bg-[#D1EFFA] flex justify-center  w-screen h-screen ">
+        <form onSubmit={handleSubmit} className="w-[300px] flex flex-col space-y-2">
             <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
             <input className="border border-blue-400 rounded px-3 py-2" type="datetime-local" id="surgeryDate" min={minDate} />
 

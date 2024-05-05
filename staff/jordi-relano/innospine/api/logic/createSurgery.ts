@@ -11,7 +11,7 @@ import mongoose from 'mongoose'
 
 import { ObjectId } from 'mongoose'
 
-function createSurgery(userId: string, doctorProducts: string[], surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
+function createSurgery(userId: string, doctorProducts: string[],creationDate:string, surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
 
     validate.text(name, 'name')
     validate.text(type, 'type')
@@ -22,6 +22,7 @@ function createSurgery(userId: string, doctorProducts: string[], surgeryDate: st
     if (note)
         validate.text(note, 'note')
     validate.text(surgeryDate, 'surgeryDate')
+    validate.text(creationDate, 'creationDate')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -42,11 +43,12 @@ function createSurgery(userId: string, doctorProducts: string[], surgeryDate: st
             .catch(error => { throw new SystemError(error.message) })
             .then(selectedProducts => {
                 if (selectedProducts.length !== doctorProducts.length) {
-                    throw new NotFoundError('One or more products not found')
+                    throw new NotFoundError('products not found')
                 }
                     const fechaFormateada = new Date(surgeryDate)
+                    
 
-                    return Surgery.create({ author: user._id, products: selectedProducts, surgeryDate: fechaFormateada, name, type, hospital, note })
+                    return Surgery.create({ author: user._id, products: selectedProducts,creationDate: new Date(), surgeryDate: fechaFormateada, name, type, hospital, note })
                         .catch(error => { throw new SystemError(error.message) })
                 })
                 .then(surgery => { })

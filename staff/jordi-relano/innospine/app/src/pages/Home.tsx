@@ -69,7 +69,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
     const handleSurgeryEdited = () => {
         clearView()
         setStamp(Date.now())
-        setSurgery(null)
+        
     }
 
     const handleEditSurgeryCancelClick = () => clearView()
@@ -83,7 +83,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
 
                 <Navbar showCreateSurgery={toogleSurgeryForm} onUserLoggedOut={onLogout} />
             </div>
-            <main className="flex flex-col items-center my-[50px] px-[5vw] bg-[#D1EFFA] rounded-sm">
+            <main className="flex flex-col items-center my-[40px] px-[5vw] bg-[#D1EFFA] rounded-sm">
                 <div className="">
 
 
@@ -91,7 +91,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
 
                     {!surgeryShow && view !== 'edit-surgery' ? <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} /> : surgeryShow}
 
-                    {view === 'edit-surgery' ? <EditSurgery surgery={surgery} onCancelClick={handleEditSurgeryCancelClick} onSurgeryEdited={handleSurgeryEdited} /> : surgeryShow}
+                    {view === 'edit-surgery' ? <EditSurgery surgery={surgery} onCancelClick={handleEditSurgeryCancelClick} onSurgeryEdited={handleSurgeryEdited} /> : !surgeryShow}
 
                 </div>
 

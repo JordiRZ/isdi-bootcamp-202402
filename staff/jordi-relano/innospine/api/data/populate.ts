@@ -22,7 +22,8 @@ mongoose.connect('mongodb://localhost:27017/innospine')
         return Surgery.create([
             {
                 author: users[0]._id,
-                surgeryDate: new Date(),
+                creationDate: new Date().toLocaleString(),
+                surgeryDate: new Date('10/10/2024').toLocaleString(),
                 name: 'Lumbar Posterior Artrodesis',
                 products: [products[3]._id],
                 type: 'Lumbar posterior',

@@ -22,7 +22,7 @@ function updateSurgery(surgeryId: string, userId: string, products: string[], su
 
     return Product.find({ _id: { $in: productIds } })
         .then(selectedProducts => {
-            if (selectedProducts.length !== doctorProducts.length) {
+            if (selectedProducts.length !== products.length) {
                 throw new NotFoundError('products not found')
             }
 

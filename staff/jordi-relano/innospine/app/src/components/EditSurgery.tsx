@@ -7,11 +7,18 @@ import SubmitButton from './library/SubmitButton'
 import { useEffect, useState } from 'react'
 import { useContext } from '../context'
 
-function EditSurgery({surgery, onSurgeryEdited, onCancelClick }) {
+function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
     const { showFeedback } = useContext()
     const [products, setProducts] = useState([])
     const [selectedProducts, setSelectedProducts] = useState([])
-    
+    const [formData, setFormData] = useState({
+        surgeryDate: surgery.surgeryDate || '',
+        name: surgery.name || '',
+        type: surgery.type || '',
+        hospital: surgery.hospital || '',
+        note: surgery.note || ''
+    })
+
 
     useEffect(() => {
         logic.retrieveProducts()
@@ -26,20 +33,24 @@ function EditSurgery({surgery, onSurgeryEdited, onCancelClick }) {
 
         // const surgeryId = 
 
-        const surgeryDate = form.surgeryDate.value
-        const name = form.name.value
-        const products = form.products.value = selectedProducts.map(product => product._id)
-        const type = form.type.value
-        const hospital = form.hospital.value
-        const note = form.note.value
-        
+        const products = selectedProducts.map(product => product._id)
+
+        const { surgeryDate, name, type, hospital, note } = formData
+
 
 
         try {
             logic.updateSurgery(surgery.id, surgeryDate, name, products, type, hospital, note)
                 .then(() => {
-                    form.reset()
-
+                    setFormData({
+                        surgeryDate: '',
+                        name: '',
+                        type: '',
+                        hospital: '',
+                        note: ''
+                    })
+                    // form.reset()
+                    setSelectedProducts([])
                     onSurgeryEdited()
                 })
                 .catch(error => showFeedback(error), 'error')
@@ -55,41 +66,98 @@ function EditSurgery({surgery, onSurgeryEdited, onCancelClick }) {
         setSelectedProducts(prevProducts => [...prevProducts, selectedProduct])
     }
 
+    const handleInputChange = event => {
+        const { id, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }))
+    }
+
     const handleCancelClick = () => onCancelClick()
 
     logger.debug('EditSurgery -> render')
 
-    return <section className="edit-surgery">
-        <form onSubmit={handleSubmit}>
+    return (
+        <section className="edit-surgery">
+            <div className="p-4 border rounded-lg shadow-md bg-white mb-4">
+                <h2 className="text-lg font-semibold mb-2">{surgery.name}</h2>
 
-            
-            <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
-            <input className="border border-blue-400 rounded px-3 py-2" type="datetime-local" id="surgeryDate" min={Date.now()} />
+                <div className="grid grid-cols-2 gap-4 mb-2">
+                    <p><span className="font-semibold">Date:</span> {surgery.surgeryDate}</p>
+                    <p><span className="font-semibold">Product:</span> {surgery.products}</p>
+                </div>
 
-            <label className="text-lg font-semibold" htmlFor="name">Surgery Name</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="name" />
+                <div className="grid grid-cols-2 gap-4 mb-2">
+                    <p><span className="font-semibold">Type:</span> {surgery.type}</p>
+                    <p><span className="font-semibold">Hospital:</span> {surgery.hospital}</p>
+                </div>
 
-            <label className="text-lg font-semibold" htmlFor="products">Products</label>
-            <select id="products" onChange={handleProductChange}>
-                {products.map(product => (
-                    <option key={product._id} value={product._id}>{product.name}-${product.price}{product.description}</option>
-                ))}
-            </select>
+                <div className="grid grid-cols-2 gap-4 mb-2">
+                    <p><span className="font-semibold">Note:</span> {surgery.note}</p>
+                </div>
+            </div>
 
-            <label className="text-lg font-semibold" htmlFor="type">Type</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type='text' id="type" />
+            <form onSubmit={handleSubmit}>
+                <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
+                <input
+                    className="border border-blue-400 rounded px-3 py-2"
+                    type="datetime-local"
+                    id="surgeryDate"
+                    min={Date.now()}
+                    value={formData.surgeryDate}
+                    onChange={handleInputChange}
+                />
 
-            <label className="text-lg font-semibold" htmlFor="hospital">Hospital</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="hospital" />
+                <label className="text-lg font-semibold" htmlFor="name">Surgery Name</label>
+                <input
+                    className="border  border-blue-400 rounded px-3 py-2"
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                />
 
-            <label className="text-lg font-semibold" htmlFor="note">Note</label>
-            <input className="border border-blue-400 rounded px-3 py-2" type="text" id="note" />
+                <label className="text-lg font-semibold" htmlFor="products">Products</label>
+                <select id="products" onChange={handleProductChange}>
+                    {products.map(product => (
+                        <option key={product._id} value={product._id}>{product.name}-€{product.price} {product.description}</option>
+                    ))}
+                </select>
 
-            <SubmitButton>Save</SubmitButton>
-        </form>
+                <label className="text-lg font-semibold" htmlFor="type">Type</label>
+                <input
+                    className="border  border-blue-400 rounded px-3 py-2"
+                    type="text"
+                    id="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                />
 
-        <CancelButton onClick={handleCancelClick} />
-    </section>
+                <label className="text-lg font-semibold" htmlFor="hospital">Hospital</label>
+                <input
+                    className="border  border-blue-400 rounded px-3 py-2"
+                    type="text"
+                    id="hospital"
+                    value={formData.hospital}
+                    onChange={handleInputChange}
+                />
+
+                <label className="text-lg font-semibold" htmlFor="note">Note</label>
+                <input
+                    className="border border-blue-400 rounded px-3 py-2"
+                    type="text"
+                    id="note"
+                    value={formData.note}
+                    onChange={handleInputChange}
+                />
+
+                <SubmitButton>Save</SubmitButton>
+            </form>
+
+            <CancelButton onClick={handleCancelClick} />
+        </section>
+    )
 }
 
 export default EditSurgery
