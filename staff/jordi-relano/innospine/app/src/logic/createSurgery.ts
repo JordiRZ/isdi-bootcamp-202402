@@ -2,12 +2,12 @@
 
 import { validate, errors } from 'com'
 
-function createSurgery(surgeryDate: string,  name: string, products: string[], type: string, hospital: string, note: string) {
+function createSurgery(surgeryDate: string, name: string, products: string[], type: string, hospital: string, note: string) {
     validate.text(name, 'name')
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
 
-    
+
     if (note)
         validate.text(note, 'note')
     validate.text(surgeryDate, 'surgeryDate')
@@ -26,17 +26,23 @@ function createSurgery(surgeryDate: string,  name: string, products: string[], t
         body: json
     })
         .then(res => {
-            if (res.status === 201) return
+            if (res.status === 201) {
+                return
 
-            return res.json()
-                .then(body => {
-                    const { error, message } = body
+            } else {
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
 
-                    const constructor = errors[error]
+                        const constructor = errors[error]
 
-                    throw new constructor(message)
-                })
+                        throw new constructor(message)
+                    }
+                    )
+            }
         })
+
 }
+
 
 export default createSurgery

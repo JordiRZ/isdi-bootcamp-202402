@@ -5,7 +5,7 @@ import { validate, errors } from 'com'
 function removeSurgery(surgeryId) {
     validate.token(sessionStorage.token)
 
-    const [payloadB64] = sessionStorage.token.split('.')
+    const [, payloadB64] = sessionStorage.token.split('.')
 
     const payloadJSON = atob(payloadB64)
 

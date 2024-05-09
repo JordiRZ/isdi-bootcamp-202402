@@ -6,7 +6,6 @@ import logic from '../logic'
 
 import { useState, useEffect } from 'react'
 
-
 import Surgery from './Surgery'
 
 import { useContext } from '../context'
@@ -22,13 +21,16 @@ function SurgeryList({ stamp, onEditSurgeryClick }) {
         try {
             logic.retrieveSurgeries()
                 .then(setSurgeries)
+                
+                
                 .catch(error => showFeedback(error, 'error'))
         } catch (error) {
             showFeedback(error)
         }
     }
 
-    useEffect(() => {
+
+    useEffect(( ) => {
         loadSurgeries()
     }, [stamp])
 

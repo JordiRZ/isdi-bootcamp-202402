@@ -9,6 +9,7 @@ import updateSurgery from './updateSurgery.ts'
 
 
 
+
 const logic = {
     registerUser,
     authenticateUser,
@@ -17,7 +18,8 @@ const logic = {
     retrieveProducts,
     retrieveSurgeries,
     removeSurgery,
-    updateSurgery
+    updateSurgery,
+   
 }
 
 export default logic

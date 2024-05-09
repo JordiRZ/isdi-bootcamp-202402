@@ -11,13 +11,13 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
     const { showFeedback } = useContext()
     const [products, setProducts] = useState([])
     const [selectedProducts, setSelectedProducts] = useState([])
-    const [formData, setFormData] = useState({
-        surgeryDate: surgery.surgeryDate || '',
-        name: surgery.name || '',
-        type: surgery.type || '',
-        hospital: surgery.hospital || '',
-        note: surgery.note || ''
-    })
+    // const [formData, setFormData] = useState({
+    //     surgeryDate: surgery.surgeryDate || '',
+    //     name: surgery.name || '',
+    //     type: surgery.type || '',
+    //     hospital: surgery.hospital || '',
+    //     note: surgery.note || ''
+    // })
 
 
     useEffect(() => {
@@ -31,25 +31,25 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
 
         const form = event.target
 
-        // const surgeryId = 
+        const surgeryDate = form.surgeryDate.value
+        const name = form.name.value
+        const productIds = selectedProducts.reduce((ids, { product, quantity }) => {
+            for (let i = 0; i < quantity; i++) {
+                ids.push(product.id);
+            }
 
-        const products = selectedProducts.map(product => product._id)
+            return ids
+        }, [])
 
-        const { surgeryDate, name, type, hospital, note } = formData
-
-
+        const type = form.type.value
+        const hospital = form.hospital.value
+        const note = form.note.value
 
         try {
-            logic.updateSurgery(surgery.id, surgeryDate, name, products, type, hospital, note)
+            logic.updateSurgery(surgery.id, surgeryDate, name, productIds, type, hospital, note)
                 .then(() => {
-                    setFormData({
-                        surgeryDate: '',
-                        name: '',
-                        type: '',
-                        hospital: '',
-                        note: ''
-                    })
-                    // form.reset()
+
+                    form.reset()
                     setSelectedProducts([])
                     onSurgeryEdited()
                 })
@@ -59,40 +59,68 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
         }
     }
 
-    const handleProductChange = event => {
-        const selectedProductId = event.target.value
-        const selectedProduct = products.find(product => product._id === selectedProductId)
 
-        setSelectedProducts(prevProducts => [...prevProducts, selectedProduct])
+    const currentDate = new Date()
+    const minDate = currentDate.toISOString().slice(0, 16)
+
+    const countProducts = (products) => {
+        const productCounts = {}
+
+        products.forEach(product => {
+            if (productCounts[product]) {
+                productCounts[product]++
+            } else {
+                productCounts[product] = 1
+            }
+        })
+
+        return productCounts
     }
 
-    const handleInputChange = event => {
-        const { id, value } = event.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [id]: value
-        }))
+    const productCounts = countProducts(surgery.products)
+
+    const handleProductChange = (event, product) => {
+        const quantity = parseInt(event.target.value)
+
+        if (isNaN(quantity) || quantity < 0) {
+            console.error("Invalid quantity input")
+            return
+        }
+
+        const existingProductIndex = selectedProducts.findIndex(selected => selected.product.id === product.id)
+        if (existingProductIndex !== -1) {
+            const updatedSelectedProducts = [...selectedProducts]
+            updatedSelectedProducts[existingProductIndex].quantity = quantity
+            // Se actualiza la cantidad con el nuevo valor en lugar de sumarla
+            setSelectedProducts(updatedSelectedProducts)
+        } else {
+            setSelectedProducts([...selectedProducts, { product, quantity }])
+        }
     }
 
     const handleCancelClick = () => onCancelClick()
 
     logger.debug('EditSurgery -> render')
-
+    
     return (
         <section className="flex justify-center items-center flex-col">
-            <div className="grid grid-cols-2 gap-4 border rounded-lg shadow-md bg-white mb-4 p-5 ">
+            <div className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
                 <div className="col-span-1 pr-4">
-                    <h2 className="text-lg font-semibold mb-2">{surgery.name}</h2>
-                    <p><span className="font-semibold">Date:</span> {surgery.surgeryDate}</p>
-                    <p><span className="font-semibold">Product:</span> {surgery.products}</p>
-                    <p><span className="font-semibold">Hospital:</span> {surgery.hospital}</p>
-                    <p><span className="font-semibold">Type:</span> {surgery.type}</p>
-                    <p><span className="font-semibold">Creation date:</span> {surgery.creationDate}</p>
+                    <h2 className="text-lg font-semibold mb-2"><span className="font-normal">{surgery.name}</span></h2>
+                    <p><span className="font-normal">Date:</span> <span className="font-semibold">{surgery.surgeryDate}h</span></p>
+                    <p><span className="font-normal">Product:</span></p>
+                    <ul>
+                        {Object.entries(productCounts).map(([product, count]) => (
+                            <li className='font-semibold' key={product}><span className="font-normal">{product}</span> ({count})</li>
+                        ))}
+                    </ul>
+                    <p><span className="font-normal">Hospital:</span> <span className="font-semibold">{surgery.hospital}</span></p>
+                    <p><span className="font-normal">Type:</span> <span className="font-semibold">{surgery.type}</span></p>
+                    <p><span className="font-normal">Creation date:</span> <span className="font-semibold">{surgery.creationDate}h</span></p>
                 </div>
                 <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
                     <div className="mb-2">
-                        <span className="font-semibold">Note:</span> {surgery.note}
-                    </div>
+                        <span className="font-normal">Note:</span> <span className="font-semibold">{surgery.note}</span>                        </div>
                 </div>
             </div>
 
@@ -100,11 +128,12 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                 <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
                 <input
                     className="border border-blue-400 rounded px-3 py-2"
-                    type="datetime-local"
+                    type="text"
                     id="surgeryDate"
-                    min={Date.now()}
-                    value={formData.surgeryDate}
-                    onChange={handleInputChange}
+                    min={minDate}
+                    defaultValue={surgery.surgeryDate ? new Date(surgery.surgeryDate).toISOString() : ''}
+                    placeholder="dd/mm/aaaa, hh:mm"
+                // onChange={handleInputChange}
                 />
 
                 <label className="text-lg font-semibold" htmlFor="name">Surgery Name</label>
@@ -112,28 +141,32 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                     className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
+                    defaultValue={surgery.name}
+                // onChange={handleInputChange}
                 />
 
                 <label className="text-lg font-semibold" htmlFor="products">Products</label>
-                <select
-                    className="border border-blue-400 rounded px-3 py-2"
-                    id="products"
-                    onChange={handleProductChange}
-                >
-                    {products.map(product => (
-                        <option key={product._id} value={product._id}>{product.name}-€{product.price} {product.description}</option>
-                    ))}
-                </select>
+                {products.map(product => (
+                    <div key={product.id} className="flex items-center justify-between">
+                        <label htmlFor={`product-${product.id}`} className="uppercase mr-2">{product.name}</label>
+                        <input
+                            type="number"
+                            id={`product-${product.id}`}
+                            min="0"
+                            defaultValue="0"
+                            onChange={event => handleProductChange(event, product)}
+                            className="border border-blue-400 rounded px-2 py-1 w-16 text-center"
+                        />
+                    </div>
+                ))}
 
                 <label className="text-lg font-semibold" htmlFor="type">Type</label>
                 <input
                     className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
+                    defaultValue={surgery.type}
+                // onChange={handleInputChange}
                 />
 
                 <label className="text-lg font-semibold" htmlFor="hospital">Hospital</label>
@@ -141,8 +174,8 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                     className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="hospital"
-                    value={formData.hospital}
-                    onChange={handleInputChange}
+                    defaultValue={surgery.hospital}
+                // onChange={handleInputChange}
                 />
 
                 <label className="text-lg font-semibold" htmlFor="note">Note</label>
@@ -150,8 +183,8 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                     className="border border-blue-400 rounded px-3 py-2"
                     type="text"
                     id="note"
-                    value={formData.note}
-                    onChange={handleInputChange}
+                    defaultValue={surgery.note}
+                // onChange={handleInputChange}
                 />
 
                 <SubmitButton className="bg-blue-100 text-white font-semibold py-2 rounded hover:bg-blue-200 transition duration-300">Save</SubmitButton>

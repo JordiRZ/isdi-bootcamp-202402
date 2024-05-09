@@ -12,6 +12,7 @@ import removeSurgery from './removeSurgery'
 import updateSurgery from './updateSurgery'
 
 
+
 const logic = {
     registerUser,
     loginUser,
@@ -24,7 +25,8 @@ const logic = {
     retrieveProducts,
     retrieveSurgeries,
     removeSurgery,
-    updateSurgery
+    updateSurgery,
+    
 
 
 

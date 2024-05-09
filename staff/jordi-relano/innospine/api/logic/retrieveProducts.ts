@@ -1,11 +1,13 @@
+//@ts-nocheck
+
 import { validate, errors } from 'com'
-import { Product, User } from '../data/index.ts'
+import { Product, User, ProductType } from '../data/index.ts'
 import { Schema } from 'mongoose'
 const { Types: { ObjectId } } = Schema
 
 const { SystemError, NotFoundError } = errors
 
-function retrieveProducts(userId: string) {
+function retrieveProducts(userId: string): Promise<ProductType[]> {
     validate.text(userId, 'userId', true)
 
     return User.findById(userId)
@@ -13,14 +15,23 @@ function retrieveProducts(userId: string) {
         .then(user => {
             if (!user) throw new NotFoundError('user not found')
 
-            return Product.find().select('name description price').lean()
+            return Product.find().lean()
+                .catch(error => { throw new SystemError(error.message) })
+
+
         })
         .then(products => {
             if (!products) throw new NotFoundError('products not found')
 
-            return products
-
-
+            return products.map<ProductType>(({ _id, name, type, surgeryType, image, description, price }) => ({
+                id: _id.toString(),
+                name,
+                type,
+                surgeryType,
+                image,
+                description,
+                price
+            }))
         })
 
 

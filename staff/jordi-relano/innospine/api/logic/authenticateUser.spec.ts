@@ -10,7 +10,7 @@ import { errors } from 'com'
 
 dotenv.config()
 
-const { CredentialsError, ContentError, NotFoundError } = errors
+const { CredentialsError, NotFoundError } = errors
 
 describe('authenticateUser', () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))

@@ -10,14 +10,11 @@ import Logo from '../../../doc/images/Innospine.png'
 
 
 
-function Navbar({ onUserLoggedOut, showCreateSurgery }) {
+function Navbar({ onUserLoggedOut,  handleReturnToSurgeriesClick, handleProductsListClick, handleCreateSurgeryClick }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [view, setView] = useState(null)
   const [user, setUser] = useState(null)
 
   const { showFeedback } = useContext()
-
-  const handleCreateSurgeryClick = () => setView('create-surgery')
 
   const handleToggleMenu = () => {
     setMenuOpen(!isOpen)
@@ -25,13 +22,13 @@ function Navbar({ onUserLoggedOut, showCreateSurgery }) {
 
   useEffect(() => {
     try {
-        logic.retrieveUser()
-            .then(setUser)
-            .catch(error => showFeedback(error, 'error'))
+      logic.retrieveUser()
+        .then(setUser)
+        .catch(error => showFeedback(error, 'error'))
     } catch (error) {
-        showFeedback(error)
+      showFeedback(error)
     }
-}, [])
+  }, [])
 
   const handleLogoutClick = () => {
     try {
@@ -42,25 +39,20 @@ function Navbar({ onUserLoggedOut, showCreateSurgery }) {
       onUserLoggedOut()
     }
   }
-  // className="text-2xl font-sans font-bold ml-60 mt-4"
+
 
   return (
-    
-    <header className="bg-sky-200 sm:flex sm:justify-between sm:items-center sm:px-5 sm:py-3">
-      
-      
-      <div className="sm:flex sm:items-center sm:justify-between sm:p-0">
+    <header className="bg-sky-200 flex flex-col justify-between  px-5 py-3">
+
+      <div className="flex items-center justify-between p-2">
         <img
-          className="w-[100px] m-auto"
+          className="w-[120px]"
           src={Logo}
           alt="logo"
         />
-
-        
+        {user && <h1 className="text-3xl font-sans font-bold ml-30 mt-4">Hola Dr.{user.name}</h1>}
 
         <div className="sm:hidden">
-
-        
           <button onClick={() => setIsOpen(!isOpen)} type="button" className="block text-gray-500 hover:text-white focus:text-white focus:outline-none">
             {/* <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
               {isOpen ? (
@@ -72,10 +64,13 @@ function Navbar({ onUserLoggedOut, showCreateSurgery }) {
           </button>
         </div>
       </div>
-      
+
       <nav className={isOpen ? 'block' : 'hidden'} className="px-2 pt-2 pb-4 sm:flex sm:p-0">
-      
-        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={showCreateSurgery}>Surgery</button>
+
+        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={handleCreateSurgeryClick}>Create Surgery</button>
+        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={handleProductsListClick}>Products List</button>
+        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={handleReturnToSurgeriesClick}>Surgeries</button>
+
         <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md" onClick={handleLogoutClick}>Logout</button>
         {/* <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2">Messages</a> */}
       </nav>

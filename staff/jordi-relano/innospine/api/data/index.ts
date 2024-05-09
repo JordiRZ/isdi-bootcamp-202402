@@ -27,6 +27,7 @@ const user = new Schema({
 })
 
 type ProductType = {
+    _id: ObjectId
     name: string
     type: string
     surgeryType: string
@@ -69,7 +70,7 @@ type SurgeryType = {
     creationDate: Date
     surgeryDate: Date
     name: string
-    products: [ObjectId]
+    products: ObjectId[]
     type: string
     hospital: string
     note: string

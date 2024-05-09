@@ -344,6 +344,7 @@ mongoose.connect(MONGODB_URL)
                 }
             }
         })
+        
 
         api.listen(PORT, () => logger.info(`API listening on port ${PORT}`))
     })

@@ -14,18 +14,8 @@ function updateSurgery(surgeryId: string, userId: string, products: string[], su
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
     validate.text(surgeryDate, 'surgeryDate')
-
     if (note)
         validate.text(note, 'note')
-
-    const productIds = products.map(productId => new mongoose.Types.ObjectId(productId))
-
-    return Product.find({ _id: { $in: productIds } })
-        .catch(error => { throw new SystemError(error.message) })
-        .then(selectedProducts => {
-            if (selectedProducts.length !== products.length) {
-                throw new NotFoundError('products not found')
-            }
 
             return Surgery.updateOne({ _id: surgeryId, author: userId }, {
                 $set: {
@@ -34,17 +24,19 @@ function updateSurgery(surgeryId: string, userId: string, products: string[], su
                     hospital,
                     note,
                     surgeryDate: new Date(surgeryDate),
-                    products: selectedProducts
+                    products: products.map(productId => new mongoose.Types.ObjectId(productId))
                 }
             })
                 .catch(error => { throw new SystemError(error.message) })
 
+                .then(() => { })
 
 
 
-        })
-        .then(() => { })
 
-}
+        }
+        
+
+
 
 export default updateSurgery

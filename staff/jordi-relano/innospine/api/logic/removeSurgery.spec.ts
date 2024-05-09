@@ -30,7 +30,7 @@ describe('removeMeeting', () => {
                                     .then((user) =>
                                         Product.create({ name: 'lumbar cage', type: 'implant', surgeryType: 'lumbar posterior', image: 'Image URL 1', description: 'Description', price: 200 })
                                             .then(product =>
-                                                Surgery.create({ author: user.id, surgeryDate: 2 / 5 / 2024, name: 'kilombo', products: [product.id], type: 'lumbar', hospital: 'quiron', note: 'kilombo does not works at all' })
+                                                Surgery.create({ author: user.id,creationDate: 1 / 5 / 2024 , surgeryDate: 2 / 5 / 2024, name: 'kilombo', products: [product.id], type: 'lumbar', hospital: 'quiron', note: 'kilombo does not works at all' })
                                                     .then(surgery => {
 
                                                         return logic.removeSurgery(surgery.id, user.id)

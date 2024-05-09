@@ -1,16 +1,11 @@
 //@ts-nocheck
 
 import { logger } from '../utils'
-
 import CancelButton from './library/CancelButton'
-
 import logic from '../logic'
 import SubmitButton from './library/SubmitButton'
-
 import { useEffect, useState } from 'react'
-
 import { useContext } from '../context'
-
 
 function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
     const { showFeedback } = useContext()
@@ -23,38 +18,59 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
             .catch(error => console.error(error))
     }, [])
 
+    const handleProductChange = (event, product) => {
+        const quantity = parseInt(event.target.value)
+
+        console.log(quantity)
+
+        if (isNaN(quantity) || quantity < 0) {
+            console.error("Invalid quantity input")
+            return
+        }
+
+        const existingProductIndex = selectedProducts.findIndex(selected => selected.product.id === product.id)
+        if (existingProductIndex !== -1) {
+            const updatedSelectedProducts = [...selectedProducts]
+            updatedSelectedProducts[existingProductIndex].quantity = quantity // Se actualiza la cantidad con el nuevo valor en lugar de sumarla
+            setSelectedProducts(updatedSelectedProducts)
+        } else {
+            setSelectedProducts([...selectedProducts, { product, quantity }])
+        }
+    }
+
+    
+
+
+
+
     const handleSubmit = event => {
         event.preventDefault()
 
         const form = event.target
-        // const author = form.author.value 
 
         const surgeryDate = form.surgeryDate.value
         const name = form.name.value
-        const products = form.products.value = selectedProducts.map(product => product._id)
+        const productIds = selectedProducts.reduce((ids, { product, quantity }) => {
+            for (let i = 0; i < quantity; i++) {
+                ids.push(product.id)
+            }
+
+            return ids
+        }, [])
+
         const type = form.type.value
         const hospital = form.hospital.value
         const note = form.note.value
-        
 
-        try {
-            logic.createSurgery(surgeryDate, name, products, type, hospital, note)
-                .then(() => {
-                    form.reset()
-
-                    onSurgeryCreated()
-                })
-                .catch(error => showFeedback(error, 'error'))
-        } catch (error) {
-            showFeedback(error)
-        }
-    }
-
-    const handleProductChange = event => {
-        const selectedProductId = event.target.value
-        const selectedProduct = products.find(product => product._id === selectedProductId)
-
-        setSelectedProducts(prevProducts => [...prevProducts, selectedProduct])
+        logic.createSurgery(surgeryDate, name, productIds, type, hospital, note)
+            .then(() => {
+                form.reset()
+                onSurgeryCreated()
+            })
+            .catch(error => {
+                console.error("Error creating surgery:", error)
+                showFeedback(error, 'error')
+            })
     }
 
     const currentDate = new Date()
@@ -62,40 +78,47 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
 
     logger.debug('CreateSurgery -> render')
 
-    return <section className="bg-[#D1EFFA] flex justify-center  w-screen h-screen ">
-        <form onSubmit={handleSubmit} className="w-[300px] flex flex-col space-y-2">
-            <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
-            <input className="border border-blue-400 rounded px-3 py-2" type="datetime-local" id="surgeryDate" min={minDate} />
+    return (
+        <section className="bg-[#D1EFFA] flex justify-center w-screen h-screen">
+            <form onSubmit={handleSubmit} className="w-[300px] flex flex-col space-y-2">
+                <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
+                <input className="border border-blue-400 rounded px-3 py-2" type="datetime-local" id="surgeryDate" min={minDate} />
 
-            <label className="text-lg font-semibold" htmlFor="name">Surgery Name</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="name" />
+                <label className="text-lg font-semibold" htmlFor="name">Surgery Name</label>
+                <input className="border border-blue-400 rounded px-3 py-2" type="text" id="name" />
 
-            <label className="text-lg font-semibold" htmlFor="products">Products</label>
-            <select id="products" onChange={handleProductChange}>
+                <label className="text-lg font-semibold" htmlFor="products">Products</label>
                 {products.map(product => (
-                    <option key={product._id} value={product._id}>{product.name}-${product.price}{product.description}</option>
+                    <div key={product.id} className="flex items-center justify-between">
+                        <label htmlFor={`product-${product.id}`} className="uppercase mr-2">{product.name}</label>
+                        <input
+                            type="number"
+                            id={`product-${product.id}`}
+                            min="0"
+                            defaultValue="0"
+                            onChange={event => handleProductChange(event, product)}
+                            className="border border-blue-400 rounded px-2 py-1 w-16 text-center"
+                        />
+                    </div>
                 ))}
-            </select>
 
+                <label className="text-lg font-semibold" htmlFor="type">Type</label>
+                <input className="border border-blue-400 rounded px-3 py-2" type='text' id="type" />
 
-            <label className="text-lg font-semibold" htmlFor="type">Type</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type='text' id="type" />
+                <label className="text-lg font-semibold" htmlFor="hospital">Hospital</label>
+                <input className="border border-blue-400 rounded px-3 py-2" type="text" id="hospital" />
 
-            <label className="text-lg font-semibold" htmlFor="hospital">Hospital</label>
-            <input className="border  border-blue-400 rounded px-3 py-2" type="text" id="hospital" />
+                <label className="text-lg font-semibold" htmlFor="note">Note</label>
+                <input className="border border-blue-400 rounded px-3 py-2" type="text" id="note" />
 
-            <label className="text-lg font-semibold" htmlFor="note">Note</label>
-            <input className="border border-blue-400 rounded px-3 py-2" type="text" id="note" />
-
-            <SubmitButton className="bg-blue-100 text-white font-semibold py-2 rounded hover:bg-blue-200 transition duration-300">Create</SubmitButton>
-            <CancelButton
-                className="mt-4 bg-blue-300 text-blue-800 font-semibold py-2 rounded hover:bg-blue-400 transition duration-300"
-                onClick={onCancelClick}
-            />
-        </form>
-
-
-    </section>
+                <SubmitButton className="bg-blue-100 text-white font-semibold py-2 rounded hover:bg-blue-200 transition duration-300">Create</SubmitButton>
+                <CancelButton
+                    className="mt-4 bg-blue-300 text-blue-800 font-semibold py-2 rounded hover:bg-blue-400 transition duration-300"
+                    onClick={onCancelClick}
+                />
+            </form>
+        </section>
+    )
 }
 
 export default CreateSurgery
