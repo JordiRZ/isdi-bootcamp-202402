@@ -87,7 +87,7 @@ describe('createSurgery', () => {
                     )
             )
     )
-    it('fails when doctors create a surgery the productId is not matching with the products in your DB', () =>
+    it('fails when the productId is not matching with the products in your DB', () =>
         User.deleteMany()
             .then(() =>
                 Product.deleteMany()
@@ -105,5 +105,24 @@ describe('createSurgery', () => {
                     )
             )
     )
+    it('fails when the surgeryDate is not an ', () =>
+        User.deleteMany()
+            .then(() =>
+                Product.deleteMany()
+                    .then(() =>
+                        Surgery.deleteMany()
+                            .then(() =>
+                                User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' })
+                                    .then((user) =>
+                                        Product.create({ name: 'lumbar cage', type: 'implant', surgeryType: 'lumbar posterior', image: 'Image URL 1', description: 'Description', price: 200 })
+                                            .then((product) => {
+                                                expect(logic.createSurgery(user.id, [new ObjectId().toString()], '24/05/12', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants'))
+                                            })
+                                    )
+                            )
+                    )
+            )
+    )
+
     after(() => mongoose.disconnect())
 })

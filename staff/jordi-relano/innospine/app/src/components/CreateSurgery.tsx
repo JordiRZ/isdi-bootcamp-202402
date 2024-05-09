@@ -101,6 +101,15 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
                         />
                     </div>
                 ))}
+                <div className="border border-blue-400 rounded p-2">
+                    <h2 className="text-lg font-semibold mb-2">Selected Products</h2>
+                    {selectedProducts.map(({ product, quantity }) => (
+                        <div key={product.id} className="flex items-center justify-between">
+                            <span className="mr-2">{product.name}</span>
+                            <span className="font-semibold">{quantity}</span>
+                        </div>
+                    ))}
+                </div>
 
                 <label className="text-lg font-semibold" htmlFor="type">Type</label>
                 <input className="border border-blue-400 rounded px-3 py-2" type='text' id="type" />

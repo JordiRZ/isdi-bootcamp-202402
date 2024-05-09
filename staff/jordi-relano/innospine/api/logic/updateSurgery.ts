@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 const { SystemError, NotFoundError } = errors
 
 function updateSurgery(surgeryId: string, userId: string, products: string[], surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
-
+    debugger
     validate.text(surgeryId, 'surgeryId')
     validate.text(userId, 'userId', true)
     validate.text(name, 'name')
@@ -17,25 +17,30 @@ function updateSurgery(surgeryId: string, userId: string, products: string[], su
     if (note)
         validate.text(note, 'note')
 
-            return Surgery.updateOne({ _id: surgeryId, author: userId }, {
-                $set: {
-                    name,
-                    type,
-                    hospital,
-                    note,
-                    surgeryDate: new Date(surgeryDate),
-                    products: products.map(productId => new mongoose.Types.ObjectId(productId))
-                }
-            })
-                .catch(error => { throw new SystemError(error.message) })
+    const [datePart, timePart] = surgeryDate.split(', ')
+    const [day, month, year] = datePart.split('/')
+    const [hour, minute] = timePart.split(':')
+    const parsedDate = new Date(year, month - 1, day, hour, minute)
 
-                .then(() => { })
-
-
-
-
+    return Surgery.updateOne({ _id: surgeryId, author: userId }, {
+        $set: {
+            name,
+            type,
+            hospital,
+            note,
+            surgeryDate: parsedDate,
+            products: products.map(productId => new mongoose.Types.ObjectId(productId))
         }
-        
+    })
+        .catch(error => { throw new SystemError(error.message) })
+
+        .then(() => { })
+
+
+
+
+}
+
 
 
 

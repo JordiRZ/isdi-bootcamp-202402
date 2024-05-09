@@ -101,7 +101,8 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
     const handleCancelClick = () => onCancelClick()
 
     logger.debug('EditSurgery -> render')
-    
+    console.log("Surgery Date:", surgery.surgeryDate)
+
     return (
         <section className="flex justify-center items-center flex-col">
             <div className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
@@ -120,7 +121,8 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                 </div>
                 <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
                     <div className="mb-2">
-                        <span className="font-normal">Note:</span> <span className="font-semibold">{surgery.note}</span>                        </div>
+                        <span className="font-normal">Note:</span> <span className="font-semibold">{surgery.note}</span>
+                    </div>
                 </div>
             </div>
 
@@ -131,7 +133,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                     type="text"
                     id="surgeryDate"
                     min={minDate}
-                    defaultValue={surgery.surgeryDate ? new Date(surgery.surgeryDate).toISOString() : ''}
+                    defaultValue={surgery.surgeryDate ? surgery.surgeryDate : ''}
                     placeholder="dd/mm/aaaa, hh:mm"
                 // onChange={handleInputChange}
                 />
@@ -146,19 +148,32 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                 />
 
                 <label className="text-lg font-semibold" htmlFor="products">Products</label>
-                {products.map(product => (
-                    <div key={product.id} className="flex items-center justify-between">
-                        <label htmlFor={`product-${product.id}`} className="uppercase mr-2">{product.name}</label>
-                        <input
-                            type="number"
-                            id={`product-${product.id}`}
-                            min="0"
-                            defaultValue="0"
-                            onChange={event => handleProductChange(event, product)}
-                            className="border border-blue-400 rounded px-2 py-1 w-16 text-center"
-                        />
-                    </div>
-                ))}
+                {products.map(product => {
+                    const quantityInDatabase = productCounts[product.name] || 0
+                     // Obtener la cantidad del producto en la base de datos
+                    return (
+                        <div key={product.id} className="flex items-center justify-between">
+                            <label htmlFor={`product-${product.id}`} className="uppercase mr-2">{product.name}</label>
+                            <input
+                                type="number"
+                                id={`product-${product.id}`}
+                                min="0"
+                                defaultValue={quantityInDatabase} // Establecer la cantidad de la base de datos como defaultValue
+                                onChange={event => handleProductChange(event, product)}
+                                className="border border-blue-400 rounded px-2 py-1 w-16 text-center"
+                            />
+                        </div>
+                    )
+                })}
+                <div className="border border-blue-400 rounded p-2">
+                    <h2 className="text-lg font-semibold mb-2">Selected Products</h2>
+                    {selectedProducts.map(({ product, quantity }) => (
+                        <div key={product.id} className="flex items-center justify-between">
+                            <span className="mr-2">{product.name}</span>
+                            <span className="font-semibold">{quantity}</span>
+                        </div>
+                    ))}
+                </div>
 
                 <label className="text-lg font-semibold" htmlFor="type">Type</label>
                 <input
