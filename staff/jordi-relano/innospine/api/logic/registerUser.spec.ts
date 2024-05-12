@@ -13,7 +13,7 @@ const { DuplicityError, CredentialsError } = errors
 describe('registerUser', () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))
 
-    it('succeeds a new user', () =>
+    it('succeeds when create a new user', () =>
         User.deleteMany()
             .then(() => logic.registerUser('equipo clavel', 'equipo@clavel.com', '1Z','1Z' ))
             .then(() => User.findOne({ email: 'equipo@clavel.com' }))
@@ -75,7 +75,6 @@ describe('registerUser', () => {
         expect(errorThrown).to.be.instanceOf(Error)
         expect(errorThrown.message).to.equal('email I am not an email is not an email')
     })
-
     it('fails on non-valid password', () => {
         let errorThrown
 

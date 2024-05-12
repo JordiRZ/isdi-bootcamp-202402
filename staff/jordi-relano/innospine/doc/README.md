@@ -2,7 +2,7 @@
 
 ## Intro
 
-Surgical distributor, selling products as lumbar and cervical cages/cervical and lumbar prothesis... Moreover, giving the possibility to the doctors to lend surgical equipment for their surgeries. 
+Surgical distributor, selling products as lumbar and cervical prothesis for doctors... Moreover, giving them the possibility to lend surgical equipment for their surgeries. 
 
 ![](https://media.giphy.com/media/3orieN5HWXAMzfZtok/giphy.gif?cid=790b7611xzh22yep0d3drgtxvdfbh98kzvbz9l8g2xrda5yg&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
@@ -10,17 +10,18 @@ Surgical distributor, selling products as lumbar and cervical cages/cervical and
 
 ### Use Cases
 
-- filter and list surgeries (by date) 
+- list surgeries (by date) 
 - create surgery (choose products, set date, put a note...)
 - edit surgery (request more implants, change instruments, change a note)
-- cancel surgery (24 h minimun)
-- search and list products (implants or instruments by surgery type)
+- cancel surgery
+- search and list products
 
 
 v0.1
 - request operations rooms for surgery (map)
 - request operations rooms for surgery (hospitals list)
 - rate requests list (surgeries list)
+- put a calendar with colors depending the doctor and their specialitzation
 
 [Figma](https://www.figma.com/file/88AvUHJLWYzQPLgDU4Vx6p/Innospine?type=design&node-id=0-1&mode=design&t=7sc17eAsrLbyLGuO-0)
 
@@ -42,6 +43,8 @@ v0.1
 - Node
 - Tailwind
 - Mongo
+- Moment js for dates
+- Mocha for testing
 
 ### Data Model
 
@@ -56,7 +59,7 @@ v0.1
 
 - id (required)
 - name (string, required)
-- type (string, required; enum: implant|instrument)
+- type (string, required)
 - surgeryType (string, required)
 - image (string, required)
 - description (string, required)
@@ -66,8 +69,9 @@ v0.1
 #### Surgery
 
 - id (required) 
-- user (user.id, required; string, required)
+- author (author.id, required; string, required)
 - date (Date, required)
+- creation date (Date, required)
 - name (string, required)
 - products ([Product.id]) 
 - type (string, required)

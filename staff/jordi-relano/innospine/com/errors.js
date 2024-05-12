@@ -22,7 +22,9 @@ const errors = {
     DuplicityError,
     CredentialsError,
     NotFoundError,
-    UnauthorizedError
+    UnauthorizedError,
+    TypeError,
+    RangeError
 };
 export { ContentError, SystemError, DuplicityError, CredentialsError, NotFoundError, UnauthorizedError };
 export default errors;

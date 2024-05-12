@@ -16,11 +16,12 @@ function createSurgery(userId: string, productsIds: string[], surgeryDate: strin
     validate.text(type, 'type')
     validate.text(hospital, 'hospital')
     validate.text(userId, 'userId', true)
-    // validate.text(productsId, 'productsId', true)
-    //  TO DO
+    for (let i = 0; i < productsIds.length; i++){
+        validate.text (productsIds[i], 'productsIds[i]')
+    }
     if (note)
         validate.text(note, 'note')
-    // validate.date(surgeryDate, 'surgeryDate')
+    validate.text(surgeryDate, 'surgeryDate')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -29,6 +30,8 @@ function createSurgery(userId: string, productsIds: string[], surgeryDate: strin
                 throw new NotFoundError('user not found')
 
             const productIdsFormatted = productsIds.map(productId => new mongoose.Types.ObjectId(productId))
+
+
 
             const formattedDate = new Date(surgeryDate)
 
@@ -43,8 +46,10 @@ function createSurgery(userId: string, productsIds: string[], surgeryDate: strin
                 note
             }
 
+
             return Surgery.create(newSurgery)
-                
+                .catch(error => { throw new SystemError(error.message) })
+
 
         })
         .then(surgery => { })

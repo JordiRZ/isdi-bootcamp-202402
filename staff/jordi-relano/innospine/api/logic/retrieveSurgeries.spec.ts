@@ -5,11 +5,18 @@ import mongoose from 'mongoose'
 
 import { Surgery, User, Product } from '../data/index.ts'
 
+import { errors } from 'com'
 import logic from './index.ts'
-import { expect } from 'chai'
+import { expect, use } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
 
 const { Types: { ObjectId } } = mongoose
 dotenv.config()
+
+use(chaiAsPromised)
+
+const { NotFoundError, ContentError } = errors
 
 describe('retrieveSurgeries', () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))
@@ -36,8 +43,8 @@ describe('retrieveSurgeries', () => {
                                                         const surgery1b = surgeries.find(surgery => surgery.name === surgery1.name)
 
                                                         expect(surgery1b.author).to.equal(user.id)
-                                                        expect(surgery1b.creationDate).to.equal('2/4/2024, 1:00')
-                                                        expect(surgery1b.surgeryDate).to.equal('2/5/2024, 1:00')
+                                                        expect(surgery1b.creationDate).to.be.instanceOf(Date)
+                                                        expect(surgery1b.surgeryDate).to.be.instanceOf(Date)
                                                         expect(surgery1b.name).to.equal('kilombo')
                                                         expect(surgery1b.type).to.equal('lumbar')
                                                         expect(surgery1b.hospital).to.equal('quiron')
@@ -46,8 +53,8 @@ describe('retrieveSurgeries', () => {
                                                         const surgery2b = surgeries.find(surgery => surgery.name === surgery2.name)
 
                                                         expect(surgery2b.author).to.equal(user.id)
-                                                        expect(surgery1b.creationDate).to.equal('2/4/2024, 1:00')
-                                                        expect(surgery2b.surgeryDate).to.equal('3/5/2024, 2:00')
+                                                        expect(surgery2b.creationDate).to.be.instanceOf(Date)
+                                                        expect(surgery2b.surgeryDate).to.be.instanceOf(Date)
                                                         expect(surgery2b.name).to.equal('kilombo2')
                                                         expect(surgery2b.type).to.equal('cervical')
                                                         expect(surgery2b.hospital).to.equal('safa')
@@ -59,6 +66,46 @@ describe('retrieveSurgeries', () => {
                     )
             )
     )
+    it('fails when userId is not matching with authorId', () =>
+        Promise.all([
+            User.deleteMany(),
+            Surgery.deleteMany()
+        ])
+            .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' }))
+            .then(user => {
+                expect(logic.retrieveSurgeries(new ObjectId().toString())).to.be.rejectedWith(NotFoundError)
+
+
+            })
+
+    )
+    it('fails on non string userId', () => {
+        let errorThrown
+
+        try {
+            // @ts-ignore
+            logic.retrieveSurgeries(123)
+        } catch (error) {
+            errorThrown = error
+        }
+
+        expect(errorThrown).to.be.instanceOf(TypeError)
+        expect(errorThrown.message).to.equal('userId 123 is not a string')
+    })
+    it('fails on empty userId', () => {
+        let errorThrown
+
+        try {
+            // @ts-ignore
+            logic.retrieveSurgeries('')
+        } catch (error) {
+            errorThrown = error
+        }
+
+        expect(errorThrown).to.be.instanceOf(ContentError)
+        expect(errorThrown.message).to.equal('userId >< is empty or blank')
+    })
+
     after(() => mongoose.disconnect())
 })
 

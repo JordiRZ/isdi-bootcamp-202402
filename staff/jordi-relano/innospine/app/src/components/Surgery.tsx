@@ -10,6 +10,8 @@ import Confirm from './Confirm'
 
 import { useContext } from '../context'
 
+import moment from 'moment'
+
 function Surgery({ item: surgery, onEditClick, onDeleted, surgeryShow }) {
     const { showFeedback, showConfirm } = useContext()
     // && Date.now() > surgery.surgeryDate
@@ -49,7 +51,7 @@ function Surgery({ item: surgery, onEditClick, onDeleted, surgeryShow }) {
     return <article className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
         <div className="col-span-1 pr-4">
             <h2 className="text-lg font-semibold mb-2"><span className="font-normal">{surgery.name}</span></h2>
-            <p><span className="font-normal">Date:</span> <span className="font-semibold">{surgery.surgeryDate}h</span></p>
+            <p><span className="font-normal">Date:</span> <span className="font-semibold">{moment(surgery.surgeryDate).format('Do MMMM YYYY, h:mm a')}</span></p>
             <p><span className="font-normal">Product:</span></p>
             <ul>
                 {Object.entries(productCounts).map(([product, count]) => (
@@ -58,7 +60,7 @@ function Surgery({ item: surgery, onEditClick, onDeleted, surgeryShow }) {
             </ul>
             <p><span className="font-normal">Hospital:</span> <span className="font-semibold">{surgery.hospital}</span></p>
             <p><span className="font-normal">Type:</span> <span className="font-semibold">{surgery.type}</span></p>
-            <p><span className="font-normal">Creation date:</span> <span className="font-semibold">{surgery.creationDate}h</span></p>
+            <p><span className="font-normal">Creation date:</span> <span className="font-semibold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
         </div>
         <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
             <div className="mb-2">

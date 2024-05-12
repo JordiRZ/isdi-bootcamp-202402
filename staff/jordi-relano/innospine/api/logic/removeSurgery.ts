@@ -26,6 +26,9 @@
                     return Surgery.deleteOne({ _id: surgeryId, author: userId })
                         .catch(error => { throw new SystemError(error.message) })
                  })
+                 
          })
+         .catch(error => { throw new SystemError(error.message) })
+         .then(() => { })
  }
  export default removeSurgery

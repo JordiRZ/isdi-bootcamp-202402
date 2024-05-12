@@ -1,6 +1,6 @@
 function buildErrorClass(name) {
     return class extends Error {
-        constructor(message){
+        constructor(message) {
             super(message)
 
             this.name = name
@@ -26,7 +26,9 @@ const errors = {
     DuplicityError,
     CredentialsError,
     NotFoundError,
-    UnauthorizedError
+    UnauthorizedError,
+    TypeError,
+    RangeError
 
 }
 

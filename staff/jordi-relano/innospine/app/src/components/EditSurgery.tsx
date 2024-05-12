@@ -7,6 +7,8 @@ import SubmitButton from './library/SubmitButton'
 import { useEffect, useState } from 'react'
 import { useContext } from '../context'
 
+import moment from 'moment'
+
 function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
     const { showFeedback } = useContext()
     const [products, setProducts] = useState([])
@@ -108,7 +110,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
             <div className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
                 <div className="col-span-1 pr-4">
                     <h2 className="text-lg font-semibold mb-2"><span className="font-normal">{surgery.name}</span></h2>
-                    <p><span className="font-normal">Date:</span> <span className="font-semibold">{surgery.surgeryDate}h</span></p>
+                    <p><span className="font-normal">Date:</span> <span className="font-semibold">{moment(surgery.date).format('h:mm a, MMMM Do')}</span></p>
                     <p><span className="font-normal">Product:</span></p>
                     <ul>
                         {Object.entries(productCounts).map(([product, count]) => (
@@ -117,7 +119,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                     </ul>
                     <p><span className="font-normal">Hospital:</span> <span className="font-semibold">{surgery.hospital}</span></p>
                     <p><span className="font-normal">Type:</span> <span className="font-semibold">{surgery.type}</span></p>
-                    <p><span className="font-normal">Creation date:</span> <span className="font-semibold">{surgery.creationDate}h</span></p>
+                    <p><span className="font-normal">Creation date:</span> <span className="font-semibold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
                 </div>
                 <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
                     <div className="mb-2">
@@ -130,11 +132,10 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                 <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
                 <input
                     className="border border-blue-400 rounded px-3 py-2"
-                    type="text"
+                    type="datetime-local"
                     id="surgeryDate"
                     min={minDate}
-                    defaultValue={surgery.surgeryDate ? surgery.surgeryDate : ''}
-                    placeholder="dd/mm/aaaa, hh:mm"
+                    defaultValue={surgery.surgeryDate ? moment(surgery.surgeryDate).format('YYYY-MM-DDTHH:mm') : ''}
                 // onChange={handleInputChange}
                 />
 
@@ -150,7 +151,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick }) {
                 <label className="text-lg font-semibold" htmlFor="products">Products</label>
                 {products.map(product => {
                     const quantityInDatabase = productCounts[product.name] || 0
-                     // Obtener la cantidad del producto en la base de datos
+                    // Obtener la cantidad del producto en la base de datos
                     return (
                         <div key={product.id} className="flex items-center justify-between">
                             <label htmlFor={`product-${product.id}`} className="uppercase mr-2">{product.name}</label>

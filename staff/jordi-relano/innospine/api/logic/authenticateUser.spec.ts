@@ -26,7 +26,6 @@ describe('authenticateUser', () => {
                     })
             )
     )
-
     it('fails on existing email and incorrect password', () =>
         User.deleteMany()
             .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' }))
@@ -47,22 +46,16 @@ describe('authenticateUser', () => {
     )
     it('fails on non-valid password', () => {
         let errorThrown
-        //let password = 'I am not a valid password'
 
         try {
             logic.authenticateUser('equipo@clavel.com', 'I am not a valid password')
         } catch (error) {
             errorThrown = error
         }
-
         expect(errorThrown).to.be.instanceOf(Error)
         expect(errorThrown.message).to.equal('password is not acceptable')
     })
-
-
-
+    
     after(() => mongoose.disconnect())
-
-
 })
 

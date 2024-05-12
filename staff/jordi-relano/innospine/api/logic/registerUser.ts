@@ -8,6 +8,7 @@ function registerUser(name: string, email: string, password: string,confirmedPas
     validate.text(name, 'name')
     validate.email(email)
     validate.password(password)
+    
 
     if (password !== confirmedPassword) throw new CredentialsError('passwords do not match')
     

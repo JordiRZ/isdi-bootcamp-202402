@@ -22,8 +22,8 @@ function retrieveSurgeries(userId): Promise<SurgeryType[]> {
                     return surgeries.map<SurgeryType>(({ _id, author, creationDate, surgeryDate, name, products, type, hospital, note }) => ({
                         id: _id.toString(),
                         author: author._id.toString(),
-                        creationDate: creationDate.toLocaleString('es-ES').slice(0, -3),
-                        surgeryDate: surgeryDate.toLocaleString('es-ES').slice(0, -3),
+                        creationDate,
+                        surgeryDate,
                         name,
                         products:
                         products.map(product => product.name)
