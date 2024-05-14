@@ -5,6 +5,13 @@ import { validate, errors } from 'com'
 function updateSurgery(surgeryId: string, surgeryDate: string, name: string, products: string[], type: string, hospital: string, note: string) {
     validate.token(sessionStorage.token)
 
+    const [, payloadB64] = sessionStorage.token.split('.')
+    const payloadJSON = atob(payloadB64)
+
+    const payload = JSON.parse(payloadJSON)
+
+    const { sub: userId } = payload
+
     const surgery = { surgeryDate, name, products, type, hospital, note }
 
     const json = JSON.stringify(surgery)

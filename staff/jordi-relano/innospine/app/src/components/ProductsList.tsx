@@ -10,10 +10,10 @@ import Products from './Products'
 
 import { useContext } from '../context'
 
-function ProductsList({ stamp }) {
+function ProductsList() {
     const [products, setProducts] = useState([])
 
-    const { showFeedback } = useContext()
+    const { showFeedback, stamp } = useContext()
 
     const loadProducts = () => {
         logger.debug('ProductsList -> loadProducts')

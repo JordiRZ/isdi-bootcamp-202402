@@ -14,11 +14,11 @@ import Navbar from './NavBar'
 
 
 function Header({ onUserLoggedOut, showCreateSurgery }) {
-    const [view, setView] = useState(null)
-    const [user, setUser] = useState(null)
-    const [menuOpen, setMenuOpen] = useState(false)
+    // const [view, setView] = useState(null)
+    // const [user, setUser] = useState(null)
+    // const [menuOpen, setMenuOpen] = useState(false)
 
-    const handleCreateSurgeryClick = () => setView('create-surgery')
+    // const handleCreateSurgeryClick = () => setView('create-surgery')
 
     // const handleShowToggleMenu = () => setView('toggle-menu')
 

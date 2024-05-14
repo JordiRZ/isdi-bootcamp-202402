@@ -1,11 +1,11 @@
 import { validate, errors } from 'com'
 
 import { User } from '../data/index.ts'
-import { ContentError } from 'com/errors.ts'
+
 
 const { SystemError, CredentialsError, NotFoundError } = errors
 
-function authenticateUser(email: string, password: string): Promise<string> {
+function authenticateUser(email: string, password: string): Promise<{userId: string}> {
     validate.email(email)
     validate.password(password)
 
@@ -18,7 +18,7 @@ function authenticateUser(email: string, password: string): Promise<string> {
             if (user.password !== password)
                 throw new CredentialsError('wrong password')
 
-            return user.id
+            return {userId: user.id }
         })
 
 }

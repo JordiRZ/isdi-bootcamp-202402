@@ -50,26 +50,26 @@ function Surgery({ item: surgery, onEditClick, onDeleted, surgeryShow }) {
 
     return <article className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
         <div className="col-span-1 pr-4">
-            <h2 className="text-lg font-semibold mb-2"><span className="font-normal">{surgery.name}</span></h2>
-            <p><span className="font-normal">Date:</span> <span className="font-semibold">{moment(surgery.surgeryDate).format('Do MMMM YYYY, h:mm a')}</span></p>
+            <h2 className="text-lg font-semibold mb-2"><span className="font-bold">{surgery.name}</span></h2>
+            <p><span className="font-normal">Surgery date:</span> <span className="font-bold">{moment(surgery.surgeryDate).format('Do MMMM YYYY, h:mm a')}</span></p>
             <p><span className="font-normal">Product:</span></p>
             <ul>
                 {Object.entries(productCounts).map(([product, count]) => (
-                    <li className='font-semibold' key={product}><span className="font-normal">{product}</span> ({count})</li>
+                    <li className='font-bold' key={product}><span className="font-bold">{product}</span> ({count})</li>
                 ))}
             </ul>
-            <p><span className="font-normal">Hospital:</span> <span className="font-semibold">{surgery.hospital}</span></p>
-            <p><span className="font-normal">Type:</span> <span className="font-semibold">{surgery.type}</span></p>
-            <p><span className="font-normal">Creation date:</span> <span className="font-semibold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
+            <p><span className="font-normal">Hospital:</span> <span className="font-bold">{surgery.hospital}</span></p>
+            <p><span className="font-normal">Type:</span> <span className="font-bold">{surgery.type}</span></p>
+            <p><span className="font-normal">Creation date:</span> <span className="font-bold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
         </div>
         <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
             <div className="mb-2">
-                <span className="font-normal">Note:</span> <span className="font-semibold">{surgery.note}</span>
+                <span className="font-normal">Note:</span> <span className="font-bold">{surgery.note}</span>
             </div>
         </div>
         <div className="col-span-2 flex flex-col justify-center mt-2">
-            <button className="bg-[#bad8fd] mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)}>Edit</button>
-            <button className="bg-[#ffffff] hover:bg-red-700 text-red-600 font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>Delete</button>
+            <button className="bg-sky-200 hover:bg-blue-300 text-blue-700  font-bold py-2 px-4 rounded" onClick={() => handleEditClick(surgery)}>Edit</button>
+            <button className="bg-[#ffffff] hover:bg-red-300 text-red-600 font-bold py-2 px-4 rounded" onClick={() => handleDeleteClick(surgery.id)}>Delete</button>
         </div>
     </article>
 }

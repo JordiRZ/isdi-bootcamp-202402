@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react'
 import { useContext } from '../context'
 
 
-
-function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
+function CreateSurgery({ onCancelClick, onSurgeryCreated, onProductsClick }) {
     const { showFeedback } = useContext()
     const [products, setProducts] = useState([])
     const [selectedProducts, setSelectedProducts] = useState([])
@@ -23,8 +22,6 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
     const handleProductChange = (event, product) => {
         const quantity = parseInt(event.target.value)
 
-        console.log(quantity)
-
         if (isNaN(quantity) || quantity < 0) {
             console.error("Invalid quantity input")
             return
@@ -33,17 +30,12 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
         const existingProductIndex = selectedProducts.findIndex(selected => selected.product.id === product.id)
         if (existingProductIndex !== -1) {
             const updatedSelectedProducts = [...selectedProducts]
-            updatedSelectedProducts[existingProductIndex].quantity = quantity // Se actualiza la cantidad con el nuevo valor en lugar de sumarla
+            updatedSelectedProducts[existingProductIndex].quantity = quantity 
             setSelectedProducts(updatedSelectedProducts)
         } else {
             setSelectedProducts([...selectedProducts, { product, quantity }])
         }
     }
-
-    
-
-
-
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -70,10 +62,11 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
                 onSurgeryCreated()
             })
             .catch(error => {
-                console.error("Error creating surgery:", error)
                 showFeedback(error, 'error')
             })
     }
+
+    const handleProductsClick = () => onProductsClick()
 
     const currentDate = new Date()
     const minDate = currentDate.toISOString().slice(0, 16)
@@ -112,6 +105,7 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
                         </div>
                     ))}
                 </div>
+                <button className="rounded-[5px] border-[1px] border-black my-[10px] p-2 bg-[#83d3f5] font-bold py-2 hover:bg-blue-400 transition duration-300" onClick={handleProductsClick}>Check products</button>
 
                 <label className="text-lg font-semibold" htmlFor="type">Type</label>
                 <input className="border border-blue-400 rounded px-3 py-2" type='text' id="type" />
@@ -121,12 +115,15 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated }) {
 
                 <label className="text-lg font-semibold" htmlFor="note">Note</label>
                 <input className="border border-blue-400 rounded px-3 py-2" type="text" id="note" />
+                
 
                 <SubmitButton className="bg-blue-100 text-white font-semibold py-2 rounded hover:bg-blue-200 transition duration-300">Create</SubmitButton>
                 <CancelButton
                     className="mt-4 bg-blue-300 text-blue-800 font-semibold py-2 rounded hover:bg-blue-400 transition duration-300"
                     onClick={onCancelClick}
+                    
                 />
+                
             </form>
         </section>
     )

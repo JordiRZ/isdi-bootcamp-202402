@@ -10,10 +10,10 @@ import Surgery from './Surgery'
 
 import { useContext } from '../context'
 
-function SurgeryList({ stamp, onEditSurgeryClick }) {
+function SurgeryList({ onEditSurgeryClick }) {
     const [surgeries, setSurgeries] = useState([])
 
-    const { showFeedback } = useContext()
+    const { showFeedback, stamp } = useContext()
 
     const loadSurgeries = () => {
         logger.debug('SurgeryList -> loadSurgeries')
@@ -21,8 +21,6 @@ function SurgeryList({ stamp, onEditSurgeryClick }) {
         try {
             logic.retrieveSurgeries()
                 .then(setSurgeries)
-                
-                
                 .catch(error => showFeedback(error, 'error'))
         } catch (error) {
             showFeedback(error)

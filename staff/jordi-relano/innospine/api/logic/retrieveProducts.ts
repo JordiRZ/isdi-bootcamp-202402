@@ -33,6 +33,7 @@ function retrieveProducts(userId: string): Promise<ProductType[]> {
                 price
             }))
         })
+        .catch(error => { throw new SystemError(error.message) })
 
 
 

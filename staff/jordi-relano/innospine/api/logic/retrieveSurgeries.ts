@@ -34,6 +34,7 @@ function retrieveSurgeries(userId): Promise<SurgeryType[]> {
                     })).reverse()
                 })
         })
+        .catch(error => { throw new SystemError(error.message) })
 }
 
 export default retrieveSurgeries

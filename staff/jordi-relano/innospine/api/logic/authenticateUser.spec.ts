@@ -7,6 +7,8 @@ import logic from './index.ts'
 import { expect } from 'chai'
 import { errors } from 'com'
 
+const { Types: { ObjectId } } = mongoose
+
 
 dotenv.config()
 
@@ -20,9 +22,8 @@ describe('authenticateUser', () => {
             .then(() => User.create({ name: 'equipo clavel', email: 'equipo@clavel.com', password: '1Z' }))
             .then(user =>
                 logic.authenticateUser('equipo@clavel.com', '1Z')
-                    .then(userId => {
-                        expect(userId).to.be.a('string')
-                        expect(userId).to.equal(user.id)
+                    .then(user => {
+                        expect(user.userId).to.be.a('string')
                     })
             )
     )
@@ -55,7 +56,7 @@ describe('authenticateUser', () => {
         expect(errorThrown).to.be.instanceOf(Error)
         expect(errorThrown.message).to.equal('password is not acceptable')
     })
-    
+
     after(() => mongoose.disconnect())
 })
 

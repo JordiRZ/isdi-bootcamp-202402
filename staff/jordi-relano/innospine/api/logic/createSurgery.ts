@@ -31,8 +31,6 @@ function createSurgery(userId: string, productsIds: string[], surgeryDate: strin
 
             const productIdsFormatted = productsIds.map(productId => new mongoose.Types.ObjectId(productId))
 
-
-
             const formattedDate = new Date(surgeryDate)
 
             const newSurgery = {

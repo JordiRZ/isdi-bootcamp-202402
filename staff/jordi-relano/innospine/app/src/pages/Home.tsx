@@ -12,6 +12,7 @@ import Surgery from '../components/Surgery'
 import EditSurgery from '../components/EditSurgery'
 import Products from '../components/Products'
 import ProductsList from '../components/ProductsList'
+import Navbar from '../components/NavBar'
 
 // import Header from '../components/Header'
 
@@ -19,23 +20,21 @@ import { Routes, Route } from 'react-router-dom'
 import Profile from '../components/Profile'
 
 import { useContext } from '../context'
-import Navbar from '../components/NavBar'
+
 
 function Home({ onUserLoggedOut, onCancelClick }) {
     const [user, setUser] = useState(null)
-    const [view, setView] = useState(null)
-    const [stamp, setStamp] = useState(null)
+    const [view, setView] = useState('surgeryList')
     const [surgery, setSurgery] = useState(null)
-    const [surgeryShow, setSurgeryShow] = useState(false)
-    const [surgeryListShow, setSurgeryListShow] = useState(false)
-    const [productsListShow, setProductsListShow] = useState(false)
-    
+    // const [surgeryShow, setSurgeryShow] = useState(null)
+    const [showSurgeryList, setShowSurgeryList] = useState(false)
+    const [showProductsList, setShowProductsList] = useState(false)
 
-    const { showFeedback } = useContext()
+    const { showFeedback, stamp, setStamp } = useContext()
 
     const onLogout = () => onUserLoggedOut()
 
-    //const onCancelSurgeryClick = () => clearView()
+    const onCancelSurgeryClick = () => setView('surgeryList')
 
     useEffect(() => {
         try {
@@ -47,29 +46,26 @@ function Home({ onUserLoggedOut, onCancelClick }) {
         }
     }, [])
 
-    const clearView = () => setView(null)
+    const clearView = () => setView('null')
 
     const handleSurgeryCreated = () => {
         clearView()
         setStamp(Date.now())
-        setSurgeryShow(false)
+        setView('surgeryList')
     }
 
-    const toogleSurgeryForm = () => {
-        setSurgeryShow(!surgeryShow)
-    }
+    // const toogleSurgeryForm = () => {
+    //     setView(view === 'create-surgery' ? 'null' : 'create-surgery')
+    // }
 
-    const toogleProductsForm = () => {
-        setProductsListShow(!productsListShow)
-    }
+    // const toogleProductsForm = () => {
+    //     setProductsListShow(!productsListShow)
+    // }
 
-    const toogleSurgeryList = () => {
-        setSurgeryListShow(!surgeryListShow)
-    }
+    // const toogleSurgeryList = () => {
+    //     setSurgeryListShow(!surgeryListShow)
+    // }
 
-    const onCancelSurgeryClick = () => {
-        setSurgeryShow(false)
-    }
 
     const handleEditSurgeryClick = surgery => {
         setView('edit-surgery')
@@ -79,27 +75,27 @@ function Home({ onUserLoggedOut, onCancelClick }) {
     const handleSurgeryEdited = () => {
         clearView()
         setStamp(Date.now())
-        setSurgeryShow(false)
-        setView(null)
+        setView('surgeryList')
     }
     const handleReturnToSurgeriesClick = () => {
-        setSurgeryShow(false)
-        setProductsListShow(false)
+        setView('surgeryList')
     }
 
     const handleProductsListClick = () => {
-        setSurgeryShow(false)
-        setProductsListShow(true)
+        setView('show-productsList')
     }
 
-    
     const handleCreateSurgeryClick = () => {
-        setSurgeryShow(true)
-        setProductsListShow(false)
+        setView('create-surgery')
     }
 
+    const handleShowProductsList = () => setView('show-productsList')
 
-    const handleEditSurgeryCancelClick = () => clearView()
+    const handleShowSurgeryList = () => setView('show-surgeryList')
+
+    const handleEditSurgeryCancelClick = () => setView('surgeryList')
+
+    const handleViewProductsList = () => setView('show-productsList')
 
     logger.debug('Home -> render')
 
@@ -108,27 +104,21 @@ function Home({ onUserLoggedOut, onCancelClick }) {
         <div className="bg-[#D1EFFA] flex flex-col h-screen">
             <div className="">
 
-                <Navbar showCreateSurgery={toogleSurgeryForm} onUserLoggedOut={onLogout} showProductsList={toogleProductsForm} showSurgeriesList={toogleSurgeryList} handleProductsListClick={handleProductsListClick}handleReturnToSurgeriesClick={handleReturnToSurgeriesClick}handleCreateSurgeryClick={handleCreateSurgeryClick} />
+                <Navbar onUserLoggedOut={onLogout} showProductsList={handleShowProductsList} showSurgeriesList={handleShowSurgeryList} showProductsListClick={handleProductsListClick} returnToSurgeriesClick={handleReturnToSurgeriesClick} createSurgeryClick={handleCreateSurgeryClick} />
             </div>
             <main className="flex flex-col items-center my-[40px] px-[5vw] bg-[#D1EFFA] rounded-sm">
 
                 <div className="">
 
-                    {surgeryShow && <CreateSurgery onCancelClick={onCancelSurgeryClick} onSurgeryCreated={handleSurgeryCreated} />} 
+                    {view === 'create-surgery' && <CreateSurgery onProductsClick={handleViewProductsList} onCancelClick={onCancelSurgeryClick} onSurgeryCreated={handleSurgeryCreated} />}
 
-                    {!surgeryShow && view !== 'edit-surgery' && !productsListShow && <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} />}
+                    {view === 'surgeryList' && <SurgeryList stamp={stamp} onEditSurgeryClick={handleEditSurgeryClick} />}
 
-                    {productsListShow  && view !== 'edit-surgery' && <ProductsList stamp={stamp} />}
+                    {view === 'show-productsList' && <ProductsList onProductsList={handleShowProductsList} stamp={stamp} />}
 
-                    {view === 'edit-surgery' && !surgeryShow && !productsListShow && <EditSurgery surgery={surgery} onCancelClick={handleEditSurgeryCancelClick} onSurgeryEdited={handleSurgeryEdited} />}
+                    {view === 'edit-surgery' && <EditSurgery surgery={surgery} onCancelClick={handleEditSurgeryCancelClick} onSurgeryEdited={handleSurgeryEdited} />}
 
                 </div>
-
-
-                <footer >
-
-
-                </footer>
             </main>
         </div>
     </>

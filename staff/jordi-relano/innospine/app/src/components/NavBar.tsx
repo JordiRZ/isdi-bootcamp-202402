@@ -10,9 +10,10 @@ import Logo from '../../../doc/images/Innospine.png'
 
 
 
-function Navbar({ onUserLoggedOut,  handleReturnToSurgeriesClick, handleProductsListClick, handleCreateSurgeryClick }) {
+function Navbar({ onUserLoggedOut,  returnToSurgeriesClick, showProductsListClick, createSurgeryClick,showSurgeriesList,showProductsList }) {
   const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState(null)
+
 
   const { showFeedback } = useContext()
 
@@ -67,9 +68,9 @@ function Navbar({ onUserLoggedOut,  handleReturnToSurgeriesClick, handleProducts
 
       <nav className={isOpen ? 'block' : 'hidden'} className="px-2 pt-2 pb-4 sm:flex sm:p-0">
 
-        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={handleCreateSurgeryClick}>Create Surgery</button>
-        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={handleProductsListClick}>Products List</button>
-        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={handleReturnToSurgeriesClick}>Surgeries</button>
+        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={createSurgeryClick}>Create Surgery</button>
+        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={showProductsListClick}>Products List</button>
+        <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md mb-2" onClick={returnToSurgeriesClick}>Surgeries</button>
 
         <button className="w-full h-[50px] flex justify-center items-center p-[10px] box-border  text-blue-700 font-semibold hover:bg-blue-100 rounded-md shadow-md" onClick={handleLogoutClick}>Logout</button>
         {/* <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-gray-800 sm:mt-0 sm:ml-2">Messages</a> */}

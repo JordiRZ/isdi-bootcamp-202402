@@ -9,7 +9,7 @@ function Confirm({ message, onAcceptClick, onCancelClick }) {
             <h3>{message}</h3>
             <div className='flex gap-2'>
                 <CancelButton onClick={onCancelClick}>Cancel</CancelButton>
-                <RoundButton onClick={onAcceptClick}>Accept</RoundButton>
+                <RoundButton className='text-red-500 font-bold' onClick={onAcceptClick}>Accept</RoundButton>
             </div>
         </div>
     </div>

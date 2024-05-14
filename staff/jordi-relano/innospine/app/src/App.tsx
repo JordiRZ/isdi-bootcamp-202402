@@ -18,6 +18,8 @@ const { UnauthorizedError } = errors
 function App() {
   const [feedback, setFeedback] = useState(null)
   const [confirm, setConfirm] = useState(null)
+  const [stamp, setStamp] = useState(null)
+
 
   const navigate = useNavigate()
 
@@ -64,7 +66,7 @@ function App() {
   logger.debug('App -> render')
 
   return <>
-    <Context.Provider value={{ showFeedback: handleFeedback, showConfirm: handleConfirm }}>
+    <Context.Provider value={{ stamp, setStamp, showFeedback: handleFeedback, showConfirm: handleConfirm }}>
       <Routes>
         <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />} />
         <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />} />
