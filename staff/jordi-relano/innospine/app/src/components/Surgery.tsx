@@ -51,20 +51,20 @@ function Surgery({ item: surgery, onEditClick, onDeleted, surgeryShow }) {
     return <article className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
         <div className="col-span-1 pr-4">
             <h2 className="text-lg font-semibold mb-2"><span className="font-bold">{surgery.name}</span></h2>
-            <p><span className="font-normal">Surgery date:</span> <span className="font-bold">{moment(surgery.surgeryDate).format('Do MMMM YYYY, h:mm a')}</span></p>
-            <p><span className="font-normal">Product:</span></p>
+            <p><span className="font-semibold">Surgery date:</span> <span className="font-bold">{moment(surgery.surgeryDate).format('Do MMMM YYYY, h:mm a')}</span></p>
+            <p><span className="font-semibold">Product:</span></p>
             <ul>
                 {Object.entries(productCounts).map(([product, count]) => (
                     <li className='font-bold' key={product}><span className="font-bold">{product}</span> ({count})</li>
                 ))}
             </ul>
-            <p><span className="font-normal">Hospital:</span> <span className="font-bold">{surgery.hospital}</span></p>
-            <p><span className="font-normal">Type:</span> <span className="font-bold">{surgery.type}</span></p>
-            <p><span className="font-normal">Creation date:</span> <span className="font-bold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
+            <p><span className="font-semibold">Hospital:</span> <span className="font-bold">{surgery.hospital}</span></p>
+            <p><span className="font-semibold">Type:</span> <span className="font-bold">{surgery.type}</span></p>
+            <p><span className="font-semibold">Creation date:</span> <span className="font-bold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
         </div>
         <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
             <div className="mb-2">
-                <span className="font-normal">Note:</span> <span className="font-bold">{surgery.note}</span>
+                <span className="font-semibold">Note:</span> <span className="font-bold">{surgery.note}</span>
             </div>
         </div>
         <div className="col-span-2 flex flex-col justify-center mt-2">

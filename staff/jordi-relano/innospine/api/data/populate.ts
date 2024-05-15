@@ -34,4 +34,4 @@ mongoose.connect('mongodb://localhost:27017/innospine')
     })
     .then(() => mongoose.disconnect())
     .then(() => console.log('populated'))
-    .catch(console.error);
+    .catch(console.error)

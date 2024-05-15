@@ -13,7 +13,7 @@ function retrieveSurgeries() {
     })
         .then(res => {
             if (res.status === 200) {
-                return res.json();
+                return res.json()
             }
 
             return res.json()
@@ -27,4 +27,4 @@ function retrieveSurgeries() {
         })
 }
 
-export default retrieveSurgeries;
+export default retrieveSurgeries

@@ -1,9 +1,7 @@
 //@ts-nocheck
 
 import { validate, errors } from 'com'
-import { Product, User, Surgery, SurgeryType } from '../data/index.ts'
-import { ObjectId, Schema } from 'mongoose'
-const { Types: { ObjectId } } = Schema
+import { User, Surgery, SurgeryType } from '../data/index.ts'
 
 const { SystemError, NotFoundError } = errors
 

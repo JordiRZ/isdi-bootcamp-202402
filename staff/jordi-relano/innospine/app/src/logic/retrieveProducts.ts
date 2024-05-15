@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import { validate, errors } from 'com';
+import { validate, errors } from 'com'
 
 function retrieveProducts() {
     validate.token(sessionStorage.token)
@@ -13,18 +13,18 @@ function retrieveProducts() {
     })
         .then(res => {
             if (res.status === 200) {
-                return res.json();
+                return res.json()
             }
 
             return res.json()
                 .then(body => {
-                    const { error, message } = body;
+                    const { error, message } = body
 
-                    const constructor = errors[error];
+                    const constructor = errors[error]
 
-                    throw new constructor(message);
-                });
-        });
+                    throw new constructor(message)
+                })
+        })
 }
 
-export default retrieveProducts;
+export default retrieveProducts

@@ -16,7 +16,6 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
     const [existingProductIds, setExistingProductIds] = useState([])
 
 
-
     useEffect(() => {
         logic.retrieveProducts()
             .then(products => {
@@ -44,9 +43,9 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
         const name = form.name.value
         const allSelectedProducts = selectedProducts.reduce((allProducts, { product, quantity }) => {
             for (let i = 0; i < quantity; i++) {
-                allProducts.push(product);
+                allProducts.push(product)
             }
-            return allProducts;
+            return allProducts
         }, [])
 
         const productIds = allSelectedProducts.map(product => product.id)
@@ -63,7 +62,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
                     setSelectedProducts([])
                     onSurgeryEdited()
                 })
-                .catch(error => showFeedback(error), 'error')
+                .catch(error => showFeedback(error, 'error'))
         } catch (error) {
             showFeedback(error)
         }
@@ -72,6 +71,8 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
 
     const currentDate = new Date()
     const minDate = currentDate.toISOString().slice(0, 16)
+
+
 
     const countProducts = (products) => {
         const productCounts = {}
@@ -90,10 +91,9 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
     const productCounts = countProducts(surgery.products)
 
     const handleProductChange = (productId, event) => {
-        const quantity = parseInt(event.target.value);
+        const quantity = parseInt(event.target.value)
 
         if (isNaN(quantity) || quantity < 0) {
-            console.error("Invalid quantity input")
             return
         }
 
@@ -102,17 +102,19 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
                 return {
                     ...selectedProduct,
                     quantity: quantity
-                };
+                }
             }
+
             return selectedProduct
-        });
+        })
+
 
         setSelectedProducts(updatedSelectedProducts)
     }
 
     const handleCancelClick = () => onCancelClick()
 
-    
+
 
     logger.debug('EditSurgery -> render')
 
@@ -121,20 +123,20 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
             <div className="p-4 border rounded-lg shadow-md bg-white mb-4 grid grid-cols-2">
                 <div className="col-span-1 pr-4">
                     <h2 className="text-lg font-semibold mb-2"><span className="font-bold">{surgery.name}</span></h2>
-                    <p><span className="font-normal">Surgery date:</span> <span className="font-bold">{moment(surgery.date).format('h:mm a, MMMM Do')}</span></p>
-                    <p><span className="font-normal">Product:</span></p>
+                    <p><span className="font-semibold">Surgery date:</span> <span className="font-bold">{moment(surgery.date).format('h:mm a, MMMM Do')}</span></p>
+                    <p><span className="font-semibold">Product:</span></p>
                     <ul>
                         {Object.entries(productCounts).map(([product, count]) => (
                             <li className='font-bold' key={product}><span className="font-bold">{product}</span> ({count})</li>
                         ))}
                     </ul>
-                    <p><span className="font-normal">Hospital:</span> <span className="font-bold">{surgery.hospital}</span></p>
-                    <p><span className="font-normal">Type:</span> <span className="font-bold">{surgery.type}</span></p>
-                    <p><span className="font-normal">Creation date:</span> <span className="font-bold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
+                    <p><span className="font-semibold">Hospital:</span> <span className="font-bold">{surgery.hospital}</span></p>
+                    <p><span className="font-semibold">Type:</span> <span className="font-bold">{surgery.type}</span></p>
+                    <p><span className="font-semibold">Creation date:</span> <span className="font-bold">{moment(surgery.creationDate).format('Do MMMM YYYY, h:mm a')}</span></p>
                 </div>
                 <div className="col-span-1 pl-4 border-l-2 border-blue-200 flex flex-col">
                     <div className="mb-2">
-                        <span className="font-normal">Note:</span> <span className="font-bold">{surgery.note}</span>
+                        <span className="font-semibold">Note:</span> <span className="font-bold">{surgery.note}</span>
                     </div>
                 </div>
             </div>
@@ -162,7 +164,6 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
                 <label className="text-lg font-semibold" htmlFor="products">Products</label>
                 {products.map(product => {
                     const quantityInDatabase = productCounts[product.name] || 0
-                    // Contamos los productos en base a su nombre y los pasamos por cada id, o sino 0
                     return (
                         <div key={product.id} className="flex items-center justify-between">
                             <label htmlFor={`product-${product.id}`} className="uppercase mr-2">{product.name}</label>
@@ -205,7 +206,7 @@ function EditSurgery({ surgery, onSurgeryEdited, onCancelClick, onProductsClick 
                     defaultValue={surgery.note}
 
                 />
-                
+
                 <SubmitButton className="bg-blue-100 text-white py-2 rounded hover:bg-blue-200 transition duration-300 font-bold">Save</SubmitButton>
                 <CancelButton onClick={handleCancelClick} />
             </form>

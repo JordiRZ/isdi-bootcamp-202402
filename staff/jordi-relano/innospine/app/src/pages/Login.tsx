@@ -80,7 +80,7 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
 export default Login

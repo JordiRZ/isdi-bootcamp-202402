@@ -14,13 +14,15 @@ Surgical distributor, selling products as lumbar and cervical prothesis for doct
 - create surgery (choose products, set date, put a note...)
 - edit surgery (request more implants, change instruments, change a note)
 - cancel surgery
-- search and list products
+- list products
 
 
 v0.1
+- request new products
 - request operations rooms for surgery (map)
 - request operations rooms for surgery (hospitals list)
 - rate requests list (surgeries list)
+- put a date/type/name filter for surgeries
 - put a calendar with colors depending the doctor and their specialitzation
 
 [Figma](https://www.figma.com/file/88AvUHJLWYzQPLgDU4Vx6p/Innospine?type=design&node-id=0-1&mode=design&t=7sc17eAsrLbyLGuO-0)
@@ -44,7 +46,7 @@ v0.1
 - Tailwind
 - Mongo
 - Moment js for dates
-- Mocha for testing
+- Mocha - Chai
 
 ### Data Model
 

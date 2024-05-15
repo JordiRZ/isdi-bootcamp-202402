@@ -7,9 +7,6 @@ import logic from './index.ts'
 import { expect } from 'chai'
 import { errors } from 'com'
 
-const { Types: { ObjectId } } = mongoose
-
-
 dotenv.config()
 
 const { CredentialsError, NotFoundError } = errors

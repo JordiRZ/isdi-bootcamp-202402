@@ -2,8 +2,6 @@
 
 import logic from '../logic'
 
-
-
 function parseDate(dateStr) {
     // Dividir la cadena en sus componentes
     const [day, month, yearHour] = dateStr.split("/")

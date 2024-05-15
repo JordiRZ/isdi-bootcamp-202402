@@ -15,7 +15,7 @@ use(chaiAsPromised)
 import logic from './index.ts'
 import { Surgery, User, Product } from '../data/index.ts'
 
-const { SystemError, NotFoundError, ContentError } = errors
+const { NotFoundError, ContentError } = errors
 
 describe('updateSurgery', () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))

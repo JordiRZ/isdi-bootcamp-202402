@@ -30,7 +30,7 @@ describe('createSurgery', () => {
                                     .then((user) =>
                                         Product.create({ name: 'lumbar cage', type: 'implant', surgeryType: 'lumbar posterior', image: 'Image URL 1', description: 'Description', price: 200 })
                                             .then((product) => {
-                                                // const currentDate = new Date();
+                                                // const currentDate = new Date()
                                                 // const formattedDate = currentDate.toISOString().slice(0, 10)
                                                 // formattedDate.toString()
                                                 logic.createSurgery(user.id, product.id, '2024-05-10', 'Lumbar Posterior Artrodesis', 'Lumbar posterior', 'hospital', 'we need more implants')

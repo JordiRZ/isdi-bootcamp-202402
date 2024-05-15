@@ -1,4 +1,4 @@
-curl -X PUT -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjMwYjJlNDhhNTkzMzZlZDliZGRhNDMiLCJpYXQiOjE3MTQ4MTQzNzcsImV4cCI6MTcxNTExNDM3N30.lwj5Ja_HSHAguUgNeAaOtSfViJMJi0yYpl5Va4Y8vUA" -H "Content-Type: application/json" -d '{
+curl -X PUT -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjQ0ZWE4ODI5ZDNhOGE3MzY4M2E4MDQiLCJpYXQiOjE3MTU3OTI1MjMsImV4cCI6MTcxNTc5NDMyM30.TWXf_uPzVkEzS9XwtHkzaE0_ixvyRr53Ebh244zpuTc" -H "Content-Type: application/json" -d '{
     "author": "6630b2e48a59336ed9bdda43",
     "products": ["662d4826d5e695f5203e0469"],
     "surgeryDate": "2024/06/08",

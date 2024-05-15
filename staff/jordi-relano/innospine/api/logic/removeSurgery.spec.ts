@@ -41,7 +41,7 @@ describe('removeSurgery', () => {
                                                     })
                                                     .then(() => Surgery.find({}))
                                                     .then(surgery => {
-                                                        expect(surgery).to.deep.equal([]);
+                                                        expect(surgery).to.deep.equal([])
                                                     })
                                             )
                                     ))

@@ -7,7 +7,6 @@ import mongoose from 'mongoose'
 const { SystemError, NotFoundError } = errors
 
 function updateSurgery(surgeryId: string, userId: string, productsIds: string[], surgeryDate: string, name: string, type: string, hospital: string, note: string): Promise<void> {
-    debugger
     validate.text(surgeryId, 'surgeryId', true)
     validate.text(userId, 'userId', true)
     validate.text(name, 'name')

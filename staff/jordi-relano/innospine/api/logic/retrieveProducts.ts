@@ -2,8 +2,6 @@
 
 import { validate, errors } from 'com'
 import { Product, User, ProductType } from '../data/index.ts'
-import { Schema } from 'mongoose'
-const { Types: { ObjectId } } = Schema
 
 const { SystemError, NotFoundError } = errors
 
@@ -17,7 +15,6 @@ function retrieveProducts(userId: string): Promise<ProductType[]> {
 
             return Product.find().lean()
                 .catch(error => { throw new SystemError(error.message) })
-
 
         })
         .then(products => {
@@ -33,10 +30,6 @@ function retrieveProducts(userId: string): Promise<ProductType[]> {
                 price
             }))
         })
-        .catch(error => { throw new SystemError(error.message) })
-
-
-
 }
 
 

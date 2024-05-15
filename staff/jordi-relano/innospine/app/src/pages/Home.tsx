@@ -14,8 +14,6 @@ import Products from '../components/Products'
 import ProductsList from '../components/ProductsList'
 import Navbar from '../components/NavBar'
 
-// import Header from '../components/Header'
-
 import { Routes, Route } from 'react-router-dom'
 import Profile from '../components/Profile'
 
@@ -26,9 +24,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
     const [user, setUser] = useState(null)
     const [view, setView] = useState('surgeryList')
     const [surgery, setSurgery] = useState(null)
-    // const [surgeryShow, setSurgeryShow] = useState(null)
-    const [showSurgeryList, setShowSurgeryList] = useState(false)
-    const [showProductsList, setShowProductsList] = useState(false)
+    
 
     const { showFeedback, stamp, setStamp } = useContext()
 
@@ -53,18 +49,6 @@ function Home({ onUserLoggedOut, onCancelClick }) {
         setStamp(Date.now())
         setView('surgeryList')
     }
-
-    // const toogleSurgeryForm = () => {
-    //     setView(view === 'create-surgery' ? 'null' : 'create-surgery')
-    // }
-
-    // const toogleProductsForm = () => {
-    //     setProductsListShow(!productsListShow)
-    // }
-
-    // const toogleSurgeryList = () => {
-    //     setSurgeryListShow(!surgeryListShow)
-    // }
 
 
     const handleEditSurgeryClick = surgery => {
@@ -101,7 +85,7 @@ function Home({ onUserLoggedOut, onCancelClick }) {
 
     return <>
 
-        <div className="bg-[#D1EFFA] flex flex-col h-screen">
+        <div className="bg-[#D1EFFA] flex flex-col h-screen w-screen">
             <div className="">
 
                 <Navbar onUserLoggedOut={onLogout} showProductsList={handleShowProductsList} showSurgeriesList={handleShowSurgeryList} showProductsListClick={handleProductsListClick} returnToSurgeriesClick={handleReturnToSurgeriesClick} createSurgeryClick={handleCreateSurgeryClick} />

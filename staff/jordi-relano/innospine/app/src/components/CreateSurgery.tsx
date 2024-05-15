@@ -74,7 +74,7 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated, onProductsClick }) {
     logger.debug('CreateSurgery -> render')
 
     return (
-        <section className="bg-[#D1EFFA] flex justify-center w-screen h-screen">
+        <section className="bg-[#D1EFFA] flex justify-center w-screen">
             <form onSubmit={handleSubmit} className="w-[300px] flex flex-col space-y-2">
                 <label className="text-lg font-semibold" htmlFor="surgeryDate">Surgery Date</label>
                 <input className="border border-blue-400 rounded px-3 py-2" type="datetime-local" id="surgeryDate" min={minDate} />
@@ -105,7 +105,7 @@ function CreateSurgery({ onCancelClick, onSurgeryCreated, onProductsClick }) {
                         </div>
                     ))}
                 </div>
-                <button className="rounded-[5px] border-[1px] border-black my-[10px] p-2 bg-[#83d3f5] font-bold py-2 hover:bg-blue-400 transition duration-300" onClick={handleProductsClick}>Check products</button>
+                {/* <button className="rounded-[5px] border-[1px] border-black my-[10px] p-2 bg-[#83d3f5] font-bold py-2 hover:bg-blue-400 transition duration-300" onClick={handleProductsClick}>Go to products list</button> */}
 
                 <label className="text-lg font-semibold" htmlFor="type">Type</label>
                 <input className="border border-blue-400 rounded px-3 py-2" type='text' id="type" />
