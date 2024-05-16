@@ -9,11 +9,9 @@ import { useState, useEffect } from 'react'
 import Logo from '../../../doc/images/Innospine.png'
 
 
-
 function Navbar({ onUserLoggedOut, returnToSurgeriesClick, showProductsListClick, createSurgeryClick, showSurgeriesList, showProductsList }) {
   const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState(null)
-
 
   const { showFeedback } = useContext()
 

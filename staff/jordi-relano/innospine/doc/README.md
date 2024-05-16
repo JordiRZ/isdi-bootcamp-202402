@@ -2,7 +2,7 @@
 
 ## Intro
 
-Surgical distributor, selling products as lumbar and cervical prothesis for doctors... Moreover, giving them the possibility to lend surgical equipment for their surgeries. 
+ For surgical distribution companies specializing in advanced lumbar and cervical prosthetics for medical professionals... Moreover, giving them the possibility to borrow surgical equipment for their surgeries. 
 
 ![](https://media.giphy.com/media/3orieN5HWXAMzfZtok/giphy.gif?cid=790b7611xzh22yep0d3drgtxvdfbh98kzvbz9l8g2xrda5yg&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
@@ -12,8 +12,8 @@ Surgical distributor, selling products as lumbar and cervical prothesis for doct
 
 - list surgeries (by date) 
 - create surgery (choose products, set date, put a note...)
-- edit surgery (request more implants, change instruments, change a note)
-- cancel surgery
+- edit surgery (request more implants, change instruments, change a note...)
+- delete surgery
 - list products
 
 
@@ -43,9 +43,10 @@ v0.1
 - React
 - Express
 - Node
+- Sass
 - Tailwind
 - Mongo
-- Moment js for dates
+- Moment js
 - Mocha - Chai
 
 ### Data Model
